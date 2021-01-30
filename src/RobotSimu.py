@@ -1,7 +1,7 @@
 from Objet import Objet
 class RobotSimu(Objet):
     def __init__(self):
-        self.isFix = Fsalse
+        self.isFix = False
         #North N Sud S Est E West W
         self.dirrection = "N"
         self.posx = None
