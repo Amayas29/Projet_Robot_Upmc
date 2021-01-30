@@ -31,6 +31,12 @@ class Robot:
             self.simu = None
 
 
+    def deplaceRobot(self, x, speed):
+        if isSimu:
+            return
+        else:
+            return
+
     
         
 
