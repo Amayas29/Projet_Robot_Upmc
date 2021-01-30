@@ -7,7 +7,6 @@
 
   Théophane Caraux 28602627
 
-  Julie Gaydon  28606830
   
 ### Trello :
 https://trello.com/b/fGeasBPr/robot
