@@ -10,15 +10,27 @@ class Static:
         return grille
 
     @staticmethod
-    def affiche(grille):
-        for ii in range(len(grille)*2):
-            print("%-2s"%("-"),end=""),
-        print("")
+def affiche(grille):
+        #Creation d'une grille
+        print("|",end="")
+        print("%-2s"%("-"),end="")
+        for i in range(len(grille)-1):
+            print("%-3s"%("-"),end="")
+        print("|")        
         for i in range(len(grille)):
-            print("%-2s"%("|"),end=""),
-            for j in range(len(grille[i])):
-                print( "%-2s %-2s"%(str(grille[i][j]) , "|" ),end=""),
-            print("")
-            for jj in range(len(grille[i])*2):
-                print("%-2s"%("-"),end=""),
-            print("") 
+            
+            for j in range(len(grille[0])):
+                print("|",end="")
+                if grille[i][j] == None:
+                    print("%-2s"%(" "),end="")
+                else:
+                    print("%-2s"%(grille[i][j]),end="")
+
+                
+            print("|")
+            print("|",end="")
+            print("%-2s"%("-"),end="")
+
+            for i in range(len(grille)-1):
+                print("%-3s"%("-"),end="")
+            print("|")
