@@ -38,5 +38,10 @@ class Robot:
             return
 
     
+if __name__ == '__main__':
+    rob = Robot(1)
+    rob.setSimu(True)
+
+
         
 

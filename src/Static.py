@@ -11,7 +11,7 @@ class Static:
 
     @staticmethod
     def affiche(grille):
-    """A changer, c'est pour afficher la memoire"""
+        """A changer, c'est pour afficher la memoire""" 
         for ii in range(len(grille)*2):
             print("-"),
         print("")
