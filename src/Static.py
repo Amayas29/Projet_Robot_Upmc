@@ -11,15 +11,14 @@ class Static:
 
     @staticmethod
     def affiche(grille):
-        """A changer, c'est pour afficher la memoire""" 
         for ii in range(len(grille)*2):
-            print("-"),
+            print("%-2s"%("-"),end=""),
         print("")
         for i in range(len(grille)):
-            print("|"),
+            print("%-2s"%("|"),end=""),
             for j in range(len(grille[i])):
-                print( str(grille[i][j]) + " |" ),
+                print( "%-2s %-2s"%(str(grille[i][j]) , "|" ),end=""),
             print("")
             for jj in range(len(grille[i])*2):
-                print("-"),
-            print("")  
+                print("%-2s"%("-"),end=""),
+            print("") 
