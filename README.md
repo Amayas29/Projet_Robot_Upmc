@@ -3,16 +3,17 @@
 ## Projet sur le robot GOpiGO
 
 ### Membre du projet:
-  François-Xavier Drouard 3800028 ( Fristorm-Palifen sur github )
 
-  Théophane Caraux 28602627
-  
-  Amayas SADI
+  - François-Xavier Drouard 3800028 ( Fristorm-Palifen sur github )
 
-  Winn MBOURANGA
+  - Théophane Caraux 28602627
   
-  KOLLI Hamid
+  - Amayas SADI 28717408
+
+  - Winn MBOURANGA
+  
+  - KOLLI Hamid 28717594
   
   
 ### Trello :
-https://trello.com/b/fGeasBPr/robot
+<https://trello.com/b/fGeasBPr/robot>
