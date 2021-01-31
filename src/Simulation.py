@@ -19,8 +19,7 @@ class Simulation:
         
     def init_Robot(self):
         self.robotSimu.setPos(int(self.larg / 2), int(self.long / 2), "N")
-        # a completer pour prendre le bon nombre de case de la simu en fonction de la taille
-        for i in range(self.robotSimu.posx - int(self.taille_robot/2) , self.robotSimu.posx + int(self.taille_robot/2) + 1):
-            for j in range( self.robotSimu.posy - int(self.taille_robot/2) , self.robotSimu.posy + int(self.taille_robot/2) + 1 ):
+        pair = self.taille_robot % 2
+        for i in range(self.robotSimu.posx - int(self.taille_robot/2) , self.robotSimu.posx + int(self.taille_robot/2) + pair):
+            for j in range( self.robotSimu.posy - int(self.taille_robot/2) , self.robotSimu.posy + int(self.taille_robot/2) + pair):
                 self.grille[i][j] = self.robotSimu
-    

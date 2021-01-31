@@ -3,4 +3,4 @@
 class Echelle:
 
     def __init__(self, nbCases):
-        self.nbCases=nbCases
+        self.nbCases = nbCases

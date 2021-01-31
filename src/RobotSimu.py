@@ -9,6 +9,7 @@ class RobotSimu(Objet):
         self.posx = None
         self.posy = None
     
+
     def setPos(self, x, y, dir):
         """assuming dir is N or S or E or W"""
         if x >= 0 and y >= 0:
@@ -17,6 +18,7 @@ class RobotSimu(Objet):
             self.posy = y
         else:
             print("ERREUR x ou y < 0")
+
 
     def __str__(self):
         return "R"

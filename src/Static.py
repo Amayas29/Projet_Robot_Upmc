@@ -1,4 +1,5 @@
 class Static:
+
     @staticmethod
     def createGrille(larg, long):
         grille = []
@@ -10,7 +11,7 @@ class Static:
         return grille
 
     @staticmethod
-def affiche(grille):
+    def affiche(grille):
         #Creation d'une grille
         print("|",end="")
         print("%-2s"%("-"),end="")
