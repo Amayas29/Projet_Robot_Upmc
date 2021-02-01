@@ -15,8 +15,8 @@ class Static:
             for j in range(0,long):
                 grille[0][j] = Wall()
                 grille[len(grille) - 1][j] = Wall()
-                grille[j][0] = Wall()
-                grille[j][len(grille[ii]) - 1] = Wall()
+                grille[ii][0] = Wall()
+                grille[ii][len(grille[ii]) - 1] = Wall()
         return grille
 
     @staticmethod
@@ -49,9 +49,10 @@ class Static:
     
     @staticmethod
     def is_Occupe(grille,x, y):
-    	if ( 0 <= x < len(grille) ) and ( 0 <= y < len(grille[0]) ):
-     	   return grille[x][y]!=None
-     	return False
+        if ( 0 <= x < len(grille) ) and ( 0 <= y < len(grille[0]) ):
+     	    return grille[x][y] != None
+
+        return False
 
     @staticmethod
     def add_Objet(grille,objet, x, y):

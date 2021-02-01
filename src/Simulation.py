@@ -7,8 +7,8 @@ from Static import Static
 class Simulation:
 
     def __init__(self, largeur, longueur, echelle, vision, taille_robot):
-        self.larg=largeur*echelle.nbCases
-        self.long=longueur*echelle.nbCases
+        self.larg = largeur*echelle.nbCases
+        self.long = longueur*echelle.nbCases
         self.grille = Static.createGrille(self.larg, self.long)
         self.vision = vision
         self.taille_robot = taille_robot

@@ -1,12 +1,12 @@
 from Vision import Vision
 from Static import Static
 from Wall import Wall
+
 def testAdd_Objet(vision):
+
     print(Static.add_Objet(vision.grille,Wall(),2,3))
     print(Static.add_Objet(vision.grille,Wall(),2,3))
     print(Static.add_Objet(vision.grille,Wall(),3,2))
-
-    
 
 
 if __name__ == '__main__':
@@ -14,7 +14,7 @@ if __name__ == '__main__':
     try:
         testAdd_Objet(v)
         Static.affiche(v.grille)
-        print("Test: Add Objet successful")
+        print("\nTest: Add Objet successful")
 
     except AssertionError as e:
         print(e)
