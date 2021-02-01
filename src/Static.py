@@ -11,14 +11,8 @@ class Static:
             for y in range(0, long):
                 grille[x].append(None)
         
-        for ii in range(0, larg):
-            for j in range(0,long):
-                grille[0][j] = Wall()
-                grille[len(grille) - 1][j] = Wall()
-                grille[ii][0] = Wall()
-                grille[ii][len(grille[ii]) - 1] = Wall()
         return grille
-
+		
     @staticmethod
     def affiche(grille):
         #Creation d'une grille
@@ -27,14 +21,14 @@ class Static:
         for i in range(len(grille)-1):
             print("%-3s"%("-"),end="")
         print("|")        
-        for i in range(len(grille)):
+        for i in range(len(grille[0])):
             
-            for j in range(len(grille[0])):
+            for j in range(len(grille)):
                 print("|",end="")
-                if grille[i][j] == None:
+                if grille[j][i] == None:
                     print("%-2s"%(" "),end="")
                 else:
-                    print("%-2s"%(grille[i][j]),end="")
+                    print("%-2s"%(grille[j][i]),end="")
 
                 
             print("|")

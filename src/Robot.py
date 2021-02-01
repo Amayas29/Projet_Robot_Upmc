@@ -25,7 +25,7 @@ class Robot:
         if boole:
             print("Mode Simulation active")
             self.isSimu = True
-            self.simu = Simulation(10,10,self.echelle, self.vision, self.tailleRobot)
+            self.simu = Simulation(5,1,self.echelle, self.vision, self.tailleRobot)
         else:
             print("Mode IRL active")
             self.isSimu = False
