@@ -44,3 +44,14 @@ class Static:
             for i in range(len(grille)-1):
                 print("%-3s"%("-"),end="")
             print("|")
+        
+        
+     def add_Objet(self, objet, x, y):
+        """Assuming objet is type Objet"""
+        if ( 0 <= x < self.larg ) and ( 0 <= y < self.long ) and ( self.is_Occupe(x,y) == False ) :
+            self.grille[x][y] = objet
+            return self.is_Occupe( x, y)
+        return False
+
+    def is_Occupe(self, x, y):
+        return self.grille[x][y]!=None
