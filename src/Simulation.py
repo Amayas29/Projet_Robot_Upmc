@@ -18,7 +18,7 @@ class Simulation:
 
         
     def init_Robot(self):
-        self.robotSimu.setPos(int(self.larg / 2), int(self.long / 2), "N")
+        self.robotSimu.setPos(int(self.larg / 2), int(self.long / 2), 0)
         pair = self.taille_robot % 2
         for i in range(self.robotSimu.posx - int(self.taille_robot/2) , self.robotSimu.posx + int(self.taille_robot/2) + pair):
             for j in range( self.robotSimu.posy - int(self.taille_robot/2) , self.robotSimu.posy + int(self.taille_robot/2) + pair):
