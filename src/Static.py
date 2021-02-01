@@ -1,3 +1,5 @@
+from Wall import Wall
+
 class Static:
 
     @staticmethod
@@ -8,6 +10,13 @@ class Static:
             grille.append([])
             for y in range(0, long):
                 grille[x].append(None)
+        
+        for ii in range(0, larg):
+            for j in range(0,long):
+                grille[0][j] = Wall()
+                grille[len(grille) - 1][j] = Wall()
+                grille[j][0] = Wall()
+                grille[j][len(grille[ii]) - 1] = Wall()
         return grille
 
     @staticmethod
