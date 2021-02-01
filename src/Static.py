@@ -51,7 +51,7 @@ class Static:
     def is_Occupe(grille,x, y):
     	if ( 0 <= x < len(grille) ) and ( 0 <= y < len(grille[0]) ):
      	   return grille[x][y]!=None
-     	return False;
+     	return False
 
     @staticmethod
     def add_Objet(grille,objet, x, y):
