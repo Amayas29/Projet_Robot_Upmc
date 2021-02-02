@@ -10,8 +10,8 @@ class Robot:
         # en % les speed
         self.speedL = 0
         self.speedR = 0
-        # angle Tete: 90 centre, 0 gauche, 180 droite
-        self.angleTete = 90
+        # angle Tete: 0 centre, 90 gauche, 270 droite
+        self.angleTete = 0
         self.batterie = 100
         self.echelle = Echelle(echelle)
         # le 0.25 est la taille du robot
