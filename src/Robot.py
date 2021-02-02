@@ -4,6 +4,7 @@ from Echelle import Echelle
 from Static import Static
 
 class Robot:
+    
     def __init__(self, echelle):
         self.isSimu = False
         # en % les speed
@@ -24,7 +25,7 @@ class Robot:
         if boole:
             print("Mode Simulation active")
             self.isSimu = True
-            self.simu = Simulation(10,10,self.echelle, self.vision, self.tailleRobot)
+            self.simu = Simulation(5,1,self.echelle, self.vision, self.tailleRobot)
         else:
             print("Mode IRL active")
             self.isSimu = False
@@ -37,6 +38,7 @@ class Robot:
         else:
             return
 
-    
-        
 
+if __name__ == '__main__':
+    rob = Robot(9)
+    rob.setSimu(True)

@@ -1,19 +1,29 @@
 import random
-import Simulation
+from Static import *
+
 
 def testCreateGrille():
-    for _ in range(100):
-        random_largeur = random.randint(1, 2000)
-        random_longueur = random.randint(1, 2000)
+    """
+        Test de creation des grilles et des affichage
+    """
+    for _ in range(10):
 
-        grille = Simulation.Simulation.createGrille(random_largeur, random_longueur)
+        random_largeur = random.randint(1, 30)
+        random_longueur = random.randint(1, 30)
+
+        grille = Static.createGrille(random_largeur, random_longueur)
 
         assert random_largeur == len(grille)
         assert all(len(line) == random_longueur for line in grille)
 
-    for i in range(-50, 1):
-        grille = Simulation.Simulation.createGrille(i, i)
-        assert 0 == len(grille)
+        Static.affiche(grille)
+        print("")
+        input("Appuyer pour entrer pour passer à la grille suivante ...")
+        print("")
+
+    # Test avec des dimension négative, la grille sera vide
+    grille = Static.createGrille(-4, -7)
+    assert 0 == len(grille)
 
 
 if __name__ == '__main__':
