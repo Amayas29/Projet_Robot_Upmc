@@ -15,17 +15,6 @@ class Static:
 		
     @staticmethod
     def affiche(grille):
-        for ii in range(len(grille)*2):
-            print("-"),
-        print("")
-        for i in range(len(grille)):
-            print("|"),
-            for j in range(len(grille[i])):
-                print( str(grille[i][j]) + " |" ),
-            print("")
-            for jj in range(len(grille[i])*2):
-                print("-"),
-            print("")  
         #Creation d'une grille
         print("|",end="")
         print("%-2s"%("-"),end="")
