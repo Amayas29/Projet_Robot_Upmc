@@ -14,8 +14,8 @@ class Robot:
         self.angleTete = 90
         self.batterie = 100
         self.echelle = Echelle(echelle)
-        # le 0.3 est la taille du robot (estimer 30 cm large)
-        self.tailleRobot = int(self.echelle.nbCases * 0.3)
+        # le 0.25 est la taille du robot
+        self.tailleRobot = int(self.echelle.nbCases * 0.25)
         self.vision = Vision(self.echelle.nbCases * 4,self.echelle.nbCases * 4)
         self.simu = None
 
