@@ -21,3 +21,7 @@
 ### Conclusion
 
   - Fin de semaine 1 = on peut placer le robot et des objets sur le terrain, on peut afficher le terrain et la vision avec les objets
+  
+### Prévision Semaine 2
+  
+  - 
