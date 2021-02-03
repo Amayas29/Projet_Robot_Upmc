@@ -27,6 +27,6 @@
   - Commenter les codes
   - Création du systeme de déplacement (Méethode DeplaceRobSim, Completion méthode deplaceRobot)
   - Synchronisé la vision avec la simulation (ce que voit le robot)
-  - Changer les méthodes statics de `Static.py` en méthodes de tools
+  - Changer les méthodes statics de `Static.py` en fonction importable
   
 ## Semaine 2
