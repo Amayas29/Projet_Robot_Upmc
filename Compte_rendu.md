@@ -11,11 +11,11 @@
 ### Description des classes
 
   - Création des classes et méthodes nécessaire à la réalisation de la simulation :
-  - Robot.py = représente le robot
-  - Simulation.py = délimiter la grille avec des murs
-  - Vision.py = représente la vision du robot avec une grille
-  - Objet.py / Wall.py / etc = objets placés sur la la grille ( obstacles )
-  - Echelle.py = établi le nombre de cases pour une echelle donnée
+  - Robot.py : représente le robot
+  - Simulation.py : délimiter la grille avec des murs
+  - Vision.py : représente la vision du robot avec une grille
+  - Objet.py / Wall.py : objets placés sur la la grille ( obstacles )
+  - Echelle.py : établi le nombre de cases pour une echelle donnée
   - Classes de tests pour vérifier le bon comportement des classes 
 
 ### Conclusion
@@ -24,4 +24,9 @@
   
 ### Prévision Semaine 2
   
-  - 
+  - Commenter les codes
+  - Création du systeme de déplacement (Méethode DeplaceRobSim, Completion méthode deplaceRobot)
+  - Synchronisé la vision avec la simulation (ce que voit le robot)
+  - Changer les méthodes statics de `Static.py` en méthodes de tools
+  
+## Semaine 2
