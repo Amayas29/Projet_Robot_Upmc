@@ -20,12 +20,12 @@
 
 ### Conclusion
 
-  - Fin de semaine 1 = on peut placer le robot et des objets sur le terrain, on peut afficher le terrain et la vision avec les objets
+  - Fin de semaine 1 : on peut placer le robot et des objets sur le terrain, on peut afficher le terrain et la vision avec les objets
   
 ### Prévision Semaine 2
   
   - Commenter les codes
-  - Création du systeme de déplacement (Méethode DeplaceRobSim, Completion méthode deplaceRobot)
+  - Création du systeme de déplacement (Méthode DeplaceRobSim, Completion méthode deplaceRobot)
   - Synchronisé la vision avec la simulation (ce que voit le robot)
   - Changer les méthodes statics de `Static.py` en fonction importable
   
