@@ -10,7 +10,7 @@
 
 ### Description des classes
 
-  - Création des classes et méthodes nécessaire à la réalisation de la simulation :
+  Création des classes et méthodes nécessaire à la réalisation de la simulation :
   - Robot.py : représente le robot
   - Simulation.py : délimiter la grille avec des murs
   - Vision.py : représente la vision du robot avec une grille
