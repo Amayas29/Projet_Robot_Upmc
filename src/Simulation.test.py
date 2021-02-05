@@ -6,6 +6,8 @@ def testCreateGrille():
     """
         Test de creation des grilles et des affichage
     """
+    
+    #teste aléatoirement le bon fonctionnement de la méthode
     for _ in range(10):
 
         random_largeur = random.randint(1, 30)
