@@ -1,8 +1,8 @@
 from Wall import Wall
 
 def createGrille(larg, long):
-#retourne une grille de largeur larg et longueur long
-	grille = []
+    #retourne une grille de largeur larg et longueur long
+    grille = []
     for x in range(0, larg):
         y = 0
         grille.append([])
@@ -49,6 +49,5 @@ def add_Objet(grille,objet, x, y):
         grille[x][y] = objet
         return Static.is_Occupe(grille, x, y) #retourne False si l'action n'a pu se faire et True si l'action a réussi
     return False
-
 
     
