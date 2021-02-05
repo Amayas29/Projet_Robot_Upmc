@@ -1,7 +1,7 @@
 import random
 from Static import *
 
-
+#classe teste de la Simulation
 def testCreateGrille():
     """
         Test de creation des grilles et des affichage
@@ -27,6 +27,7 @@ def testCreateGrille():
 
 
 if __name__ == '__main__':
+    #main qui test si le test est réussi ou non =)
     try:
         testCreateGrille()
         print("Test: Create Grille successful")
