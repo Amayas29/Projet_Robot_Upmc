@@ -21,7 +21,7 @@ class Robot:
         self.echelle = Echelle(echelle)
         # le 0.25 est la taille du robot
         self.tailleRobot = int(self.echelle.nbCases * 0.25)
-        self.vision = Vision(self.echelle.nbCases * 4,self.echelle.nbCases * 4)
+        self.vision = Vision(self.echelle.nbCases * 4,self.echelle.nbCases * 4, self.tailleRobot)
         self.irl = IRL()
         self.simu = None
 
