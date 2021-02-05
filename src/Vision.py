@@ -1,5 +1,5 @@
 # from Objet import Objet
-import Tool
+from Tool import *
 
 #représente la vision du robot, ce qu'il voit devant lui
 class Vision:

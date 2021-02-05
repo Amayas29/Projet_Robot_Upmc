@@ -1,7 +1,7 @@
 from Vision import Vision
 from Simulation import Simulation
 from Echelle import Echelle
-from Static import Static
+from Tool import *
 from IRL import IRL
 import threading
 import time

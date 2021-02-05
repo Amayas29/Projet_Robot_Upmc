@@ -2,7 +2,7 @@ from Objet import Objet
 from RobotSimu import RobotSimu
 from Wall import Wall
 from Vision import Vision
-import Tool
+from Tool import *
 
 class Simulation:
 
