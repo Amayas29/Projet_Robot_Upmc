@@ -42,3 +42,7 @@ class Simulation:
     #avance le robot
     def forward(self, x, speed):
         return True
+
+
+    def tourne(self, angle):
+        return
