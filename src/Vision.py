@@ -15,3 +15,8 @@ class Vision:
     #Determine si sur une distance donnee, il y a des obstacles ou non
     def libresur(self, x):
         return True
+
+    
+    def distanceMaxObstacle(self):
+        #return la distance max avant le premier obstacle rencontrer (en prenant en compte la largeur du robot)
+        return 1
