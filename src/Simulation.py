@@ -2,7 +2,7 @@ from Objet import Objet
 from RobotSimu import RobotSimu
 from Wall import Wall
 from Vision import Vision
-from Static import Static
+import Tool
 
 class Simulation:
 
@@ -11,14 +11,14 @@ class Simulation:
         # Crée la grille de simulation en fonction des parametres donnés avec l'échelle, le robot, la largeur et la longueur de la simulation
         self.larg = largeur*echelle.nbCases
         self.long = longueur*echelle.nbCases
-        self.grille = Static.createGrille(self.larg, self.long)
+        self.grille = createGrille(self.larg, self.long)
         self.__init_wall_grille() #pose des robots sur les bornes de la grille
         self.vision = vision
         self.taille_robot = taille_robot
         #crée le robot de la simulation
         self.robotSimu = RobotSimu()
         self.init_Robot()
-        Static.affiche(self.grille)
+        affiche(self.grille)
 
     #crée le robot de la simulation
     def init_Robot(self):
