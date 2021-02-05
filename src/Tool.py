@@ -50,4 +50,5 @@ def add_Objet(grille,objet, x, y):
         return Static.is_Occupe(grille, x, y) #retourne False si l'action n'a pu se faire et True si l'action a réussi
     return False
 
+
     
