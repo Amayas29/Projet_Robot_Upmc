@@ -34,3 +34,7 @@ class Simulation:
     	for i in range(len(self.grille[0])):
     		self.grille[0][i] = Wall()
     		self.grille[len(self.grille)-1][i] = Wall()
+
+    
+    def forward(self, x, speed):
+        return True

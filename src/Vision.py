@@ -7,3 +7,7 @@ class Vision:
         self.grille = Static.createGrille(larg, long)
         self.larg = larg
         self.long = long
+
+    
+    def libresur(self, x):
+        return True

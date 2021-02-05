@@ -2,7 +2,11 @@ from Vision import Vision
 from Simulation import Simulation
 from Echelle import Echelle
 from Static import Static
-#from IRL import IRL
+from IRL import IRL
+import threading
+import time
+from time import sleep
+
 
 class Robot:
     
@@ -18,7 +22,7 @@ class Robot:
         # le 0.25 est la taille du robot
         self.tailleRobot = int(self.echelle.nbCases * 0.25)
         self.vision = Vision(self.echelle.nbCases * 4,self.echelle.nbCases * 4)
-        #self.irl = IRL()
+        self.irl = IRL()
         self.simu = None
 
 
@@ -34,11 +38,32 @@ class Robot:
             self.simu = None
 
 
-    def deplaceRobot(self, x, speed):
+    def deplaceRobot(self, x, speed, angle):
+        """ speed : 0 a 100 , angle: angle de rotation par rapport a l'etat actuel (0 n'est donc pas forcement le Nord), x : uniter de distance"""
         if self.isSimu:
-            return
+            if angle != 0:
+                self.simu.tourne(angle)
+            if self.vision.libresur(x):
+                self.simu.forward(x, speed)
+                print("fait!")
+                return
+            else:
+                print("Le robot est bloquer")
+                return                
         else:
-            return
+            if angle != 0:
+                #50% de vitesse sur la rotation pour être moin brutal
+                self.irl.tourne(angle, 50)
+                # 3 seconde suffise a faire 360°
+                time.sleep(3)
+            if self.vision.libresur(x):
+                self.irl.forward(x, speed)
+                print("fait!")
+                return
+            else:
+                print("Le robot est bloquer")
+                return   
+
 
 
 if __name__ == '__main__':
