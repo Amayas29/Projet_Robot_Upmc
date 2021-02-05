@@ -13,8 +13,9 @@ def testAdd_Objet(vision):
 if __name__ == '__main__':
     v = Vision(10, 10) #grille de 10*10
     try:
-        testAdd_Objet(v)
-        Static.affiche(v.grille)
+        #essaye de
+        testAdd_Objet(v) # ajouter les murs
+        Static.affiche(v.grille) #affiche la vision
         print("\nTest: Add Objet successful")
 
     except AssertionError as e:
