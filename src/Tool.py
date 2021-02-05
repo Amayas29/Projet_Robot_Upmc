@@ -1,10 +1,8 @@
 from Wall import Wall
 
-class Static:
-
-    @staticmethod
-    def createGrille(larg, long):
-        grille = []
+def createGrille(larg, long):
+	#retourne une grille de largeur larg et longueur long
+	grille = []
         for x in range(0, larg):
             y = 0
             grille.append([])
@@ -13,9 +11,8 @@ class Static:
         
         return grille
 		
-    @staticmethod
-    def affiche(grille):
-        #Creation d'une grille
+def affiche(grille):
+	#affiche la grille en parametre
         print("|",end="")
         print("%-2s"%("-"),end="")
         for i in range(len(grille)-1):
@@ -39,19 +36,19 @@ class Static:
      
             print("|")
     
-    @staticmethod
-    def is_Occupe(grille,x, y):
+def is_Occupe(grille,x, y):
+	#Permet de savoir si une case en position (x,y) de la grille est occupée ou non
         if ( 0 <= x < len(grille) ) and ( 0 <= y < len(grille[0]) ):
      	    return grille[x][y] != None
 
         return False
 
-    @staticmethod
-    def add_Objet(grille,objet, x, y):
+def add_Objet(grille,objet, x, y):
+	#ajoute un objet à la grille en parametre à la position (x,y)
         """Assuming objet is type Objet"""
         if ( 0 <= x < len(grille) ) and ( 0 <= y < len(grille[0]) ) and ( Static.is_Occupe(grille,x,y) == False ) :
             grille[x][y] = objet
-            return Static.is_Occupe(grille, x, y)
+            return Static.is_Occupe(grille, x, y) #retourne False si l'action n'a pu se faire et True si l'action a réussi
         return False
 
     
