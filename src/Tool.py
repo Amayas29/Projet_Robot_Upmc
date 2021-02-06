@@ -53,3 +53,76 @@ def add_Objet(grille,objet, x, y):
         return Static.is_Occupe(grille, x, y) #retourne False si l'action n'a pu se faire et True si l'action a réussi
     return False
 
+
+def __getRadian__(angle):
+    """
+        float -> float
+        Transforme un angle de degree en radian
+    """
+    return (angle * pi) / 180
+
+
+def __getDegree__(angle):
+    """
+        float -> float
+        Transforme un angle de radian en degree
+    """
+    return (angle * 180) / pi
+
+
+def getVectDirFromAngle(angle):
+    """
+        float -> Tuple
+        Construit un vecteur direction depuis un angle donné
+    """
+    angle = __getRadian__(angle)
+    return (round(cos(angle), 2), round(sin(angle), 2))
+
+
+def getVectDirFromPoints(srcPoint, destPoint):
+    """
+        Tuple * Tuple -> Tuple
+        Construit un vecteur entre un point source vers un point destination
+    """
+    return (destPoint[0] - srcPoint[0], destPoint[1] - srcPoint[1])
+
+
+def produitScalaire(vec1, vec2):
+    """
+        Tuple * Tuple -> float
+        Calcule le produit scalaire de deux vecteur
+    """
+    return vec1[0] * vec2[0] + vec1[1] * vec2[1]
+
+
+def norme(vec):
+    """
+        Tuple -> float
+        Calcule la norme d'un vecteur
+    """
+    return sqrt(vec[0]**2 + vec[1] ** 2)
+
+
+def angle(vec1, vec2):
+    """
+        Tuple * Tuple -> float
+        Calcule l'angle entre deux vecteur (sans prendre en consideration l'orientation)
+    """
+    norme_ = norme(vec1) * norme(vec2)
+    return 360 if norme_ == 0 else round(__getDegree__(acos(produitScalaire(vec1, vec2) / norme_)),2)
+
+
+def inVision(vecSrc, newVec):
+    """
+        Tuple * Tuple -> bool
+        Permet de savoir si l'angle entre les vecteur est inferieur à 90 pour delimiter un demi plan
+    """
+    return angle(vecSrc, newVec) <= 90
+
+
+def distance(droite, point):
+    """
+        Tuple * Tuple -> float
+        Calcule la distance entre une droite et un point
+    """
+    return abs(droite[0] * point[0] + droite[1] * point[1] + droite[2]) / (sqrt(droite[0] ** 2 + droite[1] ** 2))
