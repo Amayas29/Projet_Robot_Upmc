@@ -1,4 +1,3 @@
-# from Objet import Objet
 
 # Classe qui se charge d'établir une échelle pour représenté la simulation
 class Echelle:

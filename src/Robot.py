@@ -35,12 +35,13 @@ class Robot:
             print("Mode Simulation active")
             #on initialise la simulation
             self.isSimu = True
-            self.simu = Simulation(5,1,self.echelle, self.vision, self.tailleRobot)
+            self.simu = Simulation(5,5,self.echelle, self.vision, self.tailleRobot)
         else:
             #sinon on parametre le robot pour l'utiliser irl
             print("Mode IRL active")
             self.isSimu = False
             self.simu = None
+
 
     # deplace, si possible, le robot sur une distance x avec une vitesse speed et un angle (angle)
     def deplaceRobot(self, x, speed, angle):

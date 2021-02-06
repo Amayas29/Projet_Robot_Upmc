@@ -1,4 +1,3 @@
-#from abc import ABC
 
 # Classe qui représente un objet
 class Objet:
@@ -6,8 +5,8 @@ class Objet:
     # Constructeur
     def __init__(self):
         # initiallise les attributs qui permettent quel type d'objet il représente
-        self.isFix = false
-        self.isbalise = false
+        self.isFix = False
+        self.isbalise = False
 
 
     def __str__(self):

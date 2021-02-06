@@ -20,6 +20,7 @@ class Simulation:
         self.init_Robot()
         affiche(self.grille)
 
+
     #crée le robot de la simulation
     def init_Robot(self):
         self.robotSimu.setPos(int(self.larg / 2), int(self.long / 2), 0) #le pose en plein milieu du terrain
@@ -28,6 +29,7 @@ class Simulation:
         for i in range(self.robotSimu.posx - int(self.taille_robot/2) , self.robotSimu.posx + int(self.taille_robot/2) + pair):
             for j in range( self.robotSimu.posy - int(self.taille_robot/2) , self.robotSimu.posy + int(self.taille_robot/2) + pair):
                 self.grille[i][j] = self.robotSimu
+
 
     #positionne des murs sur les limites du terrain
     def __init_wall_grille(self):
@@ -39,6 +41,7 @@ class Simulation:
     		self.grille[0][i] = Wall()
     		self.grille[len(self.grille)-1][i] = Wall()
 
+
     #avance le robot
     def forward(self, x, speed):
         dist=abs( x - self.robotSimu.poxs ) # dist = nombre de cases séparants le robot de x
@@ -49,6 +52,7 @@ class Simulation:
             grille[ self.robotSimu.posx ][ self.robotSimu.posy ] = None # vide l'ancienne position du robot
             grille[ x1 ][ y1 ] # met le robot sur sa nouvelle posx
             affiche( self.grille ) # affiche la simu à chaque avancement
+
 
     # positionne le robot en direction de l'angle en parametre
     def tourne(self, angle):

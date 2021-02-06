@@ -7,7 +7,7 @@ class RobotSimu(Objet):
     def __init__(self):
         self.isFix = False
         #angle en degres
-        self.dirrection = 0
+        self.direction = 0
         self.posx = None
         self.posy = None
     
@@ -16,7 +16,7 @@ class RobotSimu(Objet):
         #pose le robot sur les positions x et y de la grille de la simulation 
         """assuming dir is between 0 and 360"""
         if x >= 0 and y >= 0 and 0 <= dir <= 360:
-            self.dirrection = dir
+            self.direction = dir
             self.posx = x
             self.posy = y
         else:
