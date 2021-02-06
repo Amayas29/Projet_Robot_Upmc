@@ -45,4 +45,4 @@ class Simulation:
 
 
     def tourne(self, angle):
-        return
+        self.robotSimu.dirrection = angle
