@@ -10,6 +10,7 @@ def createGrille(larg, long):
             grille[x].append(None)        
     return grille
 		
+
 def affiche(grille):
 	#affiche la grille en parametre
     print("|",end="")
@@ -35,12 +36,14 @@ def affiche(grille):
  
         print("|")
     
+
 def is_Occupe(grille,x, y):
 #Permet de savoir si une case en position (x,y) de la grille est occupée ou non
     if ( 0 <= x < len(grille) ) and ( 0 <= y < len(grille[0]) ):
  	    return grille[x][y] != None
 
     return False
+
 
 def add_Objet(grille,objet, x, y):
 	#ajoute un objet à la grille en parametre à la position (x,y)
@@ -50,4 +53,3 @@ def add_Objet(grille,objet, x, y):
         return Static.is_Occupe(grille, x, y) #retourne False si l'action n'a pu se faire et True si l'action a réussi
     return False
 
-    
