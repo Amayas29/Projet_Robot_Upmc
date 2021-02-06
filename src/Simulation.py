@@ -57,3 +57,36 @@ class Simulation:
     # positionne le robot en direction de l'angle en parametre
     def tourne(self, angle):
         self.robotSimu.dirrection = angle
+
+
+    def syncVision(self):
+        # Temp car pas encore fait de lien vers vision
+        grille = createGrille(self.larg, self.long)
+
+        vecSrc = getVectDirFromAngle(self.robotSimu.direction)
+        # TODO determiner the extremite
+        # srcPoint = extrimite(self.robotSimu)
+        srcPoint = (self.robotSimu.posx, self.robotSimu.posy)
+
+        droiteSep = (vecSrc[0], vecSrc[1], (- vecSrc[0] * srcPoint[0] - vecSrc[1] * srcPoint[1]))
+
+        x = 0
+        if x == srcPoint[0]:
+            x += 1
+        
+        y = 0
+        if droiteSep[1] != 0:
+            y = (- droiteSep[0] * x - droiteSep[2]) / droiteSep[1]
+
+        newPoint = (x, y)
+        vecUnit = getVectDirFromPoints(srcPoint, newPoint)
+        droiteDirection = (vecUnit[0], vecUnit[1], (- vecUnit[0] * srcPoint[0] - vecUnit[1] * srcPoint[1]))
+
+        for i in range(len(self.grille)):
+            for j in range(len(self.grille[0])):
+                destPoint = (i, j)
+                if inVision(vecSrc, getVectDirFromPoints(srcPoint, destPoint)) and distance(droiteSep, destPoint) <= self.vision.larg and distance(droiteDirection, destPoint) <= self.vision.long//2:
+                    # TODO ajouter dans vision 
+                    grille[i][j] = self.grille[i][j]
+
+        affiche(grille)
