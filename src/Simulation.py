@@ -41,8 +41,15 @@ class Simulation:
 
     #avance le robot
     def forward(self, x, speed):
-        return True
+        dist=abs( x - self.robotSimu.poxs ) # dist = nombre de cases séparants le robot de x
+        for i in range( dist ):
+            # boucle pour etre plus réaliste
+            x1 = self.robotSimu.posx + 1 # posx augmente ( position x du robot )
+            y1 = self.robotSimu.posy
+            grille[ self.robotSimu.posx ][ self.robotSimu.posy ] = None # vide l'ancienne position du robot
+            grille[ x1 ][ y1 ] # met le robot sur sa nouvelle posx
+            affiche( self.grille ) # affiche la simu à chaque avancement
 
-
+    # positionne le robot en direction de l'angle en parametre
     def tourne(self, angle):
         self.robotSimu.dirrection = angle
