@@ -8,6 +8,7 @@ rob = Robot(5)
 rob.setSimu(True)
 sim = rob.simu
 
+print("\n\n Start \n")
 for i in range (sim.larg):
     for j in range(sim.long):
         if str(sim.grille[i][j]) != "R" and random.randint(0, 5) == 0:
@@ -17,8 +18,6 @@ add_Objet(sim.grille, Objet(), 2, 5)
 add_Objet(sim.grille, Objet(), 8, 1)
 
 affiche(sim.grille)
-
-print(sim.vision.larg)
 
 print("\n\n")
 sim.robotSimu.direction = 200
