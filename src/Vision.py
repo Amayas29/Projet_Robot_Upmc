@@ -1,4 +1,3 @@
-# from Objet import Objet
 from Tool import *
 
 #représente la vision du robot, ce qu'il voit devant lui
@@ -11,6 +10,7 @@ class Vision:
         self.larg = larg
         self.long = long
         self.tailleRob = tailleRob
+
 
     #Determine si sur une distance donnee, il y a des obstacles ou non
     def libresur(self, x):
