@@ -4,7 +4,7 @@ from Simulation import *
 from Robot import *
 import random
 
-rob = Robot(4)
+rob = Robot(8)
 rob.setSimu(True)
 sim = rob.simu
 
@@ -66,7 +66,12 @@ add_Objet(sim.grille,'£', 30, 20)
 affiche(sim.grille)
 
 print("\n\n")
-sim.robotSimu.direction = 0
+
+sim.robotSimu.direction = normalise_angle(int(input("Direction : ")))
+
+src = getSrcPoint(sim.taille_robot, sim.robotSimu.posx, sim.robotSimu.posy, sim.robotSimu.direction)
+
+print(src)
 
 print("Angle ", sim.robotSimu.direction, "°\n\n")
 
