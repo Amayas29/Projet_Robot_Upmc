@@ -109,7 +109,24 @@ def angle(vec1, vec2):
         Calcule l'angle entre deux vecteur (sans prendre en consideration l'orientation)
     """
     norme_ = norme(vec1) * norme(vec2)
-    return 360 if norme_ == 0 else round(__getDegree__(acos(produitScalaire(vec1, vec2) / norme_)),2)
+    return  round(__getDegree__(acos(produitScalaire(vec1, vec2) / norme_)),2)
+
+
+def __sign__(vec1, vec2):
+    """
+        Tuple * Tuple -> float
+        Permet de savoir le signe de l'angle entre les vecteurs
+    """
+    return vec1[0] * vec2[1] - vec1[1] * vec2[0]
+
+
+def angle_sign(vec1, vec2):
+    """
+        Tuple * Tuple -> float
+        Retourne l'angle signe entre les deux vecteurs
+    """
+    ang = angle(vec1, vec2)
+    return ang if __sign__(vec1, vec2) >= 0 else - ang
 
 
 def inVision(vecSrc, newVec):
