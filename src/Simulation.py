@@ -18,7 +18,6 @@ class Simulation:
         #crée le robot de la simulation
         self.robotSimu = RobotSimu()
         self.init_Robot()
-        affiche(self.grille)
 
 
       #crée le robot de la simulation
@@ -56,32 +55,36 @@ class Simulation:
         vectDir = getVectDirFromAngle(self.robotSimu.direction)
 
         # on considere que le vecteur de base est le vecteur des abcisses
-        vicSrc = (0,1)
+        vicSrc = (1,0)
 
         # on calcule l'angle avec le signe 
-        angle = angle_sign(vicSrc,vectDir)
+        angle = self.robotSimu.direction
         
         # on recupere les coordonnee du point de destination par rapport au robot
-        xpos = cos(angle) * x
-        ypos = sin(angle) * x
+        xpos = cos(getRadian(angle)) * x
+        ypos = sin(getRadian(angle)) * x
+        print(cos(getRadian(180)))
+        print(xpos,ypos)
+
 
         # on modifie les points de destination par rapport a la grille de la  simulation
-        if angle > 0:
-            ypos = self.robotSimu.posy - ypos
-        else:
-            ypos = self.robotSimu.posy + ypos
+        # if angle > 0:
+        #     ypos = self.robotSimu.posy - ypos
+        # else:
+        ypos = self.robotSimu.posy + ypos
         
-        if abs(angle) > 90:
-            xpos = self.robotSimu.posx - xpos
-        else:
-            xpos += self.robotSimu.posx
+        # if abs(angle) > 90:
+        #     xpos = self.robotSimu.posx - xpos
+        # else:
+        xpos += self.robotSimu.posx
         
         # on supprime le robot de la grille 
         self.__enlever_robot_map__()
 
-
+        xpos = round(xpos)
+        ypos = round(ypos)
         # on l'ajoute dans sa nouvelle position
-        self.__placer_robot__(xpos,ypos,robotSimu.direction)
+        self.__placer_robot__(xpos,ypos,self.robotSimu.direction)
 
   
   
@@ -107,7 +110,7 @@ class Simulation:
 
     # positionne le robot en direction de l'angle en parametre
     def tourne(self, angle):
-        self.robotSimu.direction += angle
+        self.robotSimu.direction = angle
 
 
 
@@ -125,7 +128,6 @@ class Simulation:
         vecSrc = getVectDirFromAngle(self.robotSimu.direction)
 
         srcPoint = getSrcPoint(self.taille_robot, self.robotSimu.posx, self.robotSimu.posy, self.robotSimu.direction)
-        print(srcPoint)
 
         droiteSep = (vecSrc[0], vecSrc[1], (- vecSrc[0] * srcPoint[0] - vecSrc[1] * srcPoint[1]))
 
@@ -172,5 +174,5 @@ class Simulation:
                     self.vision.grille[x][y] = self.grille[i][j]
                     grille[i][j] = self.grille[i][j]
 
-        affiche(self.vision.grille)
-        affiche(grille)
+        # affiche(self.vision.grille)
+        # affiche(grille)

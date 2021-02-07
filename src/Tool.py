@@ -58,12 +58,14 @@ def add_Objet(grille,objet, x, y):
 #     grille[x][y] = str(objet) + "9"
 
 
-def __getRadian__(angle):
+
+def getRadian(angle):
     """
         float -> float
         Transforme un angle de degree en radian
     """
     return (angle * pi) / 180
+
 
 
 def __getDegree__(angle):
@@ -79,7 +81,7 @@ def getVectDirFromAngle(angle):
         float -> Tuple
         Construit un vecteur direction depuis un angle donné
     """
-    angle = __getRadian__(angle)
+    angle = getRadian(angle)
     return (round(cos(angle), 2), round(sin(angle), 2))
 
 
