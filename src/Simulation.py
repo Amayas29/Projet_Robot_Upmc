@@ -98,10 +98,10 @@ class Simulation:
                
                 if srcPoint != destPoint and inVision(vecSrc, vecDest) and 0 < distance(droiteSep, destPoint) <= self.vision.long and distance(droiteDirection, destPoint) <= self.vision.larg//2:
                     
-                    y = int(distance(droiteSep, destPoint))
+                    y = ceil(distance(droiteSep, destPoint))
                     y -= 1
 
-                    x = int(distance(droiteDirection, destPoint))
+                    x = ceil(distance(droiteDirection, destPoint))
   
                     if angle_sign(vecSrc, vecDest) <= 0:
                         x = self.vision.larg//2 + x
@@ -114,7 +114,8 @@ class Simulation:
 
                     x -= 1
                 
-                    # print(self.grille[i][j], x, y, i, j, distance(droiteDirection, destPoint), distance(droiteSep, destPoint), angle_sign(vecSrc, vecDest), self.vision.larg//2)
+                    # if (str(self.grille[i][j]).endswith("9")):
+                    #     print(self.grille[i][j], x, y, i, j, distance(droiteDirection, destPoint), distance(droiteSep, destPoint), angle_sign(vecSrc, vecDest), self.vision.larg//2)
                     self.vision.grille[x][y] = self.grille[i][j]
                     grille[i][j] = self.grille[i][j]
 
