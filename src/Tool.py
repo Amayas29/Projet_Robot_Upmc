@@ -107,9 +107,10 @@ def angle(vec1, vec2):
     """
         Tuple * Tuple -> float
         Calcule l'angle entre deux vecteur (sans prendre en consideration l'orientation)
+        Hyp les vecteurs doivent pas etre null
     """
     norme_ = norme(vec1) * norme(vec2)
-    return  round(__getDegree__(acos(produitScalaire(vec1, vec2) / norme_)),2)
+    return round(__getDegree__(acos(produitScalaire(vec1, vec2) / norme_)),2)
 
 
 def __sign__(vec1, vec2):
