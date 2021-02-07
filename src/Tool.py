@@ -53,7 +53,7 @@ def add_Objet(grille,objet, x, y):
         return is_Occupe(grille, x, y) #retourne False si l'action n'a pu se faire et True si l'action a réussi
     return False
 
-# Pour les tests : Je la garde pour explique en Vocal au groupe
+# # Pour les tests : Je la garde pour explique en Vocal au groupe
 # def add_Objet(grille,objet, x, y):
 #     grille[x][y] = str(objet) + "9"
 
@@ -148,3 +148,74 @@ def distance(droite, point):
         Calcule la distance entre une droite et un point
     """
     return abs(droite[0] * point[0] + droite[1] * point[1] + droite[2]) / (sqrt(droite[0] ** 2 + droite[1] ** 2))
+
+
+def __getMilieu__(p1, p2):
+    """
+        Tuple * Tuple -> Tuple
+        Retourne le milieu d'un segment de deux points (A l'entier superieur)
+    """
+    return (int((p1[0]+p2[0])/2), int((p1[1]+p2[1])/2))
+
+
+def __getCarre__(taille, x, y):
+    """
+        int * int * int -> (int * int * int * int)
+        Permet de retourne les indices du haut, gauche, bas et de droite d'un carre
+    """
+
+    pair = taille % 2
+    g = x - int(taille/2)
+    d = x + int(taille/2) + pair - 1
+    h = y - int(taille/2)
+    b = y + int(taille/2) + pair - 1
+
+    return (h, g, b, d)
+
+
+def normalise_angle(ang):
+    """
+        float -> float
+        Permet de rendre un angle entre 0 et 360
+    """
+    return ang % 360
+
+
+def getSrcPoint(taille, x, y, ang):
+    """
+        int * int * int * float -> Tuple
+        construit le point source sortant du carre
+    """
+
+    ang = normalise_angle(ang)
+
+    (ht, gch, bs, dte) = __getCarre__(taille, x, y)
+
+    a = (gch, ht)
+    b = (dte, ht)
+    c = (gch, bs)
+    d = (dte, bs)
+
+    if ang == 0:
+        return __getMilieu__(b, d)
+
+    elif ang == 90:
+        return __getMilieu__(c, d)
+
+    elif ang == 180:
+        return __getMilieu__(a, c)
+
+    elif ang == 270:
+        return __getMilieu__(a, b)
+
+    elif 0 < ang < 90:
+        return d
+
+    elif 90 < ang < 180:
+        return c
+
+    elif 180 < ang < 270:
+        return a
+
+    elif ang > 270:
+        return b
