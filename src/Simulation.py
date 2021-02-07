@@ -105,7 +105,7 @@ class Simulation:
 
     # positionne le robot en direction de l'angle en parametre
     def tourne(self, angle):
-        self.robotSimu.direction = angle
+        self.robotSimu.direction += angle
 
 
     def syncVision(self):
