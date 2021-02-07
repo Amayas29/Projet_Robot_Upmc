@@ -8,18 +8,21 @@ rob = Robot(5)
 rob.setSimu(True)
 sim = rob.simu
 
-print("\n\n Start \n")
-for i in range (sim.larg):
-    for j in range(sim.long):
-        if str(sim.grille[i][j]) != "R" and random.randint(0, 5) == 0:
-            sim.grille[i][j] = Wall()
+print("\n\n")
 
-add_Objet(sim.grille, Objet(), 2, 5)
-add_Objet(sim.grille, Objet(), 8, 1)
+add_Objet(sim.grille, Objet(), 30, 25)
+add_Objet(sim.grille, Objet(), 30, 24)
+add_Objet(sim.grille, Objet(), 30, 23)
+add_Objet(sim.grille, Objet(), 30, 22)
+add_Objet(sim.grille, Objet(), 30, 21)
+add_Objet(sim.grille, Objet(), 30, 27)
+add_Objet(sim.grille, Objet(), 30, 26)
 
 affiche(sim.grille)
 
 print("\n\n")
-sim.robotSimu.direction = 200
+sim.robotSimu.direction = 00
+
+print("Angle ", sim.robotSimu.direction, "°\n\n")
 
 rob.simu.syncVision()
