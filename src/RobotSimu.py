@@ -25,4 +25,4 @@ class RobotSimu(Objet):
 
     def __str__(self):
         #permet d'afficher le robot sur la simulation avec la lettre R
-        return "R"
+        return "RR"
