@@ -71,9 +71,9 @@ class Simulation:
                 self.vision.grille[i][j] = Wall()
         
         vecSrc = getVectDirFromAngle(self.robotSimu.direction)
-        # TODO determiner the extremite
-        # srcPoint = extrimite(self.robotSimu)
-        srcPoint = (self.robotSimu.posx, self.robotSimu.posy)
+
+        srcPoint = getSrcPoint(self.taille_robot, self.robotSimu.posx, self.robotSimu.posy, self.robotSimu.direction)
+        print(srcPoint)
 
         droiteSep = (vecSrc[0], vecSrc[1], (- vecSrc[0] * srcPoint[0] - vecSrc[1] * srcPoint[1]))
 
@@ -101,7 +101,7 @@ class Simulation:
                     y = ceil(distance(droiteSep, destPoint))
                     y -= 1
 
-                    x = ceil(distance(droiteDirection, destPoint))
+                    x = floor(distance(droiteDirection, destPoint))
   
                     if angle_sign(vecSrc, vecDest) <= 0:
                         x = self.vision.larg//2 + x
@@ -116,6 +116,7 @@ class Simulation:
                 
                     # if (str(self.grille[i][j]).endswith("9")):
                     #     print(self.grille[i][j], x, y, i, j, distance(droiteDirection, destPoint), distance(droiteSep, destPoint), angle_sign(vecSrc, vecDest), self.vision.larg//2)
+                    
                     self.vision.grille[x][y] = self.grille[i][j]
                     grille[i][j] = self.grille[i][j]
 
