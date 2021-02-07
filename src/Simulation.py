@@ -41,7 +41,7 @@ class Simulation:
     def forward(self, x, speed):
 
         # si le point de destination est hors grille on sort
-        if x + robotSimu.posx >= len(self.grille[0]):
+        if x + self.robotSimu.posx >= len(self.grille[0]):
             print("cette distance est trop grande")
             return 
 
@@ -67,14 +67,14 @@ class Simulation:
 
         # on modifie les points de destination par rapport a la grille de la  simulation
         if angle > 0:
-            ypos = robotSimu.posy - ypos
+            ypos = self.robotSimu.posy - ypos
         else:
-            ypos = robotSimu.posy + ypos
+            ypos = self.robotSimu.posy + ypos
         
         if abs(angle) > 90:
-            xpos = robotSimu.posx - xpos
+            xpos = self.robotSimu.posx - xpos
         else:
-            xpos += robotSimu.posx
+            xpos += self.robotSimu.posx
         
         # on supprime le robot de la grille 
         self.__enlever_robot_map__()
