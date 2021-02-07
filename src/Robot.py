@@ -52,15 +52,12 @@ class Robot:
             if angle != 0:
                 #on tourne le robot d'un certain angle
                 self.simu.tourne(angle)
-            if self.vision.libresur(x):
-                #si il peut aller sur x distance
-                self.simu.forward(x, speed)
-                print("fait!")
-                return
-            else:
-                #sinon c'est qu'il y a un obstacle
-                print("Le robot est bloquer")
-                return                
+            
+            #si il peut aller sur x distance
+            self.simu.forward(x, speed)
+            print("fait!")
+            return
+                       
         else:
             #mode irl, meme processus que pour le mode simulation mais avec de vraies méthodes
             if angle != 0:
