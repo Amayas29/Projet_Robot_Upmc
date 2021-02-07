@@ -12,7 +12,7 @@ class Simulation:
         self.larg = largeur*echelle.nbCases
         self.long = longueur*echelle.nbCases
         self.grille = createGrille(self.larg, self.long)
-        self.__init_wall_grille() #pose des robots sur les bornes de la grille
+        self.__init_wall_grille__() #pose des robots sur les bornes de la grille
         self.vision = vision
         self.taille_robot = taille_robot
         #crée le robot de la simulation
@@ -32,7 +32,7 @@ class Simulation:
 
 
     #positionne des murs sur les limites du terrain
-    def __init_wall_grille(self):
+    def __init_wall_grille__(self):
     	for i in range(len(self.grille)):
     		self.grille[i][0] = Wall()
     		self.grille[i][len(self.grille[0])-1] = Wall()
@@ -60,9 +60,13 @@ class Simulation:
 
 
     def syncVision(self):
-        # Temp car pas encore fait de lien vers vision
-        grille = createGrille(self.larg, self.long)
 
+        # grille = createGrille(self.larg, self.long)
+
+        for i in range(self.vision.larg):
+            for j in range(self.vision.long):
+                self.vision.grille[i][j] = None
+        
         vecSrc = getVectDirFromAngle(self.robotSimu.direction)
         # TODO determiner the extremite
         # srcPoint = extrimite(self.robotSimu)
@@ -70,23 +74,37 @@ class Simulation:
 
         droiteSep = (vecSrc[0], vecSrc[1], (- vecSrc[0] * srcPoint[0] - vecSrc[1] * srcPoint[1]))
 
-        x = 0
-        if x == srcPoint[0]:
-            x += 1
+        if droiteSep[1] == 0:
+            newPoint = ( srcPoint[0],  srcPoint[1] + 1)
         
-        y = 0
-        if droiteSep[1] != 0:
+        else:
+            x = 0
+            if x == srcPoint[0]:
+                x += 1
+         
             y = (- droiteSep[0] * x - droiteSep[2]) / droiteSep[1]
+            newPoint = (x, y)
 
-        newPoint = (x, y)
         vecUnit = getVectDirFromPoints(srcPoint, newPoint)
         droiteDirection = (vecUnit[0], vecUnit[1], (- vecUnit[0] * srcPoint[0] - vecUnit[1] * srcPoint[1]))
 
-        for i in range(len(self.grille)):
-            for j in range(len(self.grille[0])):
+        for i in range(len(self.grille[0])):
+            for j in range(len(self.grille)):
                 destPoint = (i, j)
-                if inVision(vecSrc, getVectDirFromPoints(srcPoint, destPoint)) and distance(droiteSep, destPoint) <= self.vision.larg and distance(droiteDirection, destPoint) <= self.vision.long//2:
-                    # TODO ajouter dans vision 
-                    grille[i][j] = self.grille[i][j]
+                vecDest = getVectDirFromPoints(srcPoint, destPoint)
+               
+                if srcPoint != destPoint and self.grille[i][j] != None and inVision(vecSrc, vecDest) and distance(droiteSep, destPoint) <= self.vision.long and distance(droiteDirection, destPoint) <= self.vision.larg//2:
+                    
+                    y = int(distance(droiteSep, destPoint))
 
-        affiche(grille)
+                    x = round(distance(droiteDirection, destPoint))
+  
+                    if angle_sign(vecSrc, vecDest) <= 0:
+                        x = self.vision.larg//2 - x
+                    else:
+                        x = self.vision.larg//2 + x
+
+                    self.vision.grille[x][y] = self.grille[i][j]
+                    # grille[i][j] = self.grille[i][j]
+
+        affiche(self.vision.grille)
