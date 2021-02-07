@@ -81,13 +81,10 @@ class Simulation:
         # on supprime le robot de la grille 
         self.__enlever_robot_map__()
 
-        xpos = round(xpos)
-        ypos = round(ypos)
-        # on l'ajoute dans sa nouvelle position
-        self.__placer_robot__(xpos,ypos,self.robotSimu.direction)
 
-  
-  
+        # on l'ajoute dans sa nouvelle position
+        self.__placer_robot__(round(xpos),round(ypos),self.robotSimu.direction)
+
   
     def __placer_robot__(self,x,y,dir):
         self.robotSimu.setPos(x, y, dir) #le pose en plein milieu du terrain
@@ -104,15 +101,11 @@ class Simulation:
         for i in range(self.robotSimu.posx - int(self.taille_robot/2) , self.robotSimu.posx + int(self.taille_robot/2) + pair):
             for j in range( self.robotSimu.posy - int(self.taille_robot/2) , self.robotSimu.posy + int(self.taille_robot/2) + pair):
                 self.grille[i][j] = None
-        return
-
 
 
     # positionne le robot en direction de l'angle en parametre
     def tourne(self, angle):
         self.robotSimu.direction = angle
-
-
 
 
     def syncVision(self):

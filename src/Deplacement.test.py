@@ -11,3 +11,5 @@ rob.setSimu(True)
 
 # Explication de ce test ? il avance de 18 cases
 rob.simu.forward(2, 0)
+
+affiche(rob.simu.grille)
