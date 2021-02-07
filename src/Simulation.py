@@ -44,24 +44,26 @@ class Simulation:
 
     #avance le robot
     def forward(self, x, speed):
-        dist=abs( x - self.robotSimu.poxs ) # dist = nombre de cases séparants le robot de x
+        dist = abs( x - self.robotSimu.posx ) # dist = nombre de cases séparants le robot de x
         for i in range( dist ):
             # boucle pour etre plus réaliste
             x1 = self.robotSimu.posx + 1 # posx augmente ( position x du robot )
             y1 = self.robotSimu.posy
-            grille[ self.robotSimu.posx ][ self.robotSimu.posy ] = None # vide l'ancienne position du robot
-            grille[ x1 ][ y1 ] # met le robot sur sa nouvelle posx
+            self.grille[ self.robotSimu.posx ][ self.robotSimu.posy ] = None # vide l'ancienne position du robot
+            self.grille[ x1 ][ y1 ] # met le robot sur sa nouvelle posx
             affiche( self.grille ) # affiche la simu à chaque avancement
 
 
     # positionne le robot en direction de l'angle en parametre
     def tourne(self, angle):
-        self.robotSimu.dirrection = angle
+        self.robotSimu.direction = angle
 
 
     def syncVision(self):
-
-        # grille = createGrille(self.larg, self.long)
+        """
+            Pemet de synchroniser la vision du robot selon sa position et son angle
+        """
+        grille = createGrille(self.larg, self.long)
 
         for i in range(self.vision.larg):
             for j in range(self.vision.long):
@@ -93,18 +95,27 @@ class Simulation:
                 destPoint = (i, j)
                 vecDest = getVectDirFromPoints(srcPoint, destPoint)
                
-                if srcPoint != destPoint and self.grille[i][j] != None and inVision(vecSrc, vecDest) and distance(droiteSep, destPoint) <= self.vision.long and distance(droiteDirection, destPoint) <= self.vision.larg//2:
+                if srcPoint != destPoint and self.grille[i][j] != None and inVision(vecSrc, vecDest) and 0 < distance(droiteSep, destPoint) <= self.vision.long and distance(droiteDirection, destPoint) <= self.vision.larg//2:
                     
                     y = int(distance(droiteSep, destPoint))
+                    y -= 1
 
                     x = round(distance(droiteDirection, destPoint))
   
                     if angle_sign(vecSrc, vecDest) <= 0:
-                        x = self.vision.larg//2 - x
-                    else:
                         x = self.vision.larg//2 + x
+                    else:
+                        x = self.vision.larg//2 - x
 
+                    # Car axe robot inclus dedans
+                    if x == 0:
+                        continue
+
+                    x -= 1
+                
+                    # print(self.grille[i][j], x, y, i, j, distance(droiteDirection, destPoint), distance(droiteSep, destPoint), angle_sign(vecSrc, vecDest), self.vision.larg//2)
                     self.vision.grille[x][y] = self.grille[i][j]
                     # grille[i][j] = self.grille[i][j]
 
         affiche(self.vision.grille)
+        # affiche(grille)
