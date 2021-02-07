@@ -8,20 +8,20 @@ rob = Robot(4)
 rob.setSimu(True)
 sim = rob.simu
 
-# for i in range(len(sim.grille)):
-#    for j in range(len(sim.grille[0])):
-#        if str(sim.grille[i][j]) != "RR" and random.randint(0, 5) == 0:
-#           sim.grille[i][j] = random.choice("ABCDEFGHIJKLMNOPQSTUVXYZ")
+for i in range(len(sim.grille)):
+   for j in range(len(sim.grille[0])):
+       if str(sim.grille[i][j]) != "RR":
+          sim.grille[i][j] = random.choice("ABCDEFGHIJKLMNOPQSTUVXYZ")
 
-sim.grille[20][20] = '1'
+# sim.grille[20][20] = '1'
 
-x = random.randint(0, 39)
-y = random.randint(0, 39)
+# x = random.randint(0, 39)
+# y = random.randint(0, 39)
 
-print( "\n\nPosition robot :\nx = " + str(x) + " , y = " + str(y) )
+# print( "\n\nPosition robot :\nx = " + str(x) + " , y = " + str(y) )
 
-sim.grille[x][y] = rob.simu.robotSimu
-rob.simu.robotSimu.setPos(x, y, 0)
+# sim.grille[x][y] = rob.simu.robotSimu
+# rob.simu.robotSimu.setPos(x, y, 0)
 
 print("\n\n")
 
