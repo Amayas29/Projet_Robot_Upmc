@@ -68,7 +68,7 @@ class Simulation:
 
         for i in range(self.vision.larg):
             for j in range(self.vision.long):
-                self.vision.grille[i][j] = None
+                self.vision.grille[i][j] = Wall()
         
         vecSrc = getVectDirFromAngle(self.robotSimu.direction)
         # TODO determiner the extremite
@@ -96,12 +96,12 @@ class Simulation:
                 destPoint = (i, j)
                 vecDest = getVectDirFromPoints(srcPoint, destPoint)
                
-                if srcPoint != destPoint and self.grille[i][j] != None and inVision(vecSrc, vecDest) and 0 < distance(droiteSep, destPoint) <= self.vision.long and distance(droiteDirection, destPoint) <= self.vision.larg//2:
+                if srcPoint != destPoint and inVision(vecSrc, vecDest) and 0 < distance(droiteSep, destPoint) <= self.vision.long and distance(droiteDirection, destPoint) <= self.vision.larg//2:
                     
                     y = int(distance(droiteSep, destPoint))
                     y -= 1
 
-                    x = round(distance(droiteDirection, destPoint))
+                    x = int(distance(droiteDirection, destPoint))
   
                     if angle_sign(vecSrc, vecDest) <= 0:
                         x = self.vision.larg//2 + x
@@ -116,7 +116,7 @@ class Simulation:
                 
                     # print(self.grille[i][j], x, y, i, j, distance(droiteDirection, destPoint), distance(droiteSep, destPoint), angle_sign(vecSrc, vecDest), self.vision.larg//2)
                     self.vision.grille[x][y] = self.grille[i][j]
-                    # grille[i][j] = self.grille[i][j]
+                    grille[i][j] = self.grille[i][j]
 
         affiche(self.vision.grille)
-        # affiche(grille)
+        affiche(grille)
