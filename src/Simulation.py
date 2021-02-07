@@ -21,43 +21,95 @@ class Simulation:
         affiche(self.grille)
 
 
-    #crée le robot de la simulation
+      #crée le robot de la simulation
     def init_Robot(self):
-        self.robotSimu.setPos(int(self.larg / 2), int(self.long / 2), 0) #le pose en plein milieu du terrain
+        self.__placer_robot__(int(self.larg / 2), int(self.long / 2), 0)
+
+
+    #positionne des murs sur les limites du terrain
+    def __init_wall_grille__(self):
+        for i in range(len(self.grille)):
+            self.grille[i][0] = Wall()
+            self.grille[i][len(self.grille[0])-1] = Wall()
+
+        for i in range(len(self.grille[0])):
+            self.grille[0][i] = Wall()
+            self.grille[len(self.grille)-1][i] = Wall()
+
+
+    #avance le robot
+    def forward(self, x, speed):
+
+        # si le point de destination est hors grille on sort
+        if x + RobotSimu.posx >= len(self.grille[0]):
+            print("cette distance est trop grande")
+            return 
+
+        # on syncronise la vision    
+        self.syncVision()
+
+        # on verifie si le chemain est libre et qu'on peut avancer
+        if not self.vision.libresur(x) :
+            return
+
+        # on calcule le vecteur de destination du robot (le vecteur qu'il va suivre)
+        vectDir = getVectDirFromAngle(self.robotSimu.direction)
+
+        # on considere que le vecteur de base est le vecteur des abcisses
+        vicSrc = (0,1)
+
+        # on calcule l'angle avec le signe 
+        angle = angle_sign(vicSrc,vectDir)
+        
+        # on recupere les coordonnee du point de destination par rapport au robot
+        xpos = cos(angle) * x
+        ypos = sin(angle) * x
+
+        # on modifie les points de destination par rapport a la grille de la  simulation
+        if angle > 0:
+            ypos = RobotSimu.posy - ypos
+        else:
+            ypos = RobotSimu.posy + ypos
+        
+        if abs(angle) > 90:
+            xpos = RobotSimu.posx - xpos
+        else:
+            xpos += RobotSimu.posx
+        
+        # on supprime le robot de la grille 
+        self.__enlever_robot_map__()
+
+
+        # on l'ajoute dans sa nouvelle position
+        self.__placer_robot__(xpos,ypos,RobotSimu.direction)
+
+  
+  
+  
+    def __placer_robot__(self,x,y,dir):
+        self.robotSimu.setPos(x, y, dir) #le pose en plein milieu du terrain
         pair = self.taille_robot % 2
         # pose le robot sur certaines cases en fonction de l'échelle et sa taille
         for i in range(self.robotSimu.posx - int(self.taille_robot/2) , self.robotSimu.posx + int(self.taille_robot/2) + pair):
             for j in range( self.robotSimu.posy - int(self.taille_robot/2) , self.robotSimu.posy + int(self.taille_robot/2) + pair):
                 self.grille[i][j] = self.robotSimu
+        
+    
+    def __enlever_robot_map__(self):
+        pair = self.taille_robot % 2
+        # pose le robot sur certaines cases en fonction de l'échelle et sa taille
+        for i in range(self.robotSimu.posx - int(self.taille_robot/2) , self.robotSimu.posx + int(self.taille_robot/2) + pair):
+            for j in range( self.robotSimu.posy - int(self.taille_robot/2) , self.robotSimu.posy + int(self.taille_robot/2) + pair):
+                self.grille[i][j] = None
+        return
 
-
-    #positionne des murs sur les limites du terrain
-    def __init_wall_grille__(self):
-    	for i in range(len(self.grille)):
-    		self.grille[i][0] = Wall()
-    		self.grille[i][len(self.grille[0])-1] = Wall()
-
-    	for i in range(len(self.grille[0])):
-    		self.grille[0][i] = Wall()
-    		self.grille[len(self.grille)-1][i] = Wall()
-
-
-    #avance le robot
-    def forward(self, x, speed):
-        dist = abs( x - self.robotSimu.posx ) # dist = nombre de cases séparants le robot de x
-        for i in range( dist ):
-            # boucle pour etre plus réaliste
-            x1 = self.robotSimu.posx + 1 # posx augmente ( position x du robot )
-            y1 = self.robotSimu.posy
-            self.grille[ self.robotSimu.posx ][ self.robotSimu.posy ] = None # vide l'ancienne position du robot
-            self.grille[ x1 ][ y1 ] = self.robotSimu # met le robot sur sa nouvelle posx
-            self.robotSimu.setPos(x1, y1, self.robotSimu.direction)
-            affiche( self.grille ) # affiche la simu à chaque avancement
 
 
     # positionne le robot en direction de l'angle en parametre
     def tourne(self, angle):
-        self.robotSimu.direction = angle
+        self.robotSimu.direction += angle
+
+
 
 
     def syncVision(self):
