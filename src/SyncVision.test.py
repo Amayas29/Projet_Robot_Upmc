@@ -71,7 +71,7 @@ add_Objet(sim.grille,'£', 30, 20)
 affiche(sim.grille)
 
 print("\n\n")
-sim.robotSimu.direction = 0
+sim.robotSimu.direction = 20
 
 print("Angle ", sim.robotSimu.direction, "°\n\n")
 
