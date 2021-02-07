@@ -53,6 +53,10 @@ def add_Objet(grille,objet, x, y):
         return is_Occupe(grille, x, y) #retourne False si l'action n'a pu se faire et True si l'action a réussi
     return False
 
+# Pour les tests : Je la garde pour explique en Vocal au groupe
+# def add_Objet(grille,objet, x, y):
+#     grille[x][y] = str(objet) + "9"
+
 
 def __getRadian__(angle):
     """
