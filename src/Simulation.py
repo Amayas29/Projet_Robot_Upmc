@@ -50,7 +50,8 @@ class Simulation:
             x1 = self.robotSimu.posx + 1 # posx augmente ( position x du robot )
             y1 = self.robotSimu.posy
             self.grille[ self.robotSimu.posx ][ self.robotSimu.posy ] = None # vide l'ancienne position du robot
-            self.grille[ x1 ][ y1 ] # met le robot sur sa nouvelle posx
+            self.grille[ x1 ][ y1 ] = self.robotSimu # met le robot sur sa nouvelle posx
+            self.robotSimu.setPos(x1, y1, self.robotSimu.direction)
             affiche( self.grille ) # affiche la simu à chaque avancement
 
 
