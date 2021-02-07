@@ -8,10 +8,10 @@ rob = Robot(4)
 rob.setSimu(True)
 sim = rob.simu
 
-for i in range(len(sim.grille)):
-    for j in range(len(sim.grille[0])):
-        if str(sim.grille[i][j]) != "R":
-            sim.grille[i][j] = random.choice("ABCDEFGHIJKLMNPQSTUVXZ")
+#for i in range(len(sim.grille)):
+#    for j in range(len(sim.grille[0])):
+#        if str(sim.grille[i][j]) != "R":
+#sim.grille[i][j] = random.choice("ABCDEFGHIJKLMNOPQSTUVXYZ")
 
 sim.grille[20][20] = '1'
 
@@ -20,7 +20,8 @@ y = random.randint(0, 40)
 sim.grille[x][y] = rob.simu.robotSimu
 rob.simu.robotSimu.setPos(x, y, 0)
 
-print(x, y)
+
+print( "\n\nPosition robot :\nx = " + str(x) + " , y = " + str(y) )
 
 print("\n\n")
 
@@ -55,7 +56,7 @@ add_Objet(sim.grille,'N', 21, 14)
 add_Objet(sim.grille, 'O', 21, 13)
 add_Objet(sim.grille, 'P', 21, 26)
 add_Objet(sim.grille, "Q", 21, 27)
-add_Objet(sim.grille, "R", 21, 28)
+add_Objet(sim.grille, "T", 21, 28)
 add_Objet(sim.grille, "S", 21, 12)
 
 
@@ -63,15 +64,10 @@ add_Objet(sim.grille,'$', 36, 20)
 
 add_Objet(sim.grille,'£', 30, 20)
 
-# Attention ! Le robot est encore dans la vision 
-# faut encore plus de precision et enlever la ligne du robot
-# Pour voir ça : 
-# add_Objet(sim.grille, Objet(), 25, 26)
-
 affiche(sim.grille)
 
 print("\n\n")
-sim.robotSimu.direction = 20
+sim.robotSimu.direction = 0
 
 print("Angle ", sim.robotSimu.direction, "°\n\n")
 
