@@ -2,7 +2,7 @@ from vision import Vision
 from tool import *
 from wall import Wall
 
-# vis = Vision(9*4,9*4,int(9*0.25))
+vis = Vision(9*4,9*4,int(9*0.25))
 
 # for i in range(len(vis.grille)):
 #     vis.grille[3][i] = Wall()
