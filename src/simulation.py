@@ -66,14 +66,7 @@ class Simulation:
         print(cos(to_radian(180)))
 
         # on modifie les points de destination par rapport a la grille de la  simulation
-        # if angle > 0:
-        #     ypos = self.robotSimu.posy - ypos
-        # else:
         ypos = self.robot_simu.posy + ypos
-        
-        # if abs(angle) > 90:
-        #     xpos = self.robotSimu.posx - xpos
-        # else:
         xpos += self.robot_simu.posx
         
         # on supprime le robot de la grille 
