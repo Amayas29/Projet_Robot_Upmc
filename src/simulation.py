@@ -1,4 +1,4 @@
-from objet import Objet
+from objet import Objet, NotDefined
 from robotsimu import RobotSimu
 from wall import Wall
 from vision import Vision
@@ -66,14 +66,7 @@ class Simulation:
         print(cos(to_radian(180)))
 
         # on modifie les points de destination par rapport a la grille de la  simulation
-        # if angle > 0:
-        #     ypos = self.robotSimu.posy - ypos
-        # else:
         ypos = self.robot_simu.posy + ypos
-        
-        # if abs(angle) > 90:
-        #     xpos = self.robotSimu.posx - xpos
-        # else:
         xpos += self.robot_simu.posx
         
         # on supprime le robot de la grille 
@@ -109,11 +102,13 @@ class Simulation:
         """
             Pemet de synchroniser la vision du robot selon sa position et son angle
         """
+        # Juste pour le debug (MAX DEMAIN JE LE SUPP)
+        f = open("log", "w")
         grille = create_grille(self.larg, self.long)
 
         for i in range(self.vision.larg):
             for j in range(self.vision.long):
-                self.vision.grille[i][j] = Wall()
+                self.vision.grille[i][j] = NotDefined()
         
         vec_src = get_vect_from_angle(self.robot_simu.direction)
 
@@ -135,31 +130,43 @@ class Simulation:
         vec_unit = get_vect_from_points(src_point, new_point)
         droite_direction = (vec_unit[0], vec_unit[1], (- vec_unit[0] * src_point[0] - vec_unit[1] * src_point[1]))
 
+        print(src_point, vec_src)
         for i in range(len(self.grille[0])):
             for j in range(len(self.grille)):
                 dest_point = (i, j)
                 vec_dest = get_vect_from_points(src_point, dest_point)
-               
+
+                # DEBUG : Pour afficher le robot dans la grille du debug pour bien se situer
+                if str(self.grille[i][j]) == "RR":
+                    grille[ i ][ j ] = "RR"
+
                 if src_point != dest_point and in_vision(vec_src, vec_dest) and 0 < distance(droite_sep, dest_point) <= self.vision.long and distance(droite_direction, dest_point) <= self.vision.larg//2:
                     
-                    y = ceil(distance(droite_sep, dest_point))
-                    y -= 1
+                    y = round(distance(droite_sep, dest_point))
+                    if y != 0:
+                        y -= 1
 
-                    x = floor(distance(droite_direction, dest_point))
+                    x = ceil(distance(droite_direction, dest_point))
   
                     if angle_sign(vec_src, vec_dest) <= 0:
                         x = self.vision.larg//2 + x
                     else:
-                        x = self.vision.larg//2 - x
+                        x = self.vision.larg//2 - x + 1
 
                     # Car axe robot inclus dedans
-                    if x == 0:
-                        continue
+                    # if x == 0:
+                    #     continue
 
                     x -= 1
 
-                    self.vision.grille[x][y] = self.grille[i][j]
+                    s = self.grille[i][j]
+                    f.write("s=%s i=%d j=%d x=%d y=%d disSep=%f distDir=%f ang=%f\n"%(s, i, j, x, y, distance(droite_sep, dest_point), distance(droite_direction, dest_point), angle_sign(vec_src, vec_dest)))
+
+                    if not is_occupe(self.vision.grille, x, y):
+                        self.vision.grille[x][y] = self.grille[i][j]
+                    
                     grille[i][j] = self.grille[i][j]
 
-        # affiche(self.vision.grille)
-        # affiche(grille)
+        affiche(self.vision.grille)
+        affiche(grille)
+        f.close()
