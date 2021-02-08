@@ -103,7 +103,7 @@ class Simulation:
             Pemet de synchroniser la vision du robot selon sa position et son angle
         """
         # Juste pour le debug (MAX DEMAIN JE LE SUPP)
-        f = open("log", "w")
+        f = open("log_debug", "w")
         grille = create_grille(self.larg, self.long)
 
         for i in range(self.vision.larg):
@@ -130,7 +130,6 @@ class Simulation:
         vec_unit = get_vect_from_points(src_point, new_point)
         droite_direction = (vec_unit[0], vec_unit[1], (- vec_unit[0] * src_point[0] - vec_unit[1] * src_point[1]))
 
-        print(src_point, vec_src)
         for i in range(len(self.grille[0])):
             for j in range(len(self.grille)):
                 dest_point = (i, j)
@@ -159,8 +158,7 @@ class Simulation:
 
                     x -= 1
 
-                    s = self.grille[i][j]
-                    f.write("s=%s i=%d j=%d x=%d y=%d disSep=%f distDir=%f ang=%f\n"%(s, i, j, x, y, distance(droite_sep, dest_point), distance(droite_direction, dest_point), angle_sign(vec_src, vec_dest)))
+                    f.write("s=%s i=%d j=%d x=%d y=%d disSep=%f distDir=%f ang=%f\n"%(self.grille[i][j], i, j, x, y, distance(droite_sep, dest_point), distance(droite_direction, dest_point), angle_sign(vec_src, vec_dest)))
 
                     if not is_occupe(self.vision.grille, x, y):
                         self.vision.grille[x][y] = self.grille[i][j]
