@@ -75,20 +75,74 @@ class Robot:
 
 
 if __name__ == '__main__':
+    # #premier test
+    # for i in range(37):
+    #     rob = Robot(6)
+    #     rob.set_simu(True)
+        
+    #     affiche(rob.simu.grille)
+    #     print("\n\n")
+
+    #     rob.deplace_robot(6,0,i*10)
+
+    #     print("\n\n")
+    #     affiche(rob.vision.grille)
+    #     print("\n\n")
+
+    #     affiche(rob.simu.grille)
+    #     print("\n",i*10,"\n")
+    #     sleep(1)
+    
+    ##carre 
+    # rob = Robot(6)
+    # rob.set_simu(True)
+        
+    # affiche(rob.simu.grille)
+    # print("\n\n")
+
+    # rob.deplace_robot(6,0,40)
+
+    # affiche(rob.simu.grille)
+    # print("\n\n")
+
+    # sleep(0.5)
+
+    # rob.deplace_robot(3,0,90)
+    # affiche(rob.simu.grille)
+    # print("\n\n")
+    # sleep(0.5)
+
+    # rob.deplace_robot(3,0,90)
+    # affiche(rob.simu.grille)
+    # print("\n\n")
+    # sleep(0.5)
+
+    # rob.deplace_robot(3,0,90)
+    # affiche(rob.simu.grille)
+    # print("\n\n")
+    # sleep(0.5)
+
+    # rob.deplace_robot(3,0,90)
+    # affiche(rob.simu.grille)
+    # print("\n\n")
+    # sleep(0.5)
+
+
     rob = Robot(6)
     rob.set_simu(True)
+        
+    affiche(rob.simu.grille)
+    print("\n\n")
+
+    rob.deplace_robot(10,0,0)
+
+    # print(rob.simu.robot_simu.posx,rob.simu.robot_simu.posy)
+    affiche(rob.simu.grille)
+    # print("\n\n")
+    # affiche(rob.vision.grille)
+
     
-    affiche(rob.simu.grille)
-    print("\n\n")
 
-    rob.deplace_robot(6,0,0)
-
-    print("\n\n")
-    affiche(rob.vision.grille)
-    print("\n\n")
-
-    affiche(rob.simu.grille)
-    print("\n\n")
 
     # rob.deplace_robot(2,0,30)
 

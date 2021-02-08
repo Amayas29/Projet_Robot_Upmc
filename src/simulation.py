@@ -39,13 +39,9 @@ class Simulation:
     #avance le robot
     def forward(self, x, speed):
 
-        # si le point de destination est hors grille on sort
-        if x + self.robot_simu.posx >= len(self.grille[0]):
-            print("cette distance est trop grande")
-            return 
-
         # on syncronise la vision    
         self.sync_vision()
+        print("forward appller")
 
         # on verifie si le chemain est libre et qu'on peut avancer
         if not self.vision.libre_sur(x) :
@@ -71,7 +67,6 @@ class Simulation:
         
         # on supprime le robot de la grille 
         self.__enlever_robot_map__()
-
         # on l'ajoute dans sa nouvelle position
         self.__placer_robot__(round(xpos),round(ypos),self.robot_simu.direction)
 
@@ -102,6 +97,7 @@ class Simulation:
         """
             Pemet de synchroniser la vision du robot selon sa position et son angle
         """
+        print("l'angle du robot dans la methode sync_vision",self.robot_simu.direction)
         # Juste pour le debug (MAX DEMAIN JE LE SUPP)
         f = open("log_debug", "w")
         grille = create_grille(self.larg, self.long)
