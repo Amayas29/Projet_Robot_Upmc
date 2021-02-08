@@ -21,14 +21,10 @@ class Vision:
             return
         pair = self.taille_rob % 2
 
-        print(self.long//2 - (self.taille_rob//2+pair),self.long//2 + self.taille_rob//2+pair)
         for i in range(self.long//2 - (self.taille_rob//2+pair),(self.long//2 + self.taille_rob//2+pair)+1):
             for j in range(x):
-               
                 if (is_occupe(self.grille,i,j)): #Regarde les cases remontant a partir du coin inférieur gauche grace a self.long - i
-                        print("impossible il y a un objet !")
-                        # self.grille[i][j] = "K"
-                        affiche(self.grille)
+                        print("impossible il y a un objet ! sa position dans la vision est ",i,j)
                         return False
         print("On peut avancer !")
         return True

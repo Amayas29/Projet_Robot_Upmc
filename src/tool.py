@@ -116,6 +116,8 @@ def angle(vec1, vec2):
         Hyp les vecteurs doivent pas etre null
     """
     norme_ = norme(vec1) * norme(vec2)
+    if(norme_ == 0):
+        return 0
     return round(to_degree(acos(round(produit_scalaire(vec1, vec2) / norme_, 5))),2)
 
 
@@ -221,3 +223,19 @@ def get_src_point(taille, x, y, ang):
 
     elif ang > 270:
         return b
+
+
+def __distance_points__(point1,point2):
+    return sqrt((point1[0]-point2[0])**2+(point1[1]-point2[1])**2)
+
+
+def point_min_distance(tab,point):
+    if len(tab) == 0:
+        return point
+    emin = tab[0]
+    dist_min = __distance_points__(tab[0],point)
+    for i in range(1,len(tab)):
+       if __distance_points__(tab[i],point) < dist_min:
+           emin = tab[i]
+
+    return emin

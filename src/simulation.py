@@ -3,6 +3,8 @@ from robotsimu import RobotSimu
 from wall import Wall
 from vision import Vision
 from tool import *
+import time
+from time import sleep
 
 class Simulation:
 
@@ -37,7 +39,7 @@ class Simulation:
 
 
     #avance le robot
-    def forward(self, x, speed):
+    def forward_teleportation(self, x, speed):
 
         # on syncronise la vision    
         self.sync_vision()
@@ -45,13 +47,8 @@ class Simulation:
 
         # on verifie si le chemain est libre et qu'on peut avancer
         if not self.vision.libre_sur(x) :
+            exit()
             return
-
-        # on calcule le vecteur de destination du robot (le vecteur qu'il va suivre)
-        vectDir = get_vect_from_angle(self.robot_simu.direction)
-
-        # on considere que le vecteur de base est le vecteur des abcisses
-        vicSrc = (1,0)
 
         # on calcule l'angle avec le signe 
         angle = self.robot_simu.direction
@@ -59,7 +56,7 @@ class Simulation:
         # on recupere les coordonnee du point de destination par rapport au robot
         xpos = cos(to_radian(angle)) * x
         ypos = sin(to_radian(angle)) * x
-        print(cos(to_radian(180)))
+        print("le vecteur ",xpos,ypos)
 
         # on modifie les points de destination par rapport a la grille de la  simulation
         ypos = self.robot_simu.posy + ypos
@@ -69,6 +66,94 @@ class Simulation:
         self.__enlever_robot_map__()
         # on l'ajoute dans sa nouvelle position
         self.__placer_robot__(round(xpos),round(ypos),self.robot_simu.direction)
+
+
+    def __forward__(self,x,point_src,point):
+        
+        self.sync_vision()
+
+        if not self.vision.libre_sur(1):
+            return
+
+        # on recupere le tableau
+        tab = self.__get_tab__(self.robot_simu.direction,point_src,point)
+        # on recupere le point le plus prche du tableau
+        point_min = point_min_distance(tab,point_src)
+
+        sleep(0.1)
+        print("coordonnee du robot ",round(point_min[0]),round(point_min[1]))
+        print("l'angle du robot ",self.robot_simu.direction)
+        print("le point de dist---------------------------",point)
+
+        # on supprime le robot de la map et on l'ajoute dans ca nouvelle position
+        self.__enlever_robot_map__()
+        self.__placer_robot__(round(point_min[0]),round(point_min[1]),self.robot_simu.direction)
+
+        # on affiche la grille
+        affiche(self.grille)
+        
+        # si on a pas attient la distance demander on continue
+        if x>0  :
+            self.__forward__(x-1,point_min,point)
+        
+
+    
+    
+    def __get_tab__(self,angl,point_src,point):
+        
+        #on recupere le vecteur de l'angle
+        vict = get_vect_from_angle(angl)
+        tab = []
+        # on parcoure tout les element qui sont entre le robot et le point de destination (la matrice) 
+        for i in range(min(point_src[0],round(point[0])),max(point_src[0],round(point[0]))+1):
+            for j in range(min(point_src[1],round(point[1])),max(point_src[1],round(point[1]))+1):
+                if i == self.robot_simu.posx and j == self.robot_simu.posy:
+                    continue
+                # on calcule le vecteur entre le robot et le point actuelle
+                vict_p = get_vect_from_points((self.robot_simu.posx,self.robot_simu.posy),(i,j))
+                #on calcule l'angle
+                agl = angle(vict,vict_p)
+                # on le normalise
+                if agl > 90:
+                    agl = 360 -agl
+                # on test si il est dans la droite on l'ajoute dans le tableau (15 degres c'est la marge d'erreur )
+                if agl <= 15:
+                    tab.append((i,j))
+        
+        return tab
+        
+
+    def forward(self, x, speed):
+
+        point = 0
+
+        # on syncronise la vision    
+        self.sync_vision()
+
+        # on verifie si le chemain est libre et qu'on peut avancer
+        if not self.vision.libre_sur(x) :
+            return
+
+        # on calcule l'angle avec le signe 
+        angle = self.robot_simu.direction
+        
+        # on recupere les coordonnee du point de destination par rapport au robot
+        xpos = cos(to_radian(angle)) * x
+        ypos = sin(to_radian(angle)) * x
+
+
+        # on modifie les points de destination par rapport a la grille de la  simulation
+        ypos = self.robot_simu.posy + ypos
+        xpos += self.robot_simu.posx
+        
+        point = (xpos,ypos)
+
+        point_src = get_src_point(self.taille_robot,self.robot_simu.posx,self.robot_simu.posy,self.robot_simu.direction)
+       
+        self.__forward__(x,point_src,point)
+        
+
+    
 
   
     def __placer_robot__(self,x,y,dir):
@@ -97,7 +182,8 @@ class Simulation:
         """
             Pemet de synchroniser la vision du robot selon sa position et son angle
         """
-        print("l'angle du robot dans la methode sync_vision",self.robot_simu.direction)
+        affiche(self.grille)
+        print(self.robot_simu.direction)
         # Juste pour le debug (MAX DEMAIN JE LE SUPP)
         f = open("log_debug", "w")
         grille = create_grille(self.larg, self.long)
@@ -161,6 +247,6 @@ class Simulation:
                     
                     grille[i][j] = self.grille[i][j]
 
-        affiche(self.vision.grille)
-        affiche(grille)
+        # affiche(self.vision.grille)
+        # affiche(grille)
         f.close()
