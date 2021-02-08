@@ -109,7 +109,6 @@ class Simulation:
         """
             Pemet de synchroniser la vision du robot selon sa position et son angle
         """
-        print(self.robot_simu.direction)
         grille = create_grille(self.larg, self.long)
 
         for i in range(self.vision.larg):
