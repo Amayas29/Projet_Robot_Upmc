@@ -54,10 +54,8 @@ class Robot:
                 self.simu.tourne(angle)
             
             #si il peut aller sur x distance
-            self.simu.forward(x, speed)
-            print("fait!")
-            return
-                       
+            return self.simu.forward(x, speed)
+
         else:
             #mode irl, meme processus que pour le mode simulation mais avec de vraies méthodes
             if angle != 0:
@@ -68,88 +66,7 @@ class Robot:
             if self.vision.libre_sur(x):
                 self.irl.forward(x, speed)
                 print("fait!")
-                return
+                return True
             else:
                 print("Le robot est bloquer")
-                return   
-
-
-if __name__ == '__main__':
-    #premier test
-    # for i in range(37):
-    #     rob = Robot(6)
-    #     rob.set_simu(True)
-        
-    #     affiche(rob.simu.grille)
-    #     print("\n\n")
-
-    #     rob.deplace_robot(6,0,i*10)
-
-    #     print("\n\n")
-    #     affiche(rob.vision.grille)
-    #     print("\n\n")
-
-    #     affiche(rob.simu.grille)
-    #     print("\n",i*10,"\n")
-    #     sleep(1)
-    
-    # #carre 
-    rob = Robot(6)
-    rob.set_simu(True)
-        
-    rob.simu.grille[3][12] = "K"
-    rob.deplace_robot(10,0,170)
-
-    # print("\n\n")
-
-
-    # rob.deplace_robot(6,0,90)
-    # print("\n\n")
-
-
-    # rob.deplace_robot(6,0,90)
-    # print("\n\n")
- 
-
-    # rob.deplace_robot(6,0,90)
-    # print("\n\n")
-
-
-    # rob.deplace_robot(6,0,90)
-    # print("\n\n")
-
-
-
-    # rob = Robot(6)
-    # rob.set_simu(True)
-        
-    # affiche(rob.simu.grille)
-    # print("\n\n")
-
-    # rob.deplace_robot(6,0,40)
-
-    # rob.deplace_robot(6,0,-40)
-    
-    # affiche(rob.simu.grille)
-    # print("\n\n")
-    # affiche(rob.vision.grille)
-
-    
-
-
-    # rob.deplace_robot(2,0,30)
-
-    # affiche(rob.vision.grille)
-    # print("\n\n")
-
-    # affiche(rob.simu.grille)
-    # print("\n\n")
-
-    # rob.deplace_robot(2,0,180)
-    # rob.deplace_robot(5,0,0)
-
-    # affiche(rob.vision.grille)
-    # print("\n\n")
-
-    # affiche(rob.simu.grille)
-    # print("\n\n")
+                return False  

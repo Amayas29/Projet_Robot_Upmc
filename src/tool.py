@@ -39,9 +39,8 @@ def affiche(grille):
     
 
 def is_occupe(grille,x, y):
-#Permet de savoir si une case en position (x,y) de la grille est occupée ou non
+    # Permet de savoir si une case en position (x,y) de la grille est occupée ou non
     if ( 0 <= x < len(grille) ) and ( 0 <= y < len(grille[0]) ):
-        # COMMENTAIRE POUR DEV : Le not defined dans la vision est considerer comme vide car on poura ajouter un mur (mur >>>> non definie)
  	    return grille[x][y] != None and not isinstance(grille[x][y], NotDefined)
 
     return False
@@ -54,10 +53,6 @@ def add_objet(grille,objet, x, y):
         grille[x][y] = objet
         return is_occupe(grille, x, y) #retourne False si l'action n'a pu se faire et True si l'action a réussi
     return False
-
-# # Pour les tests : Je la garde pour explique en Vocal au groupe
-def add_objet_(grille,objet, x, y):
-    grille[x][y] = str(objet) + "9"
 
 
 def to_radian(ang):

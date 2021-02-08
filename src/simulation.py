@@ -43,12 +43,10 @@ class Simulation:
 
         # on syncronise la vision    
         self.sync_vision()
-        print("forward appller")
 
         # on verifie si le chemain est libre et qu'on peut avancer
         if not self.vision.libre_sur(x) :
-            exit()
-            return
+            return False
 
         # on calcule l'angle avec le signe 
         angle = self.robot_simu.direction
@@ -56,7 +54,6 @@ class Simulation:
         # on recupere les coordonnee du point de destination par rapport au robot
         xpos = cos(to_radian(angle)) * x
         ypos = sin(to_radian(angle)) * x
-        print("le vecteur ",xpos,ypos)
 
         # on modifie les points de destination par rapport a la grille de la  simulation
         ypos = self.robot_simu.posy + ypos
@@ -67,13 +64,16 @@ class Simulation:
         # on l'ajoute dans sa nouvelle position
         self.__placer_robot__(round(xpos),round(ypos),self.robot_simu.direction)
 
+        affiche(self.grille)
+        return True
+
 
     def __forward__(self,x,point_src,point):
         
         self.sync_vision()
 
         if not self.vision.libre_sur(1):
-            return
+            return False
 
         # on recupere le tableau
         tab = self.__get_tab__(self.robot_simu.direction,point_src,point)
@@ -81,9 +81,6 @@ class Simulation:
         point_min = point_min_distance(tab,point_src)
 
         sleep(0.1)
-        print("coordonnee du robot ",round(point_min[0]),round(point_min[1]))
-        print("l'angle du robot ",self.robot_simu.direction)
-        print("le point de dist---------------------------",point)
 
         # on supprime le robot de la map et on l'ajoute dans ca nouvelle position
         self.__enlever_robot_map__()
@@ -94,11 +91,11 @@ class Simulation:
         
         # si on a pas attient la distance demander on continue
         if x>0  :
-            self.__forward__(x-1,point_min,point)
+            return self.__forward__(x-1,point_min,point)
+
+        return True
         
 
-    
-    
     def __get_tab__(self,angl,point_src,point):
         
         #on recupere le vecteur de l'angle
@@ -127,20 +124,12 @@ class Simulation:
 
         point = 0
 
-        # on syncronise la vision    
-        self.sync_vision()
-
-        # on verifie si le chemain est libre et qu'on peut avancer
-        if not self.vision.libre_sur(x) :
-            return
-
         # on calcule l'angle avec le signe 
         angle = self.robot_simu.direction
         
         # on recupere les coordonnee du point de destination par rapport au robot
         xpos = cos(to_radian(angle)) * x
         ypos = sin(to_radian(angle)) * x
-
 
         # on modifie les points de destination par rapport a la grille de la  simulation
         ypos = self.robot_simu.posy + ypos
@@ -150,12 +139,9 @@ class Simulation:
 
         point_src = get_src_point(self.taille_robot,self.robot_simu.posx,self.robot_simu.posy,self.robot_simu.direction)
        
-        self.__forward__(x,point_src,point)
+        return self.__forward__(x,point_src,point)
         
 
-    
-
-  
     def __placer_robot__(self,x,y,dir):
         self.robot_simu.set_pos(x, y, dir) #le pose en plein milieu du terrain
         pair = self.taille_robot % 2
@@ -182,9 +168,7 @@ class Simulation:
         """
             Pemet de synchroniser la vision du robot selon sa position et son angle
         """
-        affiche(self.grille)
-        print(self.robot_simu.direction)
-        # Juste pour le debug (MAX DEMAIN JE LE SUPP)
+
         f = open("log_debug", "w")
         grille = create_grille(self.larg, self.long)
 
@@ -217,28 +201,21 @@ class Simulation:
                 dest_point = (i, j)
                 vec_dest = get_vect_from_points(src_point, dest_point)
 
-                # DEBUG : Pour afficher le robot dans la grille du debug pour bien se situer
-                if str(self.grille[i][j]) == "RR":
-                    grille[ i ][ j ] = "RR"
-
                 if src_point != dest_point and in_vision(vec_src, vec_dest) and 0 < distance(droite_sep, dest_point) <= self.vision.long and distance(droite_direction, dest_point) <= self.vision.larg//2:
                     
                     y = round(distance(droite_sep, dest_point))
                     if y != 0:
                         y -= 1
 
-                    x = ceil(distance(droite_direction, dest_point))
+                    x = round(distance(droite_direction, dest_point))
   
                     if angle_sign(vec_src, vec_dest) <= 0:
                         x = self.vision.larg//2 + x
                     else:
                         x = self.vision.larg//2 - x + 1
 
-                    # Car axe robot inclus dedans
-                    # if x == 0:
-                    #     continue
-
-                    x -= 1
+                    if x != 0:
+                        x -= 1
 
                     f.write("s=%s i=%d j=%d x=%d y=%d disSep=%f distDir=%f ang=%f\n"%(self.grille[i][j], i, j, x, y, distance(droite_sep, dest_point), distance(droite_direction, dest_point), angle_sign(vec_src, vec_dest)))
 
