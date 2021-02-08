@@ -1,4 +1,5 @@
 from Objet import Objet
+from Tool import normalise_angle
 
 #Classe robot simuulation qui hérite de objet
 class RobotSimu(Objet):
@@ -15,9 +16,7 @@ class RobotSimu(Objet):
     def setPos(self, x, y, dir):
         #pose le robot sur les positions x et y de la grille de la simulation 
         """assuming dir is between 0 and 360"""
-        if 0 < dir :
-            dir = 360 + dir
-        dir = dir % 360
+        dir = normalise_angle(dir)
         if x >= 0 and y >= 0:
             self.direction = dir
             self.posx = x
@@ -27,5 +26,5 @@ class RobotSimu(Objet):
 
 
     def __str__(self):
-        #permet d'afficher le robot sur la simulation avec la lettre R
+        #permet d'afficher le robot sur la simulation avec la lettre RR
         return "RR"
