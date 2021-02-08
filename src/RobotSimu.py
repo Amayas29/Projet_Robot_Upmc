@@ -15,7 +15,10 @@ class RobotSimu(Objet):
     def setPos(self, x, y, dir):
         #pose le robot sur les positions x et y de la grille de la simulation 
         """assuming dir is between 0 and 360"""
-        if x >= 0 and y >= 0 and 0 <= dir <= 360:
+        if 0 < dir :
+            dir = 360 + dir
+        dir = dir % 360
+        if x >= 0 and y >= 0:
             self.direction = dir
             self.posx = x
             self.posy = y

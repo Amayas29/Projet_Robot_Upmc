@@ -64,7 +64,6 @@ class Simulation:
         xpos = cos(getRadian(angle)) * x
         ypos = sin(getRadian(angle)) * x
         print(cos(getRadian(180)))
-        print(xpos,ypos)
 
 
         # on modifie les points de destination par rapport a la grille de la  simulation
@@ -80,7 +79,6 @@ class Simulation:
         
         # on supprime le robot de la grille 
         self.__enlever_robot_map__()
-
 
         # on l'ajoute dans sa nouvelle position
         self.__placer_robot__(round(xpos),round(ypos),self.robotSimu.direction)
