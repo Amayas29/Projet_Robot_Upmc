@@ -65,7 +65,6 @@ class Simulation:
         ypos = sin(to_radian(angle)) * x
         print(cos(to_radian(180)))
 
-
         # on modifie les points de destination par rapport a la grille de la  simulation
         # if angle > 0:
         #     ypos = self.robotSimu.posy - ypos
@@ -110,6 +109,7 @@ class Simulation:
         """
             Pemet de synchroniser la vision du robot selon sa position et son angle
         """
+        print(self.robot_simu.direction)
         grille = create_grille(self.larg, self.long)
 
         for i in range(self.vision.larg):
@@ -141,7 +141,7 @@ class Simulation:
                 dest_point = (i, j)
                 vec_dest = get_vect_from_points(src_point, dest_point)
                
-                if dest_point != dest_point and in_vision(vec_src, vec_dest) and 0 < distance(droite_sep, dest_point) <= self.vision.long and distance(droite_direction, dest_point) <= self.vision.larg//2:
+                if src_point != dest_point and in_vision(vec_src, vec_dest) and 0 < distance(droite_sep, dest_point) <= self.vision.long and distance(droite_direction, dest_point) <= self.vision.larg//2:
                     
                     y = ceil(distance(droite_sep, dest_point))
                     y -= 1
