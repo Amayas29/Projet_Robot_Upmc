@@ -1,4 +1,5 @@
 from math import *
+from objet import NotDefined
 
 def create_grille(larg, long):
     #retourne une grille de largeur larg et longueur long
@@ -40,7 +41,8 @@ def affiche(grille):
 def is_occupe(grille,x, y):
 #Permet de savoir si une case en position (x,y) de la grille est occupée ou non
     if ( 0 <= x < len(grille) ) and ( 0 <= y < len(grille[0]) ):
- 	    return grille[x][y] != None
+        # COMMENTAIRE POUR DEV : Le not defined dans la vision est considerer comme vide car on poura ajouter un mur (mur >>>> non definie)
+ 	    return grille[x][y] != None and not isinstance(grille[x][y], NotDefined)
 
     return False
 
@@ -54,8 +56,8 @@ def add_objet(grille,objet, x, y):
     return False
 
 # # Pour les tests : Je la garde pour explique en Vocal au groupe
-# def add_objet(grille,objet, x, y):
-#     grille[x][y] = str(objet) + "9"
+def add_objet_(grille,objet, x, y):
+    grille[x][y] = str(objet) + "9"
 
 
 def to_radian(ang):
@@ -114,7 +116,7 @@ def angle(vec1, vec2):
         Hyp les vecteurs doivent pas etre null
     """
     norme_ = norme(vec1) * norme(vec2)
-    return round(to_degree(acos(produit_scalaire(vec1, vec2) / norme_)),2)
+    return round(to_degree(acos(round(produit_scalaire(vec1, vec2) / norme_, 5))),2)
 
 
 def __sign__(vec1, vec2):
