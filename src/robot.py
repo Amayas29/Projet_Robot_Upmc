@@ -44,7 +44,7 @@ class Robot:
 
 
     # deplace, si possible, le robot sur une distance x avec une vitesse speed et un angle (angle)
-    def deplaceRobot(self, x, speed, angle):
+    def deplace_robot(self, x, speed, angle):
         """ speed : 0 a 100 , angle: angle de rotation par rapport a l'etat actuel (0 n'est donc pas forcement le Nord), x : uniter de distance"""
         #on cherche à savoir en quel mode est le robot
         if self.is_simu:
@@ -74,25 +74,35 @@ class Robot:
                 return   
 
 
-
 if __name__ == '__main__':
     rob = Robot(6)
     rob.set_simu(True)
-
+    
     affiche(rob.simu.grille)
+    print("\n\n")
 
-    rob.deplace_robot(6,0,-30)
+    rob.deplace_robot(6,0,0)
+
+    print("\n\n")
     affiche(rob.vision.grille)
+    print("\n\n")
 
     affiche(rob.simu.grille)
+    print("\n\n")
 
-    rob.deplace_robot(2,0,30)
-    affiche(rob.vision.grille)
+    # rob.deplace_robot(2,0,30)
 
-    affiche(rob.simu.grille)
-    rob.deplace_robot(2,0,180)
-    rob.deplace_robot(5,0,0)
+    # affiche(rob.vision.grille)
+    # print("\n\n")
 
-    affiche(rob.vision.grille)
+    # affiche(rob.simu.grille)
+    # print("\n\n")
 
-    affiche(rob.simu.grille)
+    # rob.deplace_robot(2,0,180)
+    # rob.deplace_robot(5,0,0)
+
+    # affiche(rob.vision.grille)
+    # print("\n\n")
+
+    # affiche(rob.simu.grille)
+    # print("\n\n")
