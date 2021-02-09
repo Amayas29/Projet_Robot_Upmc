@@ -170,6 +170,7 @@ class Simulation:
         """
 
         f = open("log_debug", "w")
+
         grille = create_grille(self.larg, self.long) #crée la grille de la vision
 
         for i in range(self.vision.larg):
@@ -199,8 +200,8 @@ class Simulation:
         #construction de la vision en fonction de sa destination et son angle
         #redécoupe la simulation pour en tiré une vision en fonction des paramètres du robot
         #on utilise des vecteurs
-        for i in range(len(self.grille[0])):
-            for j in range(len(self.grille)):
+        for i in range(len(self.grille)):
+            for j in range(len(self.grille[0])):
                 dest_point = (i, j)
                 vec_dest = get_vect_from_points(src_point, dest_point)
 
