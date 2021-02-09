@@ -32,9 +32,16 @@
   - Changer les méthodes statiques de `Static.py` en fonction importable
   - Création du système de déplacement (Méthode DeplaceRobSim, Completion méthode deplaceRobot)
 
-### Fini
+### Done
 
   - Changement de Static.py en Tool.py, et donc s'occuper de revoir l'utilisation de Static.py dans les classes qui l'utilisait
   - Tous les codes sont commentés
+  - Création de la vision synchronisé avec la simulation pour pouvoir voir comme le robot
+  - Création de la méthode déplacement pour faire bouger le robot sur la simulation sous différents angles/directions
+  - Création méthode libresur qui permet de savoir si il y a des obstacles sur le chemin
+  - Création de fichiers test pour vérifier la bonne fonctionnalité des nouveaux ajouts
+  - Préparation d'une démo pour le client pour lui présenter notre avancement sur le projet
   
 ### Conclusion
+
+  - Fin de semaine 2 : nous sommes capables d'afficher la vision du robot et donc de transmettre au robot les informations qui lui servent à se déplacer en toute sécurité, nous sommes aussi capables de déplacer le robot et de vérifier la présence d'obstacles sur son chemin 
