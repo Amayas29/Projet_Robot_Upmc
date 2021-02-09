@@ -16,11 +16,13 @@ class Vision:
     #Determine si sur une distance donnee, il y a des obstacles ou non
     def libre_sur(self, x):
         
+        #verifie si le parametre est cohérent
         if(x > self.larg):
             print("Vision impossible !")
             return
         pair = self.taille_rob % 2
 
+        
         for i in range(self.long//2 - (self.taille_rob//2+pair),(self.long//2 + self.taille_rob//2+pair)+1):
             for j in range(x):
                 if (is_occupe(self.grille,i,j)): #Regarde les cases remontant a partir du coin inférieur gauche grace a self.long - i
