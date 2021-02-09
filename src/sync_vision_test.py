@@ -4,11 +4,13 @@ from simulation import *
 from robot import *
 import random
 
+#test la synchronisation de la vision
 rob = Robot(8)
 rob.set_simu(True)
 sim = Simulation(5, 5,rob.echelle, rob.vision, rob.taille_robot)
 rob.simu = sim
 random.seed(30)
+#pose dans la vision des objets représentés par des lettres ( sauf R et W ) 
 for i in range(len(sim.grille)):
    for j in range(len(sim.grille[0])):
        if str(sim.grille[i][j]) != "RR":
@@ -41,6 +43,7 @@ print("\n\n")
 # add_objet(sim.grille, Objet(), 31, 27)
 # add_objet(sim.grille, Objet(), 27, 26)
 
+#test add_objet, toutes les cases sont déjà occupées donc les prochains add_objets n'ajoutent rien
 add_objet(sim.grille,'A', 21, 20)
 add_objet(sim.grille, 'B', 21, 21)
 add_objet(sim.grille,'C', 21, 22)
@@ -71,10 +74,12 @@ affiche(sim.grille)
 
 print("\n\n")
 
+#prend un angle sur le clavier
 sim.robot_simu.direction = normalise_angle(int(input("Direction : ")))
 
 src = get_src_point(sim.taille_robot, sim.robot_simu.posx, sim.robot_simu.posy, sim.robot_simu.direction)
 
+#affiche la vision
 print(src)
 
 print("Angle ", sim.robot_simu.direction, "°\n\n")
