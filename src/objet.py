@@ -15,7 +15,7 @@ class Objet:
         return "O"
 
 
-# Qui represenete les cases non definie dans la vision (A discuter avec les autres pour voir leurs avis)
+# Qui represente les cases non definie dans la vision
 class NotDefined(Objet):
 
     def __str__(self):
