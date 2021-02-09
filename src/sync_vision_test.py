@@ -5,9 +5,9 @@ from robot import *
 import random
 
 #test la synchronisation de la vision
-rob = Robot(8)
+rob = Robot(12)
 rob.set_simu(True)
-sim = Simulation(5, 20,rob.echelle, rob.vision, rob.taille_robot)
+sim = Simulation(5, 10,rob.echelle, rob.vision, rob.taille_robot)
 rob.simu = sim
 random.seed(30)
 #pose dans la vision des objets représentés par des lettres ( sauf R et W ) 

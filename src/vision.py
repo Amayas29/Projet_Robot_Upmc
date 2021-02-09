@@ -34,10 +34,7 @@ class Vision:
         if angle >= 90 and angle <= 180:       
             debut += 1
             fin += 1
-        
-        print("Inc", debut, "Ex:", fin )
-        exit()
-        
+
         for i in range(debut, fin):
             for j in range(x):
                 if (is_occupe(self.grille,i,j)): #Regarde les cases remontant a partir du coin inférieur gauche grace a self.long - i
