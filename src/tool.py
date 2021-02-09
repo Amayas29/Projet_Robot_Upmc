@@ -13,29 +13,30 @@ def create_grille(larg, long):
     return grille
 		
 
-def affiche(g):
-    grille = dp(g)
+def affiche(grille):
 
-    grille.insert(0, [x for x in range(-1, len(grille[0]))])
-    for i in range(1, len(grille)):
-        grille[i].insert(0, i-1)
+    grille_ = dp(grille)
 
-    grille[0][0] = None
+    grille_.insert(0, [x for x in range(-1, len(grille_[0]))])
+    for i in range(1, len(grille_)):
+        grille_[i].insert(0, i-1)
 
-    for i in range(len(grille[0])):
+    grille_[0][0] = None
+
+    for i in range(len(grille_[0])):
         
-        for j in range(len(grille)):
+        for j in range(len(grille_)):
             print("|",end="")
-            if grille[j][i] == None:
+            if grille_[j][i] == None:
                 print("%-2s"%(" "),end="")
             else:
-                print("%-2s"%(grille[j][i]),end="")
+                print("%-2s"%(grille_[j][i]),end="")
 	
         print("|")
         print("|",end="")
         print("%-2s"%("-"),end="")
 
-        for i in range(len(grille)-1):
+        for i in range(len(grille_)-1):
             print("%-3s"%("-"),end="")
  
         print("|")
