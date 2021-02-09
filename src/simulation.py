@@ -41,17 +41,17 @@ class Simulation:
     #avance le robot
     def forward_teleportation(self, x, speed):
 
-        # on syncronise la vision    
+        # on syncrhonise la vision    
         self.sync_vision()
 
-        # on verifie si le chemain est libre et qu'on peut avancer
+        # on verifie si le chemin est libre et qu'on peut avancer
         if not self.vision.libre_sur(x) :
             return False
 
         # on calcule l'angle avec le signe 
         angle = self.robot_simu.direction
         
-        # on recupere les coordonnee du point de destination par rapport au robot
+        # on recupere les coordonnees du point de destination par rapport au robot
         xpos = cos(to_radian(angle)) * x
         ypos = sin(to_radian(angle)) * x
 
@@ -77,19 +77,19 @@ class Simulation:
 
         # on recupere le tableau
         tab = self.__get_tab__(self.robot_simu.direction,point_src,point)
-        # on recupere le point le plus prche du tableau
+        # on recupere le point le plus proche du tableau
         point_min = point_min_distance(tab,point_src)
 
         sleep(0.1)
 
-        # on supprime le robot de la map et on l'ajoute dans ca nouvelle position
+        # on supprime le robot de la map et on l'ajoute dans sa nouvelle position
         self.__enlever_robot_map__()
         self.__placer_robot__(round(point_min[0]),round(point_min[1]),self.robot_simu.direction)
 
         # on affiche la grille
         affiche(self.grille)
         
-        # si on a pas attient la distance demander on continue
+        # si on a pas atteint la distance demander on continue
         if x>0  :
             return self.__forward__(x-1,point_min,point)
 
@@ -101,12 +101,12 @@ class Simulation:
         #on recupere le vecteur de l'angle
         vict = get_vect_from_angle(angl)
         tab = []
-        # on parcoure tout les element qui sont entre le robot et le point de destination (la matrice) 
+        # on parcoure tous les elements qui sont entre le robot et le point de destination (la matrice) 
         for i in range(min(point_src[0],round(point[0])),max(point_src[0],round(point[0]))+1):
             for j in range(min(point_src[1],round(point[1])),max(point_src[1],round(point[1]))+1):
                 if i == self.robot_simu.posx and j == self.robot_simu.posy:
                     continue
-                # on calcule le vecteur entre le robot et le point actuelle
+                # on calcule le vecteur entre le robot et le point actuel
                 vict_p = get_vect_from_points((self.robot_simu.posx,self.robot_simu.posy),(i,j))
                 #on calcule l'angle
                 agl = angle(vict,vict_p)
@@ -127,7 +127,7 @@ class Simulation:
         # on calcule l'angle avec le signe 
         angle = self.robot_simu.direction
         
-        # on recupere les coordonnee du point de destination par rapport au robot
+        # on recupere les coordonnees du point de destination par rapport au robot
         xpos = cos(to_radian(angle)) * x
         ypos = sin(to_radian(angle)) * x
 
@@ -166,21 +166,21 @@ class Simulation:
 
     def sync_vision(self):
         """
-            Pemet de synchroniser la vision du robot selon sa position et son angle
+            Permet de synchroniser la vision du robot selon sa position et son angle
         """
 
         f = open("log_debug", "w")
-        grille = create_grille(self.larg, self.long)
+        grille = create_grille(self.larg, self.long) #crée la grille de la vision
 
         for i in range(self.vision.larg):
             for j in range(self.vision.long):
-                self.vision.grille[i][j] = NotDefined()
+                self.vision.grille[i][j] = NotDefined() # initialise la grille avec les valeurs non connues
         
-        vec_src = get_vect_from_angle(self.robot_simu.direction)
+        vec_src = get_vect_from_angle(self.robot_simu.direction) # prend la direction du robot
 
-        src_point = get_src_point(self.taille_robot, self.robot_simu.posx, self.robot_simu.posy, self.robot_simu.direction)
+        src_point = get_src_point(self.taille_robot, self.robot_simu.posx, self.robot_simu.posy, self.robot_simu.direction) 
 
-        droite_sep = (vec_src[0], vec_src[1], (- vec_src[0] * src_point[0] - vec_src[1] * src_point[1]))
+        droite_sep = (vec_src[0], vec_src[1], (- vec_src[0] * src_point[0] - vec_src[1] * src_point[1])) #pour découper avec les droites la vision cherchée
 
         if droite_sep[1] == 0:
             new_point = ( src_point[0],  src_point[1] + 1)
@@ -196,6 +196,9 @@ class Simulation:
         vec_unit = get_vect_from_points(src_point, new_point)
         droite_direction = (vec_unit[0], vec_unit[1], (- vec_unit[0] * src_point[0] - vec_unit[1] * src_point[1]))
 
+        #construction de la vision en fonction de sa destination et son angle
+        #redécoupe la simulation pour en tiré une vision en fonction des paramètres du robot
+        #on utilise des vecteurs
         for i in range(len(self.grille[0])):
             for j in range(len(self.grille)):
                 dest_point = (i, j)
@@ -219,6 +222,7 @@ class Simulation:
 
                     f.write("s=%s i=%d j=%d x=%d y=%d disSep=%f distDir=%f ang=%f\n"%(self.grille[i][j], i, j, x, y, distance(droite_sep, dest_point), distance(droite_direction, dest_point), angle_sign(vec_src, vec_dest)))
 
+                    # remplit la vision
                     if not is_occupe(self.vision.grille, x, y):
                         self.vision.grille[x][y] = self.grille[i][j]
                     
