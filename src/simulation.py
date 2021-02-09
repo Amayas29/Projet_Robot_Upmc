@@ -45,7 +45,7 @@ class Simulation:
         self.sync_vision()
 
         # on verifie si le chemin est libre et qu'on peut avancer
-        if not self.vision.libre_sur(x) :
+        if not self.vision.libre_sur(x, self.taille_robot, self.robot_simu.direction) :
             return False
 
         # on calcule l'angle avec le signe 
@@ -72,7 +72,7 @@ class Simulation:
         
         self.sync_vision()
 
-        if not self.vision.libre_sur(1):
+        if not self.vision.libre_sur(1, self.taille_robot, self.robot_simu.direction):
             return False
 
         # on recupere le tableau

@@ -58,6 +58,7 @@ def add_objet(grille,objet, x, y):
         return is_occupe(grille, x, y) #retourne False si l'action n'a pu se faire et True si l'action a réussi
     return False
 
+
 #méthodes qui servent pour l'utilisation des vecteurs dans simulation.py/sync_vision
 def to_radian(ang):
     """
@@ -183,6 +184,7 @@ def normalise_angle(ang):
     """
     return ang % 360
 
+
 #permet d'obtenir l'origine 
 def get_src_point(taille, x, y, ang):
     """
@@ -223,9 +225,11 @@ def get_src_point(taille, x, y, ang):
     elif ang > 270:
         return b
 
+
 #retourne la distance entre 2 points
 def __distance_points__(point1,point2):
     return sqrt((point1[0]-point2[0])**2+(point1[1]-point2[1])**2)
+
 
 #retourne la point minimal
 def point_min_distance(tab,point):

@@ -7,7 +7,7 @@ import random
 #test la synchronisation de la vision
 rob = Robot(8)
 rob.set_simu(True)
-sim = Simulation(5, 5,rob.echelle, rob.vision, rob.taille_robot)
+sim = Simulation(5, 20,rob.echelle, rob.vision, rob.taille_robot)
 rob.simu = sim
 random.seed(30)
 #pose dans la vision des objets représentés par des lettres ( sauf R et W ) 
@@ -86,4 +86,4 @@ print("Angle ", sim.robot_simu.direction, "°\n\n")
 
 rob.simu.sync_vision()
 affiche(rob.simu.vision.grille)
-rob.simu.vision.libre_sur(1)
+rob.simu.vision.libre_sur(1, rob.taille_robot, rob.simu.robot_simu.direction)

@@ -52,8 +52,6 @@ rob.simu.robot_simu.direction = ang
 rob.simu.sync_vision()
 affiche(rob.simu.vision.grille)
 
-rob.simu.vision.libre_sur(1)
-
 #Demo déplacemet du robot ( sans obstacles, juste montré qu'il peut se déplacer comme on veut ), ici il fera un carré
 
 print("\n\n - Deplacement du robot : Dessin d'un carre : \n\n")
