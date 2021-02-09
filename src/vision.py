@@ -1,5 +1,6 @@
-from tool import *
+from tool import is_occupe, create_grille, normalise_angle
 from robotsimu import RobotSimu
+from math import sqrt
 
 #représente la vision du robot, ce qu'il voit devant lui
 class Vision:
@@ -20,17 +21,24 @@ class Vision:
             print("Vision impossible !")
             return
         
+        angle = normalise_angle(angle)
+        if not (angle == 0 or angle == 90 or angle == 180 or angle == 270):
+            taille_robot = round(sqrt(2) * taille_robot)
+
         pair = taille_robot % 2
         milieu = self.long // 2 - 1
         demi_taille = taille_robot // 2 
-
         debut = milieu - demi_taille
         fin = milieu + demi_taille + pair
+
+        if angle >= 90 and angle <= 180:       
+            debut += 1
+            fin += 1
         
         print("Inc", debut, "Ex:", fin )
-        return 1
+        exit()
         
-        for i in range(self.long//2 - (self.taille_rob//2+pair),(self.long//2 + self.taille_rob//2+pair)+1):
+        for i in range(debut, fin):
             for j in range(x):
                 if (is_occupe(self.grille,i,j)): #Regarde les cases remontant a partir du coin inférieur gauche grace a self.long - i
                         print("impossible il y a un objet ! sa position dans la vision est ",i,j)
