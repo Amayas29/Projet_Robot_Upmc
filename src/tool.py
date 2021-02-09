@@ -14,7 +14,7 @@ def create_grille(larg, long):
 		
 
 def affiche(grille):
-
+    # affiche la grille en parametre
     grille_ = dp(grille)
 
     grille_.insert(0, [x for x in range(-1, len(grille_[0]))])
