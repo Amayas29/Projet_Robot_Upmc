@@ -1,5 +1,5 @@
 class IRL:
-
+    #pas pour maintenant, petite avance
     def __init__(self):
         self.rob = None
 
