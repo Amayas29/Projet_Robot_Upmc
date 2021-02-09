@@ -85,3 +85,5 @@ print(src)
 print("Angle ", sim.robot_simu.direction, "°\n\n")
 
 rob.simu.sync_vision()
+affiche(rob.simu.vision.grille)
+rob.simu.vision.libre_sur(1)
