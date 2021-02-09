@@ -215,7 +215,7 @@ class Simulation:
                     if angle_sign(vec_src, vec_dest) <= 0:
                         x = self.vision.larg//2 + x
                     else:
-                        x = self.vision.larg//2 - x + 1
+                        x = self.vision.larg//2 - x
 
                     if x != 0:
                         x -= 1
