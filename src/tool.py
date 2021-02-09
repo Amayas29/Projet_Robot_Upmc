@@ -1,5 +1,6 @@
 from math import *
 from objet import NotDefined
+from copy import deepcopy as dp
 
 def create_grille(larg, long):
     #retourne une grille de largeur larg et longueur long
@@ -12,13 +13,15 @@ def create_grille(larg, long):
     return grille
 		
 
-def affiche(grille):
-	#affiche la grille en parametre
-    print("|",end="")
-    print("%-2s"%("-"),end="")
-    for i in range(len(grille)-1):
-        print("%-3s"%("-"),end="")
-    print("|")        
+def affiche(g):
+    grille = dp(g)
+
+    grille.insert(0, [x for x in range(-1, len(grille[0]))])
+    for i in range(1, len(grille)):
+        grille[i].insert(0, i-1)
+
+    grille[0][0] = None
+
     for i in range(len(grille[0])):
         
         for j in range(len(grille)):
