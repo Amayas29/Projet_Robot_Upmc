@@ -6,12 +6,9 @@ class RobotSimu(Objet):
 
     #Constructeur
     def __init__(self):
-        self.is_fix = False
+        super().__init__()
         #angle en degres
         self.direction = 0
-        self.posx = None
-        self.posy = None
-    
 
     def set_pos(self, x, y, dir):
         #pose le robot sur les positions x et y de la grille de la simulation 

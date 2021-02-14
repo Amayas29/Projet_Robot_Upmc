@@ -4,7 +4,8 @@ from objet import Objet
 class Wall(Objet):
 
     def __init__(self):
-        self.is_fix = True #c'est un objet fixe
+        super().__init__()
+        self.is_fix = True # c'est un objet fixe
 
 
     def __str__(self):

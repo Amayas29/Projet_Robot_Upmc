@@ -1,5 +1,4 @@
 from math import *
-from objet import NotDefined
 from copy import deepcopy as dp
 
 def create_grille(larg, long):
@@ -45,7 +44,7 @@ def affiche(grille):
 def is_occupe(grille,x, y):
     # Permet de savoir si une case en position (x,y) de la grille est occupée ou non
     if ( 0 <= x < len(grille) ) and ( 0 <= y < len(grille[0]) ):
- 	    return grille[x][y] != None and not isinstance(grille[x][y], NotDefined)
+ 	    return grille[x][y] != None
 
     return False
 
@@ -54,6 +53,8 @@ def add_objet(grille,objet, x, y):
 	#ajoute un objet à la grille en parametre à la position (x,y)
     """Assuming objet is type Objet"""
     if ( 0 <= x < len(grille) ) and ( 0 <= y < len(grille[0]) ) and (is_occupe(grille,x,y) == False ) :
+        objet.posx = x
+        objet.posy = y
         grille[x][y] = objet
         return is_occupe(grille, x, y) #retourne False si l'action n'a pu se faire et True si l'action a réussi
     return False
@@ -242,3 +243,8 @@ def point_min_distance(tab,point):
            emin = tab[i]
 
     return emin
+
+
+def collision(objet, droite_dir, taille):
+    taille = max(1, taille//2)
+    return distance(droite_dir, (objet.posx, objet.posy)) <= taille

@@ -1,10 +1,11 @@
-from objet import Objet, NotDefined
+from objet import Objet
 from robotsimu import RobotSimu
 from wall import Wall
 from vision import Vision
 from tool import *
 import time
 from time import sleep
+from copy import deepcopy as dp
 
 class Simulation:
 
@@ -30,14 +31,13 @@ class Simulation:
     #positionne des murs sur les limites du terrain
     def __init_wall_grille__(self):
         for i in range(len(self.grille)):
-            self.grille[i][0] = Wall()
-            self.grille[i][len(self.grille[0])-1] = Wall()
+            add_objet(self.grille, Wall(), i, 0)
+            add_objet(self.grille, Wall(), i, len(self.grille[0])-1)
 
         for i in range(len(self.grille[0])):
-            self.grille[0][i] = Wall()
-            self.grille[len(self.grille)-1][i] = Wall()
-
-
+            add_objet(self.grille, Wall(), 0, i)
+            add_objet(self.grille, Wall(), len(self.grille)-1, i)
+ 
     #avance le robot
     def forward_teleportation(self, x, speed):
 
@@ -72,7 +72,7 @@ class Simulation:
         
         self.sync_vision()
 
-        if not self.vision.libre_sur(1, self.taille_robot, self.robot_simu.direction):
+        if not self.vision.libre_sur(1, self.taille_robot, self.robot_simu.direction, self.robot_simu.posx, self.robot_simu.posy):
             return False
 
         # on recupere le tableau
@@ -148,7 +148,7 @@ class Simulation:
         # pose le robot sur certaines cases en fonction de l'échelle et sa taille
         for i in range(self.robot_simu.posx - int(self.taille_robot/2) , self.robot_simu.posx + int(self.taille_robot/2) + pair):
             for j in range( self.robot_simu.posy - int(self.taille_robot/2) , self.robot_simu.posy + int(self.taille_robot/2) + pair):
-                self.grille[i][j] = self.robot_simu
+                add_objet(self.grille, RobotSimu(), i, j)
         
     
     def __enlever_robot_map__(self):
@@ -161,22 +161,20 @@ class Simulation:
 
     # positionne le robot en direction de l'angle en parametre
     def tourne(self, angle):
-        self.robot_simu.direction += angle
+        angle = normalise_angle(-1 * angle)
+        angle = radians(angle)
+        xp = round(cos(angle) * self.robot_simu.posx - sin(angle) * self.robot_simu.posy)
+        yp = round(sin(angle) * self.robot_simu.posx + cos(angle) * self.robot_simu.posy)
+        self.__enlever_robot_map__()
+        self.__placer_robot__(xp, yp, angle)
 
 
     def sync_vision(self):
         """
             Permet de synchroniser la vision du robot selon sa position et son angle
         """
+        self.vision.elements = []
 
-        f = open("log_debug", "w")
-
-        grille = create_grille(self.larg, self.long) #crée la grille de la vision
-
-        for i in range(self.vision.larg):
-            for j in range(self.vision.long):
-                self.vision.grille[i][j] = NotDefined() # initialise la grille avec les valeurs non connues
-        
         vec_src = get_vect_from_angle(self.robot_simu.direction) # prend la direction du robot
 
         src_point = get_src_point(self.taille_robot, self.robot_simu.posx, self.robot_simu.posy, self.robot_simu.direction) 
@@ -202,33 +200,13 @@ class Simulation:
         #on utilise des vecteurs
         for i in range(len(self.grille)):
             for j in range(len(self.grille[0])):
-                dest_point = (i, j)
+
+                if self.grille[i][j] == None:
+                    continue
+
+                dest_point = (self.grille[i][j].posx, self.grille[i][j].posy)
+              
                 vec_dest = get_vect_from_points(src_point, dest_point)
 
                 if src_point != dest_point and in_vision(vec_src, vec_dest) and 0 < distance(droite_sep, dest_point) <= self.vision.long and distance(droite_direction, dest_point) <= self.vision.larg//2:
-                    
-                    y = round(distance(droite_sep, dest_point))
-                    if y != 0:
-                        y -= 1
-
-                    x = round(distance(droite_direction, dest_point))
-  
-                    if angle_sign(vec_src, vec_dest) <= 0:
-                        x = self.vision.larg//2 + x
-                    else:
-                        x = self.vision.larg//2 - x
-
-                    if x != 0:
-                        x -= 1
-
-                    f.write("s=%s i=%d j=%d x=%d y=%d disSep=%f distDir=%f ang=%f\n"%(self.grille[i][j], i, j, x, y, distance(droite_sep, dest_point), distance(droite_direction, dest_point), angle_sign(vec_src, vec_dest)))
-
-                    # remplit la vision
-                    if not is_occupe(self.vision.grille, x, y):
-                        self.vision.grille[x][y] = self.grille[i][j]
-                    
-                    grille[i][j] = self.grille[i][j]
-
-        # affiche(self.vision.grille)
-        # affiche(grille)
-        f.close()
+                    self.vision.elements.append(dp(self.grille[i][j]))
