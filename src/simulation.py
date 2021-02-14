@@ -5,7 +5,6 @@ from vision import Vision
 from tool import *
 import time
 from time import sleep
-import sys
 
 class Simulation:
 
@@ -73,7 +72,6 @@ class Simulation:
         self.sync_vision()
 
         if not self.vision.libre_sur(1, self.taille_robot, self.robot_simu.direction, self.robot_simu.posx, self.robot_simu.posy):
-            sys.exit()
             return False
 
         # on recupere le tableau
