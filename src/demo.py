@@ -6,39 +6,39 @@ from random import randint, choice, seed
 from robotsimu import RobotSimu
 from time import sleep
 
-# #  DEMO POUR LE CLIENT 10/02/2021
+#  DEMO POUR LE CLIENT 10/02/2021
 
-# rob = Robot(16)
-# rob.set_simu(True)
-# seed(70)
+rob = Robot(16)
+rob.set_simu(True)
+seed(70)
 
-# # montre la simulation initiale
+# montre la simulation initiale
 
-# print("\n - Etat initial : \n")
+print("\n - Etat initial : \n")
 
-# affiche(rob.simu.grille)
+affiche(rob.simu.grille)
 
-# print("\n - Les coordonnes du robot : (", rob.simu.robot_simu.posy, rob.simu.robot_simu.posx, ")")
+print("\n - Les coordonnes du robot : (", rob.simu.robot_simu.posy, rob.simu.robot_simu.posx, ")")
 
-# print("\n\n - Ajout d'un objet à la position (9, 5)")
+print("\n\n - Ajout d'un objet à la position (9, 5)")
 
-# # montre sue l'on peut ajouter des objets sur la simu
+# montre sue l'on peut ajouter des objets sur la simu
 
-# add_objet(rob.simu.grille, Objet(), 9, 5)
+add_objet(rob.simu.grille, Objet(), 9, 5)
 
-# print("\n\n - La grille aprés ajout\n\n")
+print("\n\n - La grille aprés ajout\n\n")
 
-# affiche(rob.simu.grille)
+affiche(rob.simu.grille)
 
-# print("\n\n - Génération d'une grille avec des obstacles pour les deplacement \n\n")
+print("\n\n - Génération d'une grille avec des obstacles pour les deplacement \n\n")
 
-# # pose des murs 
-# for i in range(1, len(rob.simu.grille)-1):
-#     for j in range(1, len(rob.simu.grille[0])-1):
-#         if randint(0, 10) == 0 and not isinstance(rob.simu.grille[i][j], RobotSimu):
-#             add_objet(rob.simu.grille, Wall(), i, j)
+# pose des murs 
+for i in range(1, len(rob.simu.grille)-1):
+    for j in range(1, len(rob.simu.grille[0])-1):
+        if randint(0, 10) == 0 and not isinstance(rob.simu.grille[i][j], RobotSimu):
+            add_objet(rob.simu.grille, Wall(), i, j)
         
-# affiche(rob.simu.grille)
+affiche(rob.simu.grille)
 
 # # Demo de la vision du robot en fonction d'un angle
 
@@ -51,33 +51,33 @@ from time import sleep
 # rob.simu.robot_simu.direction = ang
 # rob.simu.sync_vision()
 
-# # Demo déplacemet du robot ( sans obstacles, juste montré qu'il peut se déplacer comme on veut ), ici il fera un carré
+# Demo déplacemet du robot ( sans obstacles, juste montré qu'il peut se déplacer comme on veut ), ici il fera un carré
 
-# print("\n\n - Deplacement du robot : Dessin d'un carre : \n\n")
+print("\n\n - Deplacement du robot : Dessin d'un carre : \n\n")
 
-# for i in range(1, len(rob.simu.grille)-1):
-#     for j in range(1, len(rob.simu.grille[0])-1):
-#         if not isinstance(rob.simu.grille[i][j], RobotSimu):
-#             rob.simu.grille[i][j] = None
+for i in range(1, len(rob.simu.grille)-1):
+    for j in range(1, len(rob.simu.grille[0])-1):
+        if not isinstance(rob.simu.grille[i][j], RobotSimu):
+            rob.simu.grille[i][j] = None
 
-# affiche(rob.simu.grille)
+affiche(rob.simu.grille)
 
-# input("Appuyer pour commencer ")
+input("Appuyer pour commencer ")
 
-# dist = 15
+dist = 15
 
-# carre =  rob.deplace_robot(dist,0,40)
-# print("\n\n")
+carre =  rob.deplace_robot(dist,0,40)
+print("\n\n")
 
-# i = 0
-# while carre and i < 4:
+i = 0
+while carre and i < 4:
 
-#     carre = rob.deplace_robot(dist,0,90)
-#     i += 1
-#     print("\n\n")
+    carre = rob.deplace_robot(dist,0,90)
+    i += 1
+    print("\n\n")
 
 
-# print("\n\n\n")
+print("\n\n\n")
 dist = 15
 rob = Robot(16)
 rob.set_simu(True)
@@ -91,12 +91,7 @@ add_objet(rob.simu.grille, Wall(), 45, 45)
 
 affiche(rob.simu.grille)
 
-print("\n - Les coordonnes du robot : (", rob.simu.robot_simu.posx, rob.simu.robot_simu.posy, ")")
-rob.simu.tourne(20)
-print("\n - Les coordonnes du robot : (", rob.simu.robot_simu.posx, rob.simu.robot_simu.posy, ")")
-affiche(rob.simu.grille)
-
 print("\n\n Avancer jusqu'a un obstacle \n\n")
 
 input("Appuyer pour commencer ")
-# rob.deplace_robot(dist,0,40)
+rob.deplace_robot(dist,0,40)

@@ -52,7 +52,7 @@ def is_occupe(grille,x, y):
 def add_objet(grille,objet, x, y):
 	#ajoute un objet à la grille en parametre à la position (x,y)
     """Assuming objet is type Objet"""
-    if ( 0 <= x < len(grille) ) and ( 0 <= y < len(grille[0]) ) and (is_occupe(grille,x,y) == False ) :
+    if ( 0 <= x < len(grille) ) and ( 0 <= y < len(grille[0]) ) : #and (is_occupe(grille,x,y) == False ) :
         objet.posx = x
         objet.posy = y
         grille[x][y] = objet
@@ -248,3 +248,11 @@ def point_min_distance(tab,point):
 def collision(objet, droite_dir, taille):
     taille = max(1, taille//2)
     return distance(droite_dir, (objet.posx, objet.posy)) <= taille
+
+
+def tourne(x, y, angle):
+    angle = normalise_angle(angle)
+    angle = radians(angle)
+    xp = round(cos(angle) * x - sin(angle) * y)
+    yp = round(sin(angle) * x + cos(angle) * y)
+    return (xp, yp)

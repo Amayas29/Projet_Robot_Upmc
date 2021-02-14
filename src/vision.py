@@ -46,10 +46,6 @@ class Vision:
             taille_robot = round(sqrt(2) * taille_robot)
         
         for objet in self.elements:
-           
-           if objet.posx == 39 and objet.posy == 41:
-               print(distance(droite_sep, (objet.posx, objet.posy)))
-
            if distance(droite_sep, (objet.posx, objet.posy)) <= dist and collision(objet, droite_direction, taille_robot):
                 return False
             

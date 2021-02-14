@@ -5,7 +5,7 @@ from vision import Vision
 from tool import *
 import time
 from time import sleep
-from copy import deepcopy as dp
+import sys
 
 class Simulation:
 
@@ -73,6 +73,7 @@ class Simulation:
         self.sync_vision()
 
         if not self.vision.libre_sur(1, self.taille_robot, self.robot_simu.direction, self.robot_simu.posx, self.robot_simu.posy):
+            sys.exit()
             return False
 
         # on recupere le tableau
@@ -148,7 +149,7 @@ class Simulation:
         # pose le robot sur certaines cases en fonction de l'échelle et sa taille
         for i in range(self.robot_simu.posx - int(self.taille_robot/2) , self.robot_simu.posx + int(self.taille_robot/2) + pair):
             for j in range( self.robot_simu.posy - int(self.taille_robot/2) , self.robot_simu.posy + int(self.taille_robot/2) + pair):
-                add_objet(self.grille, RobotSimu(), i, j)
+                self.grille[i][j] = self.robot_simu
         
     
     def __enlever_robot_map__(self):
@@ -161,13 +162,16 @@ class Simulation:
 
     # positionne le robot en direction de l'angle en parametre
     def tourne(self, angle):
-        angle = normalise_angle(-1 * angle)
-        angle = radians(angle)
-        xp = round(cos(angle) * self.robot_simu.posx - sin(angle) * self.robot_simu.posy)
-        yp = round(sin(angle) * self.robot_simu.posx + cos(angle) * self.robot_simu.posy)
-        self.__enlever_robot_map__()
-        self.__placer_robot__(xp, yp, angle)
-
+        angle = normalise_angle(angle)
+        self.robot_simu.direction += angle
+        return 1
+        # for i in range(len(self.grille)):
+        #     for j in range(len(self.grille[0])):
+        #         if isinstance(self.grille[i][j], RobotSimu):
+        #             rob = self.grille[i][j]
+        #             ip, jp = tourne(rob.posx, rob.posy, angle)
+        #             self.grille[i][j] = None
+        #             add_objet(self.grille, rob, ip, jp)
 
     def sync_vision(self):
         """
@@ -209,4 +213,4 @@ class Simulation:
                 vec_dest = get_vect_from_points(src_point, dest_point)
 
                 if src_point != dest_point and in_vision(vec_src, vec_dest) and 0 < distance(droite_sep, dest_point) <= self.vision.long and distance(droite_direction, dest_point) <= self.vision.larg//2:
-                    self.vision.elements.append(dp(self.grille[i][j]))
+                    self.vision.elements.append(self.grille[i][j])
