@@ -24,11 +24,17 @@ class Simulation:
 
       #crée le robot de la simulation
     def init_robot(self):
+        """
+            initialiser le robot et le mettre au centre de la map
+        """
         self.__placer_robot__(int(self.larg / 2), int(self.long / 2), 0)
 
 
     #positionne des murs sur les limites du terrain
     def __init_wall_grille__(self):
+        """
+            initialiser les murs de la grille
+        """
         for i in range(len(self.grille)):
             add_objet(self.grille, Wall(), i, 0)
             add_objet(self.grille, Wall(), i, len(self.grille[0])-1)
@@ -37,111 +43,68 @@ class Simulation:
             add_objet(self.grille, Wall(), 0, i)
             add_objet(self.grille, Wall(), len(self.grille)-1, i)
  
-    #avance le robot
-    def forward_teleportation(self, x, speed):
 
-        # on syncrhonise la vision    
+
+    def __forward__(self,point_src,speed):
+        """
+            permet de bouger le robot d'une case en suivant ca direction
+        """
+        
+        # syncroniser la vision     
         self.sync_vision()
 
-        # on verifie si le chemin est libre et qu'on peut avancer
-        if not self.vision.libre_sur(x, self.taille_robot, self.robot_simu.direction) :
-            return False
-
-        # on calcule l'angle avec le signe 
-        angle = self.robot_simu.direction
-        
-        # on recupere les coordonnees du point de destination par rapport au robot
-        xpos = cos(to_radian(angle)) * x
-        ypos = sin(to_radian(angle)) * x
-
-        # on modifie les points de destination par rapport a la grille de la  simulation
-        ypos = self.robot_simu.posy + ypos
-        xpos += self.robot_simu.posx
-        
-        # on supprime le robot de la grille 
-        self.__enlever_robot_map__()
-        # on l'ajoute dans sa nouvelle position
-        self.__placer_robot__(round(xpos),round(ypos),self.robot_simu.direction)
-
-        affiche(self.grille)
-        return True
-
-
-    def __forward__(self,x,point_src,point):
-        
-        self.sync_vision()
-
+        # verifier si y a aucun objet (si rien ne nous stop pour avancer)
         if not self.vision.libre_sur(1, self.taille_robot, self.robot_simu.direction, self.robot_simu.posx, self.robot_simu.posy):
-            return False
+            return (-1,-1)
 
-        # on recupere le tableau
-        tab = self.__get_tab__(self.robot_simu.direction,point_src,point)
-        # on recupere le point le plus proche du tableau
-        point_min = point_min_distance(tab,point_src)
-
+        # normaliser l'angle et calculer le vecteur de direction
+        angle = normalise_angle(self.robot_simu.direction)
+        vict = get_vect_from_angle(angle)
+       
+        # calculer la nouvelle position du robot dans la grille
+        x = point_src[0]+vict[0] * speed
+        y = point_src[1]+vict[1] * speed
+        point_src = (x,y)
+    
         sleep(0.1)
-
+            
         # on supprime le robot de la map et on l'ajoute dans sa nouvelle position
         self.__enlever_robot_map__()
-        self.__placer_robot__(round(point_min[0]),round(point_min[1]),self.robot_simu.direction)
+        self.__placer_robot__(round(point_src[0]),round(point_src[1]),self.robot_simu.direction)
 
         # on affiche la grille
         affiche(self.grille)
+            
+        #on return true si tout se passe bien 
+        return point_src
         
-        # si on a pas atteint la distance demander on continue
-        if x>0  :
-            return self.__forward__(x-1,point_min,point)
-
-        return True
-        
-
-    def __get_tab__(self,angl,point_src,point):
-        
-        #on recupere le vecteur de l'angle
-        vict = get_vect_from_angle(angl)
-        tab = []
-        # on parcoure tous les elements qui sont entre le robot et le point de destination (la matrice) 
-        for i in range(min(point_src[0],round(point[0])),max(point_src[0],round(point[0]))+1):
-            for j in range(min(point_src[1],round(point[1])),max(point_src[1],round(point[1]))+1):
-                if i == self.robot_simu.posx and j == self.robot_simu.posy:
-                    continue
-                # on calcule le vecteur entre le robot et le point actuel
-                vict_p = get_vect_from_points((self.robot_simu.posx,self.robot_simu.posy),(i,j))
-                #on calcule l'angle
-                agl = angle(vict,vict_p)
-                # on le normalise
-                if agl > 90:
-                    agl = 360 -agl
-                # on test si il est dans la droite on l'ajoute dans le tableau (15 degres c'est la marge d'erreur )
-                if agl <= 15:
-                    tab.append((i,j))
-        
-        return tab
         
 
     def forward(self, x, speed):
-
+        """
+            permet d'avancer le robot de x case dans ca direction
+        """
+        if speed == 0:
+            return
         point = 0
 
-        # on calcule l'angle avec le signe 
-        angle = self.robot_simu.direction
-        
-        # on recupere les coordonnees du point de destination par rapport au robot
-        xpos = cos(to_radian(angle)) * x
-        ypos = sin(to_radian(angle)) * x
-
-        # on modifie les points de destination par rapport a la grille de la  simulation
-        ypos = self.robot_simu.posy + ypos
-        xpos += self.robot_simu.posx
-        
-        point = (xpos,ypos)
-
-        point_src = get_src_point(self.taille_robot,self.robot_simu.posx,self.robot_simu.posy,self.robot_simu.direction)
-       
-        return self.__forward__(x,point_src,point)
+        point_src=(self.robot_simu.posx,self.robot_simu.posy)
+        x = (x//speed)+(x % 2)
+        while  x > 0:
+            print("hem",x)
+            point_src = self.__forward__(point_src,speed)
+            if  point_src == (-1,-1):
+                print("deplacement impossible un objet est detecter")
+                return False
+            
+            
+            x -= 1
         
 
     def __placer_robot__(self,x,y,dir):
+        """
+            permet de placer le robot sur la grille
+        """
         self.robot_simu.set_pos(x, y, dir) #le pose en plein milieu du terrain
         pair = self.taille_robot % 2
         # pose le robot sur certaines cases en fonction de l'échelle et sa taille
@@ -151,6 +114,9 @@ class Simulation:
         
     
     def __enlever_robot_map__(self):
+        """
+            permet d'enlever le robot de la grille
+        """
         pair = self.taille_robot % 2
         # pose le robot sur certaines cases en fonction de l'échelle et sa taille
         for i in range(self.robot_simu.posx - int(self.taille_robot/2) , self.robot_simu.posx + int(self.taille_robot/2) + pair):
@@ -160,6 +126,9 @@ class Simulation:
 
     # positionne le robot en direction de l'angle en parametre
     def tourne(self, angle):
+        """
+            permet de tourner le robot 
+        """
         angle = normalise_angle(angle)
         self.robot_simu.direction += angle
         return 1
