@@ -1,6 +1,7 @@
 from tool import is_occupe, normalise_angle, get_src_point, collision, get_vect_from_angle, get_vect_from_points, distance
 from robotsimu import RobotSimu
 from math import sqrt
+import sys
 
 #représente la vision du robot, ce qu'il voit devant lui
 class Vision:
@@ -44,11 +45,15 @@ class Vision:
 
         if not (angle == 0 or angle == 90 or angle == 180 or angle == 270):
             taille_robot = round(sqrt(2) * taille_robot)
-        
+
+        print(droite_sep)
         for objet in self.elements:
-           if distance(droite_sep, (objet.posx, objet.posy)) <= dist and collision(objet, droite_direction, taille_robot):
+            taille = max(1, taille_robot//2)
+            # if str(objet) == "W":
+            #     print(objet.posx, objet.posy, distance(droite_sep, (objet.posx, objet.posy)), distance(droite_sep, (objet.posx, objet.posy)) <= dist, distance(droite_direction, (objet.posx, objet.posy)), taille, distance(droite_direction, (objet.posx, objet.posy)) < taille)
+            if distance(droite_sep, (objet.posx, objet.posy)) <= dist and collision(objet, droite_direction, taille_robot):
                 return False
-            
+
         return True
 
 
