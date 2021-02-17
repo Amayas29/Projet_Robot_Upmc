@@ -45,3 +45,23 @@
 ### Conclusion
 
   - Fin de semaine 2 : nous sommes capables d'afficher la vision du robot et donc de transmettre au robot les informations qui lui servent à se déplacer en toute sécurité, nous sommes aussi capables de déplacer le robot et de vérifier la présence d'obstacles sur son chemin 
+
+## Semaine 3 
+
+### Organisation 
+
+  - Transformer la grille en liste pour avoir quelque chose de continu et améliorer notre précision
+  - Passer sur une interface graphique ( pygame )
+  - Se renseigner sur l'interface graphique
+  - Faire les tests unitaires
+
+### Done
+
+  - Les tests unitaires de toutes les classes ont été fais, les méthodes fonctionnent  comme on le souhaite
+  - Nous avons avancer sur le passage en liste de la grille mais il reste beaucoup à modifier encore
+  - nous avons fais quelques tests sur pygame et nous avons de nombreux problèmes
+
+### Conclusion 
+
+  - Fin de semaine 3 : nous avons passer la vision du robot en liste et  nous avons commencer à déplacer notre robot sur l'interface, tous nos tests sont éxécuter avec succès. Nous devons continuer de travailler sur le passage en liste et l'interface
+  - 
