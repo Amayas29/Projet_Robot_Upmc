@@ -41,11 +41,11 @@ def affiche(grille):
         print("|")
     
 
-def is_occupe(grille,x, y):
+def is_occupe(elements ,x, y):
     # Permet de savoir si une case en position (x,y) de la grille est occupée ou non
-    if ( 0 <= x < len(grille) ) and ( 0 <= y < len(grille[0]) ):
- 	    return grille[x][y] != None
-
+    for elt in elements:
+        if elt.posx == x and elt.posy == y:
+            return True
     return False
 
 

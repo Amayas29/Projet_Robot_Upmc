@@ -13,7 +13,8 @@ class Simulation:
         # Crée la grille de simulation en fonction des parametres donnés avec l'échelle, le robot, la largeur et la longueur de la simulation
         self.larg = largeur * echelle.nb_cases
         self.long = longueur * echelle.nb_cases
-        self.grille = create_grille(self.larg, self.long)
+        # self.grille = create_grille(self.larg, self.long)
+        self.elements = []
         self.__init_wall_grille__() #pose des robots sur les bornes de la grille
         self.vision = vision
         self.taille_robot = taille_robot
@@ -35,17 +36,30 @@ class Simulation:
         """
             initialiser les murs de la grille
         """
-        for i in range(len(self.grille)):
-            add_objet(self.grille, Wall(), i, 0)
-            add_objet(self.grille, Wall(), i, len(self.grille[0])-1)
+        for i in self.longeur:
+            w = Wall()
+            w.posx = i
+            w.posy = 0
+            self.elements.append(w)
 
-        for i in range(len(self.grille[0])):
-            add_objet(self.grille, Wall(), 0, i)
-            add_objet(self.grille, Wall(), len(self.grille)-1, i)
- 
+            w = Wall()
+            w.posx = i
+            w.posy = self.largeur-1
+            self.elements.append(w)
+        
+        for i in self.largeur:
+            w = Wall()
+            w.posx = 0
+            w.posy = i
+            self.elements.append(w)
+        
+            w = Wall()
+            w.posx = self.longueur-1
+            w.posy = i
+            self.elements.append(w)
+    
 
-
-    def __forward__(self,point_src,speed):
+    def forward(self,point_src,speed):
         """
             permet de bouger le robot d'une case en suivant ca direction
         """
@@ -55,51 +69,19 @@ class Simulation:
 
         # verifier si y a aucun objet (si rien ne nous stop pour avancer)
         if not self.vision.libre_sur(1, self.taille_robot, self.robot_simu.direction, self.robot_simu.posx, self.robot_simu.posy):
-            return (-1,-1)
+            return
 
         # normaliser l'angle et calculer le vecteur de direction
         angle = normalise_angle(self.robot_simu.direction)
         vict = get_vect_from_angle(angle)
        
         # calculer la nouvelle position du robot dans la grille
-        x = point_src[0]+vict[0] * speed
-        y = point_src[1]+vict[1] * speed
-        point_src = (x,y)
+        x = self.robot_simu.posx+vict[0] * speed
+        y = self.robot_simu.posy+vict[1] * speed
+       
     
-        sleep(0.1)
-            
-        # on supprime le robot de la map et on l'ajoute dans sa nouvelle position
-        self.__enlever_robot_map__()
-        self.__placer_robot__(round(point_src[0]),round(point_src[1]),self.robot_simu.direction)
+        self.robot_simu.set_pos(x,y)
 
-        # on affiche la grille
-        affiche(self.grille)
-            
-        #on return true si tout se passe bien 
-        return point_src
-        
-        
-
-    def forward(self, x, speed):
-        """
-            permet d'avancer le robot de x case dans ca direction
-        """
-        if speed == 0:
-            return
-        point = 0
-
-        point_src=(self.robot_simu.posx,self.robot_simu.posy)
-        x = (x//speed)+(x % 2)
-        while  x > 0:
-            print("hem",x)
-            point_src = self.__forward__(point_src,speed)
-            if  point_src == (-1,-1):
-                print("deplacement impossible un objet est detecter")
-                return False
-            
-            
-            x -= 1
-        
 
     def __placer_robot__(self,x,y,dir):
         """
@@ -140,6 +122,7 @@ class Simulation:
         #             self.grille[i][j] = None
         #             add_objet(self.grille, rob, ip, jp)
 
+
     def sync_vision(self):
         """
             Permet de synchroniser la vision du robot selon sa position et son angle
@@ -169,15 +152,18 @@ class Simulation:
         #construction de la vision en fonction de sa destination et son angle
         #redécoupe la simulation pour en tiré une vision en fonction des paramètres du robot
         #on utilise des vecteurs
-        for i in range(len(self.grille)):
-            for j in range(len(self.grille[0])):
+        # for i in range(len(self.grille)):
+        #     for j in range(len(self.grille[0])):
 
-                if self.grille[i][j] == None:
-                    continue
+        for elt in self.elements:
 
-                dest_point = (self.grille[i][j].posx, self.grille[i][j].posy)
+                # if self.grille[i][j] == None:
+                #     continue
+
+                dest_point = (elt.posx, elt.posy)
               
                 vec_dest = get_vect_from_points(src_point, dest_point)
 
                 if src_point != dest_point and in_vision(vec_src, vec_dest) and 0 < distance(droite_sep, dest_point) <= self.vision.long and distance(droite_direction, dest_point) <= self.vision.larg//2:
-                    self.vision.elements.append(self.grille[i][j])
+                    # self.vision.elements.append(self.grille[i][j])
+                    self.vision.elements.append(elt)
