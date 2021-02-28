@@ -65,3 +65,23 @@
 
   - Fin de semaine 3 : nous avons passer la vision du robot en liste et  nous avons commencer à déplacer notre robot sur l'interface, tous nos tests sont éxécuter avec succès. Nous devons continuer de travailler sur le passage en liste et l'interface
   
+### Semaine 4
+
+### Organisation
+
+  - Continuer d'améliorer les précisions
+  - Améliorer l'interface graphique
+  - Refaire les tests unitaire si tout est fini
+  - Se reposer un peu car vacances
+  - Refléchir au passage sur pygames
+  - Réfléchir pour le passage à l'IRL
+
+### Done 
+
+  - Très bon avancement sur le passage en liste, les améliorations du code sont erminées, il reste cependant quelques méthodes à refaire en liste
+  - 
+
+
+### Conclusion 
+
+  - Fin semaine 4 :
