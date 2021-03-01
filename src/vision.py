@@ -49,11 +49,10 @@ class Vision:
         print(droite_sep)
         for objet in self.elements:
             taille = max(1, taille_robot//2)
-            # if str(objet) == "W":
-            #     print(objet.posx, objet.posy, distance(droite_sep, (objet.posx, objet.posy)), distance(droite_sep, (objet.posx, objet.posy)) <= dist, distance(droite_direction, (objet.posx, objet.posy)), taille, distance(droite_direction, (objet.posx, objet.posy)) < taille)
-            if distance(droite_sep, (objet.posx, objet.posy)) <= dist and collision(objet, droite_direction, taille_robot):
+            #if str(objet) == "W" or str(objet) == "O":
+                #print(objet.posx, objet.posy, distance(droite_sep, (objet.posx, objet.posy)), distance(droite_sep, (objet.posx, objet.posy)) <= dist, distance(droite_direction, (objet.posx, objet.posy)), taille, distance(droite_direction, (objet.posx, objet.posy)) < taille)
+            if (str(objet) == "W" or str(objet) == "O") or (distance(droite_sep, (objet.posx, objet.posy)) <= dist and collision(objet, droite_direction, taille)):
                 return False
-
         return True
 
 
