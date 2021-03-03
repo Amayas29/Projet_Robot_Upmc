@@ -78,10 +78,10 @@
 
 ### Done 
 
-  - Très bon avancement sur le passage en liste, les améliorations du code sont erminées, il reste cependant quelques méthodes à refaire en liste
-  - 
+  - les améliorations du code sont terminées, il reste cependant quelques méthodes à refaire en liste
+  - le passage en liste a avancé mais il reste encore beaucoup de choses à faire
 
 
 ### Conclusion 
 
-  - Fin semaine 4 :
+  - Fin semaine 4 : Toujours en avancement sur le passage en liste
