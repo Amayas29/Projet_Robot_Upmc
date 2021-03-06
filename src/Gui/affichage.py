@@ -9,7 +9,7 @@ class Affichage:
         pass
 
 
-    def update_affichage():
+    def update_affichage(self):
 
         while True:
             sleep(1./self.fps)

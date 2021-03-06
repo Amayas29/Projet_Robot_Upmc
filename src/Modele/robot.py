@@ -1,4 +1,4 @@
-from utils import Point
+from Utils import Point
 
 class Robot:
 
@@ -10,8 +10,8 @@ class Robot:
 
         self.chg = Point(center.x - longeur//2, center.y - largeur//2)
         self.chd = Point(center.x - longeur//2, center.y + largeur//2)
-        self.cbg = Point(center.x - longueur//2, center.y + largeur//2)
-        self.cbd = Point( center.x + longueur//2, center.y + largeur//2)
+        self.cbg = Point(center.x - longeur//2, center.y + largeur//2)
+        self.cbd = Point(center.x + longeur//2, center.y + largeur//2)
 
         self.angle = angle
         self.vitesse = vitesse

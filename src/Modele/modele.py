@@ -7,6 +7,7 @@ class Modele:
         self.fps = fps
 
     
-    def update_modele():
+    def update_modele(self):
+
         while True:
-            sleep(1./fps)
+            sleep(1./self.fps)
