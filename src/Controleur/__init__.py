@@ -1,2 +1,2 @@
 from .controleur import Controleur
-from .vision import Vision 
+from .vision import Vision

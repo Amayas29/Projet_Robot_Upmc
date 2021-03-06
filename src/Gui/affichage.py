@@ -4,8 +4,9 @@ import threading
 
 class Affichage:
 
-    def __init__(self, fps):
+    def __init__(self, arene, fps):
         self.fps = fps
+        self.arene = arene
         pass
 
 

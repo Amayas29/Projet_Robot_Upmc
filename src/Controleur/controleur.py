@@ -9,18 +9,21 @@ class Controleur:
         self.fps = fps
     
 
-    def forward(self, vitesse):
+    def forward(self, vitesse, temps):
         if self.vision.check_collisions(self.robot):
             return
       
         self.robot.start(vitesse)
         
-        while True:
+        sec = 0
+        while sec < temps :
+            
             if self.vision.check_collisions(self.robot):
                 break
 
             sleep(1./self.fps)
-        
+            sec += 1./self.fps
+
         self.robot.stop()
 
 
