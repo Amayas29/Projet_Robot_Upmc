@@ -1,6 +1,7 @@
+from Utils.tools import Segment
+
 class Obstacle:
 
     def __init__(self, src, dest):
 
-        self.src = src
-        self.dest = dest
+        self.segment = Segment(src, dest)

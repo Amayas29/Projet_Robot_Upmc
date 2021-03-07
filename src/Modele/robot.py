@@ -1,4 +1,4 @@
-from Utils import Point
+from Utils.tools import Point, Vecteur
 
 class Robot:
 
@@ -16,6 +16,21 @@ class Robot:
         self.angle = angle
         self.vitesse = vitesse
 
+
+    def forward(self):
+        """
+        Permet de bouger le robot d'une case en suivant ca direction
+        """
+        
+        angle = self.angle % 360
+        vict = Vecteur.get_vect_from_angle(angle)
+       
+        self.chg += vict.vict
+        self.chd += vict.vict
+        self.cbg += vict.vict
+        self.cbd += vict.vict
+        self.center += vict.vict
+        
         
     def start(self, vitesse):
         pass

@@ -1,3 +1,5 @@
+from Utils.tools import Point, Segment, Droite, Vecteur
+
 class Vision:
 
     def __init__(self, largeur, distance):
@@ -8,57 +10,42 @@ class Vision:
     
 
     def sync_vision(self, elements, robot):
-       
         """
             Permet de synchroniser la vision du robot selon sa position et son angle
         """
         self.vision.elements = []
 
-        vec_src = get_vect_from_angle(self.robot_simu.direction) # prend la direction du robot
+        vec_src = Vecteur.get_vect_from_angle(robot.angle)
 
-        src_point = get_src_point(self.taille_robot, self.robot_simu.posx, self.robot_simu.posy, self.robot_simu.direction) 
+        src_point = Point.milieu(robot.chd, robot.cbd) 
 
-        droite_sep = (vec_src[0], vec_src[1], (- vec_src[0] * src_point[0] - vec_src[1] * src_point[1])) #pour découper avec les droites la vision cherchée
+        droite_sep = Droite.get_droite(vec_src, src_point)
 
-        if droite_sep[1] == 0:
-            new_point = ( src_point[0],  src_point[1] + 1)
+        if droite_sep.b == 0:
+            new_point = Point(src_point.x,  src_point.y + 1)
         
         else:
             x = 0
-            if x == src_point[0]:
+            if x == src_point.x:
                 x += 1
          
-            y = (- droite_sep[0] * x - droite_sep[2]) / droite_sep[1]
-            new_point = (x, y)
+            y = (- droite_sep.a * x - droite_sep.b) / droite_sep.b
+            new_point = Point(x, y)
 
-        vec_unit = get_vect_from_points(src_point, new_point)
-        droite_direction = (vec_unit[0], vec_unit[1], (- vec_unit[0] * src_point[0] - vec_unit[1] * src_point[1]))
-
-        #construction de la vision en fonction de sa destination et son angle
-        #redécoupe la simulation pour en tiré une vision en fonction des paramètres du robot
-        #on utilise des vecteurs
-        # for i in range(len(self.grille)):
-        #     for j in range(len(self.grille[0])):
+        vec_unit = Vecteur(src_point, new_point)
+        droite_direction = Droite.get_droite(vec_unit, src_point)
 
         for elt in self.elements:
 
-                # if self.grille[i][j] == None:
-                #     continue
-
-                dest_point = (elt.posx, elt.posy)
+                dest_point = Point(elt.posx, elt.posy)
               
-                vec_dest = get_vect_from_points(src_point, dest_point)
+                vec_dest = Vecteur(src_point, dest_point)
 
-                if src_point != dest_point and in_vision(vec_src, vec_dest) and 0 < distance(droite_sep, dest_point) <= self.vision.long and distance(droite_direction, dest_point) <= self.vision.larg//2:
-                    # self.vision.elements.append(self.grille[i][j])
+                if src_point != dest_point and vec_src.angle(vec_dest) <= 90 and 0 < dest_point.distance_to_droite(droite_sep) <= self.vision.long and dest_point.distance_to_droite(droite_direction) <= self.vision.larg//2:
                     self.vision.elements.append(elt)
     
 
     def check_collisions(self, robot):
         return False
-
-    #def check_collisions(self, objet, droite_dir, taille):
-    #  taille = max(1, taille//2)
-    #  return distance(droite_dir, (objet.posx, objet.posy)) <= taille
 
     
