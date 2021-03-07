@@ -1,3 +1,4 @@
+from numpy import add
 from Utils.tools import Point, Segment, Droite, Vecteur
 
 class Vision:
@@ -46,6 +47,20 @@ class Vision:
     
 
     def check_collisions(self, robot):
-        return False
-
     
+        segment = Segment(robot.chd, robot.cbd)
+
+        for elem in self.elements:
+            inter = segment.intersection(elem.segment)
+
+            if inter == False:
+                pass
+            
+            elif inter == None:
+                if segment.distance_to_segment(elem.segment) == 0:
+                    return True
+
+            else:
+                return True
+
+        return False

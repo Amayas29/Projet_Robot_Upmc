@@ -1,6 +1,4 @@
 from   math  import pi, radians, degrees, sqrt, acos, cos, sin
-from   numpy import linalg as la
-import numpy as np
 
 class Point:
 
@@ -39,9 +37,12 @@ class Point:
         return not self.__eq__(point)
 
 
-    def rotation(self, angle):
-        pass
-
+    def rotation(self, center, angle):
+        angle = radians(angle)
+        self.x -= center.x
+        self.y -= center.y
+        self.x = self.x * cos(angle) + self.y * sin(angle) + center.x
+        self.y = -self.x * sin(angle) + self.y * cos(angle) + center.y
 
     @staticmethod
     def milieu(point1, point2):
@@ -129,26 +130,15 @@ class Segment:
 
         return False
 
-    
-    def distance_to_segment(self, other):
 
-        # TODO ... 
+    def to_droite(self):
         vec_unit = Vecteur(self.src, self.dest)
-        A = np.array(
-            [
-                [vec_unit.vect[0], vec_unit.vect[1], 0],
-                [self.src.x, self.src.y, 1],
-                [self.dest.x, self.dest.y, 1]
-            ], 
-            dtype=float
-        )
-        
-        b = np.array([0, 0, 0], dtype=float)
-        sol = la.solve(A, b)
+        vec_norm = Vecteur(Point(0, 0), Point(- vec_unit.vect[1], vec_unit.vect[0]))
+        return Droite.get_droite(vec_norm, self.src)
 
-        print(sol)
-        droite = Droite(sol[0], sol[1], sol[2])
 
+    def distance_to_segment(self, other):
+        droite = self.to_droite()
         return other.src.distance_to_droite(droite)
 
 
@@ -162,13 +152,7 @@ class Droite:
 
     @staticmethod
     def get_droite(vec_norm, point):
-        a = vec_norm[0]
-        b = vec_norm[1]
+        a = vec_norm.vect[0]
+        b = vec_norm.vect[1]
         c = - a * point.x - b * point.y
         return Droite(a, b, c)
-
-
-f = Segment(Point(1, 1), Point(5, 6))
-g = Segment(Point(-5, 4), Point(-1, 9))
-
-print(f.distance_to_segment(g))
