@@ -46,7 +46,7 @@ class Robot:
         """
         angle = angle % 360
         self.angle = angle
-        self.chg.rotation(angle)
-        self.chd.rotation(angle)
-        self.cbg.rotation(angle)
-        self.cbd.rotation(angle)
+        self.chg.rotation(self.center, angle)
+        self.chd.rotation(self.center,angle)
+        self.cbg.rotation(self.center,angle)
+        self.cbd.rotation(self.center,angle)
