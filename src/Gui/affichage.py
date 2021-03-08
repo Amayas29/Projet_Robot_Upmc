@@ -1,16 +1,28 @@
-from   time import sleep
+from time import sleep
 import threading
-
+import pygame as py
 
 class Affichage:
 
     def __init__(self, arene, fps):
         self.fps = fps
         self.arene = arene
+
+
+    def boucle(self):
+        while True;
+            self.update()
+            sleep(1./self.fps)
+
+
+    def update(self):
+        # Pygames ?
         pass
 
+    def events():
+      for event in py.event.get():
+        if event.type == py.QUIT:
+          py.quit()
+          sys.exit()
 
-    def update_affichage(self):
-
-        while True:
-            sleep(1./self.fps)
+  

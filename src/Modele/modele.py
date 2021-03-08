@@ -7,7 +7,12 @@ class Modele:
         self.fps = fps
 
     
-    def update_modele(self):
-
+    def boucle(self):
         while True:
+            self.update()
             sleep(1./self.fps)
+
+
+    def update(self):
+        pass
+            
