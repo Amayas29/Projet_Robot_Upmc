@@ -45,7 +45,6 @@ class Strategie:
     def add_action(self, action):
         self.actions.append(action)
 
-    
     def run():
 
         if not self.is_start():

@@ -50,3 +50,5 @@ class Robot:
         self.chd.rotation(self.center,angle)
         self.cbg.rotation(self.center,angle)
         self.cbd.rotation(self.center,angle)
+      
+    

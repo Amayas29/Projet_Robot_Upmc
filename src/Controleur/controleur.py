@@ -32,10 +32,10 @@ class Controleur:
         self.vision.sync_vision(arene.elements, robot)
 
         if self.vision.check_collisions():
-            self.robot.stop()
+            self.strategies[self.current_start].stop()
         
         elif:
-            self.robot.step()
+            self.strategies[self.current_start].run()
 
 """
 strat = [avance, tourne, avance, tourne, avance, tourne, avance, tourne]
