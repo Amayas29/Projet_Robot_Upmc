@@ -4,6 +4,8 @@ from Controleur.controleur import Controleur
 from Modele.robot import Robot
 from Modele.arene import Arene
 from Controleur.vision import Vision
+from Utils.tools import Point
+from Modele.modele import Modele
 
 robot = Robot(Point(10, 10), 3, 3, 3)
 arene = Arene()

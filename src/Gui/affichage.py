@@ -1,6 +1,6 @@
 from time import sleep
-import threading
 import pygame as py
+import sys
 
 class Affichage:
 
@@ -10,7 +10,7 @@ class Affichage:
 
 
     def boucle(self):
-        while True;
+        while True:
             self.update()
             sleep(1./self.fps)
 
