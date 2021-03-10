@@ -29,6 +29,12 @@ class Controleur:
 
     def update(self):
 
+        if self.current_start == len(self.strategies):
+            return
+
+        if self.strategies[self.current_start].is_stop():
+            self.current_start += 1
+
         self.vision.sync_vision(self.arene.elements, self.robot)
 
         if self.vision.check_collisions():

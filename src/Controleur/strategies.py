@@ -34,7 +34,7 @@ class Strategie:
         self.current_action = len(self.actions)
 
     
-    def is_end(self):
+    def is_stop(self):
         return self.current_action >= len(self.actions)
 
 
@@ -50,6 +50,6 @@ class Strategie:
         if not self.is_start():
             self.start()
         
-        if not self.is_end() and self.is_start():
+        if not self.is_stop() and self.is_start():
             self.actions[self.current_action].run(self.robot)
             self.current_action += 1
