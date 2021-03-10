@@ -1,5 +1,6 @@
 from   time import sleep
 import threading
+from Utils.tools import Vecteur
 
 class Modele:
 

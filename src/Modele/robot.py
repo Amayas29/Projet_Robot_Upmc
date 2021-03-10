@@ -33,5 +33,5 @@ class Robot:
             self.lspeed = dps
             self.rspeed = dps
 
-        else
+        else:
             pass

@@ -1,5 +1,6 @@
-from numpy import add
-from Utils.tools import Point, Segment, Droite, Vecteur
+from Utils.tools import Point, Droite, Vecteur
+from Modele.robot import Robot
+from robot2I013.robot2I013 import Robot2I013
 
 class Vision:
 
@@ -51,7 +52,7 @@ class Vision:
             if min(seg.src.distance_to_droite(front_droite), seg.dest.distance_to_droite(front_droite)) > self.distance:
                 continue
 
-            if not seg.intersection(robot.chd, vec_norme) and not seg.intersection(robot.cbd, vec_norme)
+            if not seg.intersection(robot.chd, vec_norme) and not seg.intersection(robot.cbd, vec_norme):
                 continue
 
             if max(seg.src.distance_to_droite(left_droite), seg.src.distance_to_droite(right_droite)) > largeur:
@@ -62,4 +63,3 @@ class Vision:
 
     def sync_vision_irl(self, robot):
         self.vision.elements = []
-        pass
