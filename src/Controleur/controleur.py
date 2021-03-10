@@ -9,7 +9,7 @@ class Controleur:
         self.robot = robot
         self.fps = fps
         self.strategies = []
-        self.current_start = -1
+        self.current_strat = -1
 
 
     def add_startegie(self, strategie):
@@ -17,63 +17,26 @@ class Controleur:
 
     
     def select_startegie(self, index):
-        if index < 0 or index > len(self.strategies)
+        if index < 0 or index > len(self.strategies):
             return
         
-        self.strategies[self.current_start].start()
-        self.current_start = index
+        self.strategies[self.current_strat].start()
+        self.current_strat = index
 
 
     def boucle(self): 
-        self.robot.start()
         while True:
-            self.updade()
+            self.update()
             sleep(1./self.fps)
 
 
     def update(self):
 
-        if self.current_start == len(self.strategies):
+        if self.current_strat == len(self.strategies):
             return
 
-        if self.strategies[self.current_start].is_stop():
+        if self.strategies[self.current_strat].is_stop():
             return
 
         self.vision.sync_vision(self.arene.elements, self.robot)
-        self.strategies[self.current_start].run()
-
-"""
-strat = [avance, tourne, avance, tourne, avance, tourne, avance, tourne]
-"""
-""""
-    def updade(self, vitesse, temps):
-        if self.vision.check_collisions(self.robot):
-            return
-      
-        self.robot.start(vitesse)
-        
-        sec = 0
-        while sec < temps :
-            
-            if self.vision.check_collisions(self.robot):
-                break
-
-            sleep(1./self.fps)
-            sec += 1./self.fps
-
-        self.robot.stop()
-
-
-
-    def forward2(self):
-        while True:
-        
-            if self.vision.check_collisions(self.robot):
-                break
-            else:
-                self.robot.start()
-            
-            sleep(1./self.fps)
-            self.robot.stop()
-
-"""
+        self.strategies[self.current_strat].run(self.vision)

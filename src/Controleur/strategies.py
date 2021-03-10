@@ -6,7 +6,7 @@ class Action:
         self.robot = robot
 
 
-    def run(self, robot, vision):
+    def run(self, vision):
         pass
 
 class Avancer(Action):
@@ -37,8 +37,10 @@ class Strategie:
 
 
     def start(self):
-      if self.action != []:
-        self.current_action = 0
+        if self.actions != []:
+            self.current_action = 0
+            for action in self.actions:
+                action.is_stop = False
 
 
     def stop(self):
@@ -56,13 +58,14 @@ class Strategie:
     def add_action(self, action):
         self.actions.append(action)
 
+
     def run(self, vision):
 
         if not self.is_start():
             self.start()
         
         if self.actions[self.current_action].is_stop:
-                self.current_action += 1
+            self.current_action += 1
 
         if not self.is_stop() and self.is_start():
             self.actions[self.current_action].run(self.robot, vision)
