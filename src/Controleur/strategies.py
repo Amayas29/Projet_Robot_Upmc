@@ -1,21 +1,32 @@
 class Action:
 
-    def __init__(self, name, vitesse):
+    def __init__(self, name, robot):
         self.name = name
-        self.vitesse = vitesse
+        self.is_stop = False
+        self.robot = robot
 
-    def run(self, robot):
-       pass
 
+    def run(self, robot, vision):
+        pass
 
 class Avancer(Action):
 
-    def __init__(self):
-        super().__init__("Avancer")
+    def __init__(self, robot, distance, vitesse):
+        super().__init__("Avancer", robot)
+        self.distance = distance
+        self.distance_parcouru = 0
+        self.vitesse = vitesse
 
-    def run(self, robot):
-        robot.set_vitesse(self.vitesse)
-    
+
+    def run(self, vision):
+        
+        if self.distance_parcouru >= self.distance or vision.check_collisions():
+            self.robot.set_motor_dps(self.robot.MOTOR_LEFT + self.robot.MOTOR_RIGHT, 0)
+            self.is_stop = True
+            return
+        
+        self.robot.set_motor_dps(self.robot.MOTOR_LEFT + self.robot.MOTOR_RIGHT, self.vitesse)
+        
 
 class Strategie:
 
@@ -45,11 +56,14 @@ class Strategie:
     def add_action(self, action):
         self.actions.append(action)
 
-    def run(self):
+    def run(self, vision):
 
         if not self.is_start():
             self.start()
         
+        if self.actions[self.current_action].is_stop:
+                self.current_action += 1
+
         if not self.is_stop() and self.is_start():
-            self.actions[self.current_action].run(self.robot)
-            self.current_action += 1
+            self.actions[self.current_action].run(self.robot, vision)
+            

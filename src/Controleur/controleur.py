@@ -17,10 +17,14 @@ class Controleur:
 
     
     def select_startegie(self, index):
+        if index < 0 or index > len(self.strategies)
+            return
+        
+        self.strategies[self.current_start].start()
         self.current_start = index
 
 
-    def boucle(self):
+    def boucle(self): 
         self.robot.start()
         while True:
             self.updade()
@@ -33,15 +37,10 @@ class Controleur:
             return
 
         if self.strategies[self.current_start].is_stop():
-            self.current_start += 1
+            return
 
         self.vision.sync_vision(self.arene.elements, self.robot)
-
-        if self.vision.check_collisions():
-            self.strategies[self.current_start].stop()
-        
-        else:
-            self.strategies[self.current_start].run()
+        self.strategies[self.current_start].run()
 
 """
 strat = [avance, tourne, avance, tourne, avance, tourne, avance, tourne]

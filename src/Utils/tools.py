@@ -113,20 +113,19 @@ class Segment:
         self.dest = dest
 
 
-    def intersection(self, other):
+    def intersection(self, point, vec_unit):
 
         I = Vecteur(self.src, self.dest)
-        J = Vecteur(other.src, other.dest)
+        J = vec_unit
         denominateur = I.vect[0] * J.vect[1] - I.vect[1] * J.vect[0]
 
         if denominateur == 0:
-            return None
+            return False
         
-        m = -(-I.vect[0] * self.src.y + I.vect[0] * other.src.y + I.vect[1] * self.src.x - I.vect[1] * other.src.x) / denominateur
-        k = -(self.src.x * J.vect[1] - other.src.x * J.vect[1] - J.vect[0] * self.src.y + J.vect[0] * other.src.y) / denominateur
+        k = -(self.src.x * J.vect[1] - point.x * J.vect[1] - J.vect[0] * self.src.y + J.vect[0] * point.y) / denominateur
 
-        if 0 < m < 1 and 0 < k < 1:
-            return Point(self.src.x + k * I.vect[0], self.src.y + k * I.vect[1])
+        if 0 < k < 1:
+            return True
 
         return False
 

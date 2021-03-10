@@ -3,64 +3,63 @@ from Utils.tools import Point, Segment, Droite, Vecteur
 
 class Vision:
 
-    def __init__(self, largeur, distance):
-        
-        self.largeur = largeur
+    def __init__(self, distance):
         self.distance = distance
         self.elements = []
     
 
-    def sync_vision(self, elements, robot):
+    def sync_vision(self, robot, elements=[]):
         """
             Permet de synchroniser la vision du robot selon sa position et son angle
         """
-        self.vision.elements = []
-
-        vec_src = Vecteur.get_vect_from_angle(robot.angle)
-
-        src_point = Point.milieu(robot.chd, robot.cbd) 
-
-        droite_sep = Droite.get_droite(vec_src, src_point)
-
-        if droite_sep.b == 0:
-            new_point = Point(src_point.x,  src_point.y + 1)
-        
+        if (isinstance(robot, Robot)):
+            self.sync_vision_simu(robot, elements)
+        elif (isinstance(robot, Robot2I013)):
+            self.sync_vision_irl(robot)
         else:
-            x = 0
-            if x == src_point.x:
-                x += 1
-         
-            y = (- droite_sep.a * x - droite_sep.b) / droite_sep.b
-            new_point = Point(x, y)
-
-        vec_unit = Vecteur(src_point, new_point)
-        droite_direction = Droite.get_droite(vec_unit, src_point)
-
-        for elt in self.elements:
-
-                dest_point = Point(elt.posx, elt.posy)
-              
-                vec_dest = Vecteur(src_point, dest_point)
-
-                if src_point != dest_point and vec_src.angle(vec_dest) <= 90 and 0 < dest_point.distance_to_droite(droite_sep) <= self.vision.long and dest_point.distance_to_droite(droite_direction) <= self.vision.larg//2:
-                    self.vision.elements.append(elt)
+            exit(1)
     
 
     def check_collisions(self, robot):
-    
-        segment = Segment(robot.chd, robot.cbd)
+        return self.elements != []
+        
 
-        for elem in self.elements:
-            inter = segment.intersection(elem.segment)
+    def sync_vision_simu(self, robot, elements):
+        
+        self.vision.elements = []
 
-            if inter == False:
-                pass
-            
-            elif inter == None:
-                if segment.distance_to_segment(elem.segment) == 0:
-                    return True
+        milieu = Point.milieu(robot.chd, robot.cbd)
+        largeur = robot.chb - robot.cbd
 
-            else:
-                return True
+        vec_norme = Vecteur(robot.chd, robot.cbd)
+        vec_src = Vecteur.get_vect_from_angle(robot.angle)
 
-        return False
+        left_droite  = Droite.get_droite(vec_norme, robot.chd)
+        right_droite = Droite.get_droite(vec_norme, robot.cbd)
+
+        front_droite = Droite.get_droite(  vec_src, robot.cbd)
+
+        for elem in elements:
+
+            seg = elem.segment
+            new_vec_src = Vecteur(milieu, seg.src)
+            new_vec_dest = Vecteur(milieu, seg.dest)
+
+            if vec_src.angle(new_vec_src) > 90 and vec_src.angle(new_vec_dest) > 90:
+                continue
+
+            if min(seg.src.distance_to_droite(front_droite), seg.dest.distance_to_droite(front_droite)) > self.distance:
+                continue
+
+            if not seg.intersection(robot.chd, vec_norme) and not seg.intersection(robot.cbd, vec_norme)
+                continue
+
+            if max(seg.src.distance_to_droite(left_droite), seg.src.distance_to_droite(right_droite)) > largeur:
+                continue
+
+            self.vision.elements(elem)
+
+
+    def sync_vision_irl(self, robot):
+        self.vision.elements = []
+        pass

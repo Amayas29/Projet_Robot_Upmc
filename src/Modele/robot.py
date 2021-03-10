@@ -15,40 +15,23 @@ class Robot:
         self.cbd = Point(center.x + longeur//2, center.y - largeur//2)
 
         self.angle = 0
-        self.vitesse = vitesse
-
-
-    def forward(self):
-        """
-        Permet de bouger le robot d'une case en suivant ca direction
-        """
-        
-        angle = self.angle % 360
-        vict = Vecteur.get_vect_from_angle(angle)
-       
-        self.chg += vict.vict
-        self.chd += vict.vict
-        self.cbg += vict.vict
-        self.cbd += vict.vict
-        self.center += vict.vict
-        
-        
-    def start(self, vitesse):
-        pass
+        self.lspeed = 0
+        self.rspeed = 0
+        self.MOTOR_LEFT = 1
+        self.MOTOR_RIGHT = 2
     
-    def stop(self):
-        pass
 
-    
-    def tourne(self, angle):
-        """
-        Permet de tourner le robot 
-        """
-        angle = angle % 360
-        self.angle = angle
-        self.chg.rotation(self.center, angle)
-        self.chd.rotation(self.center,angle)
-        self.cbg.rotation(self.center,angle)
-        self.cbd.rotation(self.center,angle)
-      
-    
+    def set_motor_dps(self, port, dps):
+
+        if (port == self.MOTOR_LEFT):
+            self.lspeed = dps
+
+        elif(port == self.MOTOR_RIGHT):
+            self.rspeed = dps
+
+        elif (port == self.MOTOR_LEFT + self.MOTOR_RIGHT):
+            self.lspeed = dps
+            self.rspeed = dps
+
+        else
+            pass
