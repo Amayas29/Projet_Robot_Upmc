@@ -21,7 +21,7 @@ class Vision:
             exit(1)
     
 
-    def check_collisions(self, robot):
+    def check_collisions(self):
         return self.elements != []
         
 
