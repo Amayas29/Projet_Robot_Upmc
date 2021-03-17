@@ -85,3 +85,55 @@
 ### Conclusion 
 
   - Fin semaine 4 : Toujours en avancement sur le passage en liste
+
+
+### Semaine 5 
+
+### Organisation
+
+  - Finir d'utiliser les listes
+  - Régler les problèmes de code etc
+  
+### Conclusion 
+  
+  - Fin semaine 5 : Nous allons refactoriser le code et tout recommencer de 0
+
+
+### Semaine 6
+
+### Organisation
+
+  - Nous allons refactoriser le code et repartir de 0
+  - Factoriser le code ( dossiers Gui/Modele/Utils/.. )
+  - Refaire les classes et les méthodes
+  - On utilise les istes plutot qu'une grille pour plus de précision
+  - Préparer une démo théorique pygame de ce que serait notre affichage
+
+### Done
+ 
+  - La refactorisation du code a bien avancé
+  - La démo théorique est prete
+  - Beaucoup de code a été refait
+
+### Conclusion
+
+  - Fin semaine 6 : nous sommes donc entrain de refactoriser tout notre code, nous sommes bien reparti, l'affichage théorique est pret, beaucoup de méthodes et classes sont finies
+
+
+### Semaine 7 
+
+### Organisation
+
+  - Finir la refactorisation
+  - Travailler sur les méthodes du modele pour les déplacements
+  - Faire l'affichage pygame
+
+### Done
+
+  - Beaucoup de méthodes complètes 
+  - L'affichage est terminé
+  
+  
+### Conclusion
+
+  - Fin semaine 7 : La refactorisation de tout le code est finit, presque terminé la simuation, l'affichage est pret
