@@ -1,5 +1,5 @@
 from time import sleep
-import pygame 
+import pygame
 import sys
 
 pygame.init()
@@ -30,19 +30,12 @@ class Affichage:
       #pygame.display.update()
       pass
      
-        
-
-
-
-
-
-
+    
     def events():
-      for event in py.event.get():
-        if event.type == py.QUIT:
-          py.quit()
+      for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+          pygame.quit()
           sys.exit()
-
 
 BLACK = (0, 0, 0, 255)
 WHITE = (255, 255, 255, 255)
@@ -50,19 +43,15 @@ run = True
 
 elements = [ (0,200,100,200) , (100,100,100,200) , (0,100,100,100)  ]
 
+while True :
 
+    for event in pygame.event.get() :
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            print("Fin de la démonstration")
+            sys.exit()
 
+    for (x1,x2,y1,y2) in elements:
+        pygame.draw.line( p , WHITE , (x1,x2) , (y1,y2) , 10)
 
-while run :
-  for event in pygame.event.get() :
-
-    if event.type == pygame.QUIT:
-      running = False
-      pygame.quit()
-      print("Fin de la démonstration")
-
-  for (x1,x2,y1,y2) in elements:
-    pygame.draw.line( p , WHITE , (x1,x2) , (y1,y2) , 10)
-  pygame.display.flip()
-
-
+    pygame.display.flip()

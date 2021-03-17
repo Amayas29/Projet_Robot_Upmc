@@ -1,5 +1,5 @@
 import pygame
-from rotate import get_rect , rotate
+from Gui.rotate import get_rect , rotate
 import math
 #from Modele.arene import Arene
 
@@ -28,12 +28,10 @@ rect.center = (x, y)
 
 #Obstacle
 
-
-<<<<<<< HEAD
 elements = [ (100,100) , (30,60) , (100,50) , ( 200 ,200 )] #exemples d'osbtacles
-=======
+
 elements = [ (100,250) , (30,60) , (100,50) , ( 200 ,200 )] #exemples d'osbtacles
->>>>>>> f481db5e33951210b54b963a02f479f7571f0bf2
+
 # à utiliser avec les coordonnées des vraies obstacles
 
 CLOCK = pygame.time.Clock()
@@ -83,10 +81,9 @@ while running:
   CLOCK.tick( 120 )  #pour charger les objets
   p.fill(BLACK)  
   p.blit(carre, rect)
-<<<<<<< HEAD
+
   pygame.draw.line( p , BLACK , (20,40) ,(100,100) , 50)
-=======
->>>>>>> f481db5e33951210b54b963a02f479f7571f0bf2
+
   for (xx , yy ) in elements : 
     obs = get_rect( xx , yy, (250 ,0 ,0), BLACK)
     o = obs.get_rect()
