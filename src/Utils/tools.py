@@ -48,6 +48,25 @@ class Point:
     def milieu(point1, point2):
         return Point((point1.x + point2.x)/2, (point1.y + point2.y)/2)
 
+    @staticmethod
+    def get_points_distance(point, vec_norme, distance):
+        vect = vec_norme.vect
+
+        if vect[0] == 0 and vect[1] == 0:
+            return None
+        
+        if vect[0] == 0:
+            b = 0
+            a = distance
+        elif vect[1] == 0:
+            a = 0
+            b = distance
+        else:
+            b = distance / sqrt(vect[1]**2 / vect[0]**2 + 1)
+            a = -vect[1] * b / vect[0]
+        
+        return Point(point.x + a, point.y + b), Point(point.x - a, point.y - b) 
+
     
     def __str__(self) -> str:
         return f"({self.x}, {self.y})"

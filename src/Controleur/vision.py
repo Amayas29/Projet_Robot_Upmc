@@ -28,17 +28,25 @@ class Vision:
     def sync_vision_simu(self, robot, elements):
         
         self.vision.elements = []
-
-        milieu = Point.milieu(robot.chd, robot.cbd)
+        
         largeur = robot.chb - robot.cbd
 
         vec_norme = Vecteur(robot.chd, robot.cbd)
-        vec_src = robot.vic_servo
+        vec_src = robot.vec_servo
 
-        front_droite = Droite.get_droite(vec_src, robot.cbd)
+        angle = vec_src.angle(vec_norme)
+        milieu = robot.cbd
 
-        left_droite  = Droite.get_droite(vec_norme, p1)
-        right_droite = Droite.get_droite(vec_norme, p2)
+        if angle == 90:
+            milieu = Point.milieu(robot.chd, robot.cbd)
+        elif angle > 90:
+            milieu = robot.chd
+        
+        a, b = Point.get_points_distance(milieu, vec_src, largeur//2)
+        
+        left_droite  = Droite.get_droite(vec_norme, a)
+        right_droite = Droite.get_droite(vec_norme, b)
+        front_droite = Droite.get_droite(vec_src, milieu)
 
         for elem in elements:
 
@@ -51,14 +59,16 @@ class Vision:
 
             if min(seg.src.distance_to_droite(front_droite), seg.dest.distance_to_droite(front_droite)) > self.distance:
                 continue
-
-            if not seg.intersection(robot.chd, vec_norme) and not seg.intersection(robot.cbd, vec_norme):
+            else:
+                if max(seg.src.distance_to_droite(left_droite), seg.src.distance_to_droite(right_droite)) <= largeur:
+                    self.elements.append(elem)
                 continue
+                
+            if not seg.intersection(a, vec_norme) and not seg.intersection(b, vec_norme):
+                if max(seg.src.distance_to_droite(left_droite), seg.src.distance_to_droite(right_droite)) > largeur:
+                    continue
 
-            if max(seg.src.distance_to_droite(left_droite), seg.src.distance_to_droite(right_droite)) > largeur:
-                continue
-
-            self.vision.elements(elem)
+            self.elements.append(elem)
 
 
     def sync_vision_irl(self, robot):
@@ -79,32 +89,28 @@ class Vision:
         largeur = robot.chb - robot.cbd
 
         vec_norme = Vecteur(robot.chd, robot.cbd)
-        vec_src = robot.vic_servo
+        vec_src = robot.vec_servo
 
-        left_droite  = Droite.get_droite(vec_norme, robot.chd)
-        right_droite = Droite.get_droite(vec_norme, robot.cbd)
+        angle = vec_src.angle(vec_norme)
+        milieu = robot.cbd
 
-        front_droite = Droite.get_droite(vec_src, robot.cbd)
-
+        if angle == 90:
+            milieu = Point.milieu(robot.chd, robot.cbd)
+        elif angle > 90:
+            milieu = robot.chd
+        
+        a, b = Point.get_points_distance(milieu, vec_src, largeur//2)
+        
+        left_droite  = Droite.get_droite(vec_norme, a)
+        right_droite = Droite.get_droite(vec_norme, b)
+        front_droite = Droite.get_droite(vec_src, milieu)
+        
+        mini = 0
         for elem in self.elements:
-
             seg = elem.segment
-            new_vec_src = Vecteur(milieu, seg.src)
-            new_vec_dest = Vecteur(milieu, seg.dest)
-
-            if vec_src.angle(new_vec_src) > 90 and vec_src.angle(new_vec_dest) > 90:
-                continue
-
-            if min(seg.src.distance_to_droite(front_droite), seg.dest.distance_to_droite(front_droite)) > self.distance:
-                continue
-
-            if not seg.intersection(robot.chd, vec_norme) and not seg.intersection(robot.cbd, vec_norme):
-                continue
-
-            if max(seg.src.distance_to_droite(left_droite), seg.src.distance_to_droite(right_droite)) > largeur:
-                continue
-
-            self.vision.elements(elem)
+            mini  = min(seg.src.distance_to_droite(front_droite), mini, seg.dest.distance_to_droite(front_droite))
+                
+        return mini
 
 
     def get_distance_irl(self, robot):

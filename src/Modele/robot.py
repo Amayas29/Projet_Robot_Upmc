@@ -18,8 +18,8 @@ class Robot:
         self.rspeed = 0
         self.MOTOR_LEFT = 1
         self.MOTOR_RIGHT = 2
-        self.vic_servo = Vecteur.get_vect_from_angle(0)
-        self.vic_deplacement = Vecteur.get_vect_from_angle(0)
+        self.vec_servo = Vecteur.get_vect_from_angle(0)
+        self.vec_deplacement = Vecteur.get_vect_from_angle(0)
     
 
     def set_motor_dps(self, port, dps):

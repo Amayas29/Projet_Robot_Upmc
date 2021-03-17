@@ -1,16 +1,26 @@
 from time import sleep
 import pygame
 import sys
+from Utils.tools import Vecteur
 
 pygame.init()
 pygame.display.set_caption("Affichage")
 p = pygame.display.set_mode( (1090 , 920) )
+CLOCK = pygame.time.Clock()
+
+#colors
+BLACK = (0, 0, 0, 255)
+WHITE = (255, 255, 255, 255)
+BLUE = (0 ,0 ,255 )
+RED = (255 ,0 ,0 )
+
 
 class Affichage:
 
     def __init__(self, arene, fps):
         self.fps = fps
         self.arene = arene
+        self.robot = arene.robot
 
 
     def boucle(self):
@@ -20,38 +30,23 @@ class Affichage:
 
 
     def update(self):
-      #CLOCK.tick( fps )
-      #for e in elements : 
-        #xx = e.
-        #obs = get_rect( xx, yy , (250 ,0 ,0), BLACK)
-       # o = obs.get_rect()
-        #o.center = ( xx , yy )
-        #p.blit(obs, o)
-      #pygame.display.update()
-      pass
-     
+      events()
+      CLOCK.tick( fps )
+      for (src,dest) in self.arene.elements:
+        pygame.draw.line( p , WHITE , src , dest , 50)
     
+      pygame.draw.line( p , BLUE , self.robot.chg , self.robot.chd , 10)
+      pygame.draw.line( p , BLUE , self.robot.chg , self.robot.cbg , 10)
+      pygame.draw.line( p , RED , self.robot.chd , self.robot.cbd , 10)
+      pygame.draw.line( p , BLUE , self.robot.cbg , self.robot.cbd , 10)
+       
+      pygame.display.flip()
+
+  
     def events():
       for event in pygame.event.get():
         if event.type == pygame.QUIT:
           pygame.quit()
           sys.exit()
 
-BLACK = (0, 0, 0, 255)
-WHITE = (255, 255, 255, 255)
-run = True
 
-elements = [ (0,200,100,200) , (100,100,100,200) , (0,100,100,100)  ]
-
-while True :
-
-    for event in pygame.event.get() :
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            print("Fin de la démonstration")
-            sys.exit()
-
-    for (x1,x2,y1,y2) in elements:
-        pygame.draw.line( p , WHITE , (x1,x2) , (y1,y2) , 10)
-
-    pygame.display.flip()
