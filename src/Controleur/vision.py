@@ -59,11 +59,11 @@ class Vision:
 
             if min(seg.src.distance_to_droite(front_droite), seg.dest.distance_to_droite(front_droite)) > self.distance:
                 continue
-            else:
-                if max(seg.src.distance_to_droite(left_droite), seg.src.distance_to_droite(right_droite)) <= largeur:
-                    self.elements.append(elem)
+         
+            if min(min(seg.src.distance_to_droite(left_droite), seg.src.distance_to_droite(right_droite)),
+            min(seg.dest.distance_to_droite(left_droite), seg.dest.distance_to_droite(right_droite))) > largeur:
                 continue
-                
+            
             if not seg.intersection(a, vec_norme) and not seg.intersection(b, vec_norme):
                 if max(seg.src.distance_to_droite(left_droite), seg.src.distance_to_droite(right_droite)) > largeur:
                     continue
@@ -77,7 +77,7 @@ class Vision:
 
     def get_distance(self, robot):
         if (isinstance(robot, Robot)):
-            self.get_distance_simu(robot, elements)
+            self.get_distance_simu(robot)
         elif (isinstance(robot, Robot2I013)):
             self.get_distance_irl(robot)
         else:

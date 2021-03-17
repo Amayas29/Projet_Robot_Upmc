@@ -30,8 +30,8 @@ class Affichage:
 
 
     def update(self):
-      events()
-      CLOCK.tick( fps )
+      self.events()
+      CLOCK.tick( self.fps )
       for (src,dest) in self.arene.elements:
         pygame.draw.line( p , WHITE , src , dest , 50)
     
