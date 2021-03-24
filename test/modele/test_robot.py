@@ -1,5 +1,5 @@
 import random
-from modele import Robot
+from Modele import Robot
 import math
 import unittest
 
@@ -7,14 +7,14 @@ class RobotTest(unittest.TestCase):
 
     def setUp(self):
       # premier robot : r1
-      self.center = (random.uniform(-50, 50), randint( 0 , 50 )
+      self.center = (random.uniform(-50, 50), random.randint( 0 , 50 ))
       self.random_longueur = random.randint(0, 50)
       self.random_largeur = random.randint(0, 50)
       self.random_vitesse = random.uniform(-50, 50)
       self.r1 = Robot.Robot(self.center, self.random_longueur , self.random_largeur, self.random_vitesse)
       # deuxieme robot : r2 
       self.v2 = random.randint(50 , 100)
-      self.lo2 = random.uniform(, 50)
+      self.lo2 = random.uniform(-50, 50)
       self.la2 = random.uniform(-50, 50)
       self.r2 = Robot.Robot(self.c2, self.lo2, self.la2 , self.vitesse)
       # troisieme robot : r3

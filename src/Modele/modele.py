@@ -2,7 +2,7 @@ from time import sleep
 import threading
 from datetime import datetime
 from Utils.tools import Vecteur, Point
-from Controleur.vision import Vision
+from .vision import Vision
 from math import cos, sin, PI
 
 
@@ -12,7 +12,7 @@ class Modele:
         self.fps = fps
         self.arene = arene
         self.robot = arene.robot
-        self.temps_precedent = tmp.time_ns() * 10**(-9)
+        self.temps_precedent = datetime.now()
     
     def boucle(self):
         while True:
@@ -39,7 +39,7 @@ class Modele:
         if self.robot.lspeed == self.robot.rspeed :
             angle_roue =  diff_temps * self.robot.lspeed
            
-            distance = angle * (PI * self.robot.WHEEL_DIAMETER / 360)
+            distance = angle_roue * (PI * self.robot.WHEEL_DIAMETER / 360)
             
             self.robot.posr += angle_roue 
             self.robot.posl += angle_roue

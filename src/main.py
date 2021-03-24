@@ -3,7 +3,7 @@ from Gui.affichage import Affichage
 from Controleur.controleur import Controleur
 from Modele.robot import Robot
 from Modele.arene import Arene
-from Controleur.vision import Vision
+from Modele.vision import Vision
 from Utils.tools import Point
 from Modele.modele import Modele
 import configparser
