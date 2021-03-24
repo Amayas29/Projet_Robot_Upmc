@@ -1,72 +1,91 @@
-class Action:
+from math import PI
 
-    def __init__(self, name, robot):
-        self.name = name
+class Strategie:
+
+    def __init__(self, robot):
+        self.robot  = robot
+        self.is_stop = True
+        self.is_start = False
+
+
+    def start(self):
         self.is_stop = False
-        self.robot = robot
+        self.is_start = True
 
+
+    def stop(self):
+        self.is_stop = True
+        self.is_start = False
 
     def run(self, vision):
         pass
+            
 
-class Avancer(Action):
+class Avancer(Strategie):
 
     def __init__(self, robot, distance, vitesse):
-        super().__init__("Avancer", robot)
+
+        super().__init__(robot)
         self.distance = distance
         self.distance_parcouru = 0
         self.vitesse = vitesse
 
 
-    def run(self, vision):
+    def start(self):
+        super().start()
+        self.robot.offset_motor_encoder(self.robot.MOTOR_LEFT + self.robot.MOTOR_RIGHT, 0)
+        self.robot.set_motor_dps(self.robot.MOTOR_LEFT + self.robot.MOTOR_RIGHT, 0)
+
+
+    def run(self):
+
+        if not self.is_start:
+            self.start()
+
+        if self.is_stop:
+            return
+
+        diff = self.robot.get_motor_position()[0]
+
+        k = diff // 360
+        r = diff % 360
+
+        self.distance_parcouru = k * PI * robot.WHEEL_DIAMETER + (r * PI * robot.WHEEL_DIAMETER) / 360
         
-        if self.distance_parcouru >= self.distance or vision.check_collisions():
+        if self.distance_parcouru >= self.distance or robot.vision.check_collisions():
             self.robot.set_motor_dps(self.robot.MOTOR_LEFT + self.robot.MOTOR_RIGHT, 0)
-            self.is_stop = True
+            self.stop()
             return
         
         self.robot.set_motor_dps(self.robot.MOTOR_LEFT + self.robot.MOTOR_RIGHT, self.vitesse)
-        
-
-class Strategie:
-
-    def __init__(self, robot):
-        self.current_action = -1
-        self.actions = []
-        self.robot  = robot
 
 
-    def start(self):
-        if self.actions != []:
-            self.current_action = 0
-            for action in self.actions:
-                action.is_stop = False
+class Tourner(Strategie):
+    pass
+
+"""
+class Carre(Strategie):
+
+    def __init__(...):
+        self.avancer = Avancer()
+        self.tourner = Tourner()
+        self.cur = 0
+        self.nb = 0 
+
+    def run
+
+    if self.is_stop:
+        return
+
+    if nb == NB_arret
+        self.stop()
+        retunt
+
+    id self.cur = 0 
+    ---> a
+
+    else --->
 
 
-    def stop(self):
-        self.current_action = len(self.actions)
-
-    
-    def is_stop(self):
-        return self.current_action >= len(self.actions)
-
-
-    def is_start(self):
-        return self.current_action > 0
-
-
-    def add_action(self, action):
-        self.actions.append(action)
-
-
-    def run(self, vision):
-
-        if not self.is_start():
-            self.start()
-        
-        if self.actions[self.current_action].is_stop:
-            self.current_action += 1
-
-        if not self.is_stop() and self.is_start():
-            self.actions[self.current_action].run(self.robot, vision)
-            
+    cur <-> switch
+"""
