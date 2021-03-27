@@ -25,6 +25,7 @@ class Modele:
         
         if self.robot.vision.check_collisions():
             self.stop()
+            return
 
         self.forward()
         self.start()

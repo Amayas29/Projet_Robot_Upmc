@@ -14,8 +14,8 @@ robot = Robot(centre, 50, 50, 0)
 arene = Arene()
 arene.set_robot(robot)
 
-src = Point(200 , 20)
-dest = Point( 300 , 300 )
+src = Point(300 , 50)
+dest = Point( 500 , 500 )
 
 obstacle = Obstacle(src, dest)
 arene.add_obstacle(obstacle)
@@ -28,7 +28,9 @@ controleur.select_startegie(0)
 
 affichage = Affichage(arene, 60.)
 
-controleur.update()
-modele.update()
-affichage.boucle()
-print("Yes")
+
+while True:
+    # print(robot.chg, robot.cbg, robot.chd, robot.cbd)
+    controleur.update()
+    modele.update()
+    affichage.update()

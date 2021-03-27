@@ -29,6 +29,7 @@ class Affichage:
 
 
     def update(self):
+        p.fill(BLACK)
         self.events()
         CLOCK.tick( self.fps )
         for obs in self.arene.elements:

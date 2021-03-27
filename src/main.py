@@ -13,10 +13,10 @@ config = configparser.ConfigParser()
 config.read('config.cfg')
 if (float(config['Version']['config_version']) != 0.2):
   print("Config version non conforme")
-  exit()
+  exit(1)
 if (float(config['Robot']['distance_securite']) < 13.0):
   print("Erreur critique: la distance de sécurité est trop faible! (minimum 13.0)")
-  exit()
+  exit(1)
 mode = config['Robot'].getboolean('mode_simu')
 if (mode):
   print("Simu on")
