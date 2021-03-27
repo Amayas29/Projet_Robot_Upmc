@@ -1,7 +1,4 @@
-from Utils.tools import Point, Droite, Vecteur
-from Modele.robot import Robot
-from robot2I013.robot2I013 import Robot2I013
-
+from utils.tools import Point, Droite, Vecteur
 class Vision:
 
     def __init__(self, distance):
@@ -9,16 +6,16 @@ class Vision:
         self.elements = []
     
 
-    def sync_vision(self, robot, elements=[]):
+    def sync_vision(self, robot, elements):
         """
             Permet de synchroniser la vision du robot selon sa position et son angle
         """
-        if (isinstance(robot, Robot)):
-            self.sync_vision_simu(robot, elements)
-        elif (isinstance(robot, Robot2I013)):
-            self.sync_vision_irl(robot)
-        else:
-            exit(1)
+        # if (isinstance(robot, Robot)):
+        self.sync_vision_simu(robot, elements)
+        # elif (isinstance(robot, Robot2I013)):
+        #     self.sync_vision_irl(robot)
+        # else:
+        #     exit(1)
     
 
     def check_collisions(self):
@@ -71,17 +68,17 @@ class Vision:
             self.elements.append(elem)
 
 
-    def sync_vision_irl(self, robot):
-        self.elements = []
+    # def sync_vision_irl(self, robot):
+    #     self.elements = []
 
 
     def get_distance(self, robot):
-        if (isinstance(robot, Robot)):
-            self.get_distance_simu(robot)
-        elif (isinstance(robot, Robot2I013)):
-            self.get_distance_irl(robot)
-        else:
-            exit(1)
+        # if (isinstance(robot, Robot)):
+        self.get_distance_simu(robot)
+        # elif (isinstance(robot, Robot2I013)):
+        #     self.get_distance_irl(robot)
+        # else:
+        #     exit(1)
     
 
     def get_distance_simu(self, robot):
@@ -113,5 +110,5 @@ class Vision:
         return mini
 
 
-    def get_distance_irl(self, robot):
-        pass
+    # def get_distance_irl(self, robot):
+    #     pass

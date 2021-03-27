@@ -1,4 +1,4 @@
-from Utils.tools import Segment
+from utils.tools import Segment
 
 class Obstacle:
 

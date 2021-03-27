@@ -1,9 +1,9 @@
 from time import sleep
 import threading
 from datetime import datetime
-from Utils.tools import Vecteur, Point
+from utils.tools import Vecteur, Point
 from .vision import Vision
-from math import cos, sin, PI
+from math import cos, sin, pi
 
 
 class Modele:
@@ -39,7 +39,7 @@ class Modele:
         if self.robot.lspeed == self.robot.rspeed :
             angle_roue =  diff_temps * self.robot.lspeed
            
-            distance = angle_roue * (PI * self.robot.WHEEL_DIAMETER / 360)
+            distance = angle_roue * (pi * self.robot.WHEEL_DIAMETER / 360)
             
             self.robot.posr += angle_roue 
             self.robot.posl += angle_roue
@@ -54,11 +54,11 @@ class Modele:
         elif  self.robot.lspeed == 0 and self.robot.rspeed != 0:
             roue = Point((self.robot.chg.x + self.robot.chd.x)/2 , (self.robot.chg.y + self.robot.chd.y)/2)
             angle_roue = diff_temps * self.robot.rspeed
-            distance = angle_roue * (PI * self.robot.WHEEL_DIAMETER / 360)
+            distance = angle_roue * (pi * self.robot.WHEEL_DIAMETER / 360)
           
             self.robot.posr += angle_roue
 
-            angle = distance/((PI * self.robot.chd - self.robot.cbd)/180)
+            angle = distance/((pi * self.robot.chd - self.robot.cbd)/180)
             self.robot.vec_deplacement = Vecteur.get_vect_from_angle(angle)
             self.chg.rotate(angle, roue)
             self.cbg.rotate(angle, roue)
@@ -69,11 +69,11 @@ class Modele:
             roue = Point((self.robot.cbg.x + self.robot.cbd.x)/2 , (self.robot.cbg.y + self.robot.cbd.y)/2)
         
             angle_roue = diff_temps * self.robot.lspeed
-            distance = angle_roue * (PI * self.robot.WHEEL_DIAMETER / 360)
+            distance = angle_roue * (pi * self.robot.WHEEL_DIAMETER / 360)
             
             self.robot.posl += angle_roue
            
-            angle = distance/((PI * self.robot.chd - self.robot.cbd)/180)
+            angle = distance/((pi * self.robot.chd - self.robot.cbd)/180)
             self.robot.vec_deplacement = Vecteur.get_vect_from_angle(angle)
 
             self.chg.rotate(angle, roue)

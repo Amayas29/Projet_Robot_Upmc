@@ -1,11 +1,11 @@
 from threading import Thread
-from Gui.affichage import Affichage
-from Controleur.controleur import Controleur
-from Modele.robot import Robot
-from Modele.arene import Arene
-from Modele.vision import Vision
-from Utils.tools import Point
-from Modele.modele import Modele
+from view.affichage import Affichage
+from controleur.controleur import Controleur
+from modele.robot import Robot
+from modele.arene import Arene
+from modele.vision import Vision
+from utils.tools import Point
+from modele.modele import Modele
 import configparser
 #protection du config
 config = configparser.ConfigParser()

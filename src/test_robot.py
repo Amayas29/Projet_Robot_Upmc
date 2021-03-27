@@ -1,5 +1,5 @@
 import random
-from Modele import Robot
+from modele.robot import Robot
 import math
 import unittest
 
@@ -11,19 +11,19 @@ class RobotTest(unittest.TestCase):
       self.random_longueur = random.randint(0, 50)
       self.random_largeur = random.randint(0, 50)
       self.random_vitesse = random.uniform(-50, 50)
-      self.r1 = Robot.Robot(self.center, self.random_longueur , self.random_largeur, self.random_vitesse)
+      self.r1 = Robot(self.center, self.random_longueur , self.random_largeur, self.random_vitesse)
       # deuxieme robot : r2 
       self.v2 = random.randint(50 , 100)
       self.lo2 = random.uniform(-50, 50)
       self.la2 = random.uniform(-50, 50)
-      self.r2 = Robot.Robot(self.c2, self.lo2, self.la2 , self.vitesse)
+      self.r2 = Robot(self.c2, self.lo2, self.la2 , self.random_vitesse)
       # troisieme robot : r3
-      self.r3 = Robot.Robot(self.c2 , self.lo2 , self.la2, 0.)
+      self.r3 = Robot(self.c2 , self.lo2 , self.la2, 0.)
 
     def test_rotation(self):
-        r = Robot.Robot(0., 0., 1., 0.)
-        oldAngle = r.angle
-        oldVecteurD = r.vecteurDeplacement
+        r = Robot(0., 0., 1., 0.)
+        oldAngle = 0
+        oldVecteurD = r.vec_deplacement
         deltaT = random.uniform(0, 5)
         randomAngleRelative = r._degreParSeconde * deltaT
         r.rotation(deltaT)
@@ -47,7 +47,7 @@ class RobotTest(unittest.TestCase):
         self.assertTrue(r.x == pos_x_init)
         self.assertTrue(r.y == pos_y_init)
         # cas d'un temps null => immobile
-        r = Robot.Robot(pos_x_init, pos_y_init, vitesse, angle)
+        r = Robot(pos_x_init, pos_y_init, vitesse, angle)
         r.avance(0)
         self.assertTrue(r.x == pos_x_init)
         self.assertTrue(r.y == pos_y_init)
@@ -68,3 +68,6 @@ class RobotTest(unittest.TestCase):
             self.assertTrue(abs(r.x - pos_x_fin) < ordre_grandeur)  # test que valeurs identiques a 1e-10 prés
             self.assertTrue(abs(r.y - pos_y_fin) < ordre_grandeur)  # test que valeurs identiques a 1e-10 prés
 
+
+
+print ("Yees")

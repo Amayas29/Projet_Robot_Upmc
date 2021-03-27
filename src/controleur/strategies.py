@@ -1,4 +1,4 @@
-from math import PI
+from math import pi
 
 class Strategie:
 
@@ -50,7 +50,7 @@ class Avancer(Strategie):
         k = diff // 360
         r = diff % 360
 
-        self.distance_parcouru = k * PI * self.robot.WHEEL_DIAMETER + (r * PI * self.robot.WHEEL_DIAMETER) / 360
+        self.distance_parcouru = k * pi * self.robot.WHEEL_DIAMETER + (r * pi * self.robot.WHEEL_DIAMETER) / 360
         
         if self.distance_parcouru >= self.distance or self.robot.vision.check_collisions():
             self.robot.set_motor_dps(self.robot.MOTOR_LEFT + self.robot.MOTOR_RIGHT, 0)

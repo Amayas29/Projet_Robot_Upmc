@@ -1,7 +1,6 @@
 from time import sleep
 import pygame
 import sys
-from Utils.tools import Vecteur
 
 pygame.init()
 pygame.display.set_caption("Affichage")
