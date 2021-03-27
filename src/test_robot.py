@@ -35,38 +35,7 @@ class RobotTest(unittest.TestCase):
 
 
     def test_avance(self):
-        # cas particuliers d'immobilité
-        temps = random.randint(1, 100)
-        pos_x_init = random.uniform(-50, 50)
-        pos_y_init = random.uniform(-50, 50)
-        vitesse = random.uniform(-10, 10)
-        angle = random.uniform(-180, 180)
-        # cas d'une vitesse nulle => immobile
-        r = Robot.Robot(pos_x_init, pos_y_init, 0., angle)
-        r.avance(temps)
-        self.assertTrue(r.x == pos_x_init)
-        self.assertTrue(r.y == pos_y_init)
-        # cas d'un temps null => immobile
-        r = Robot(pos_x_init, pos_y_init, vitesse, angle)
-        r.avance(0)
-        self.assertTrue(r.x == pos_x_init)
-        self.assertTrue(r.y == pos_y_init)
-
-        # cas général, en prenant en compte l'incertitude de calcul --> float (arrondis au 1e-10 pres)
-        for _ in range(1000):
-            temps = random.randint(1, 100)
-            pos_x_init = random.uniform(-50, 50)
-            pos_y_init = random.uniform(-50, 50)
-            vitesse = random.uniform(-10, 10)
-            angle = random.uniform(-180, 180)
-            r = Robot.Robot(pos_x_init, pos_y_init, vitesse, angle)
-            r.avance(temps)
-            pos_x_fin = pos_x_init + ((math.cos(math.radians(angle)) * vitesse) * temps)
-            pos_y_fin = pos_y_init + ((math.sin(math.radians(angle)) * vitesse) * temps)
-            # ordre de grandeur de l'incertitude = 0,0000000001 prés
-            ordre_grandeur = 10 ** -10
-            self.assertTrue(abs(r.x - pos_x_fin) < ordre_grandeur)  # test que valeurs identiques a 1e-10 prés
-            self.assertTrue(abs(r.y - pos_y_fin) < ordre_grandeur)  # test que valeurs identiques a 1e-10 prés
+        
 
 
 

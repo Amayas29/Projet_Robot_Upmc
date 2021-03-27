@@ -29,23 +29,25 @@ class Affichage:
 
 
     def update(self):
-      self.events()
-      CLOCK.tick( self.fps )
-      for (src,dest) in self.arene.elements:
-        pygame.draw.line( p , WHITE , src , dest , 50)
-    
-      pygame.draw.line( p , BLUE , self.robot.chg , self.robot.chd , 10)
-      pygame.draw.line( p , BLUE , self.robot.chg , self.robot.cbg , 10)
-      pygame.draw.line( p , RED , self.robot.chd , self.robot.cbd , 10)
-      pygame.draw.line( p , BLUE , self.robot.cbg , self.robot.cbd , 10)
-       
-      pygame.display.flip()
+        self.events()
+        CLOCK.tick( self.fps )
+        for obs in self.arene.elements:
+            src = obs.segment.src
+            dest = obs.segment.dest
+            pygame.draw.line( p , WHITE , (src.x, src.y) , (dest.x, dest.y) , 10)
+
+        pygame.draw.line( p , BLUE , (self.robot.chg.x, self.robot.chg.y) , (self.robot.chd.x, self.robot.chd.y) , 10)
+        pygame.draw.line( p , BLUE , (self.robot.chg.x , self.robot.chg.y) , (self.robot.cbg.x , self.robot.cbg.y) , 10)
+        pygame.draw.line( p , RED  , (self.robot.chd.x, self.robot.chd.y) , (self.robot.cbd.x, self.robot.cbd.y), 10)
+        pygame.draw.line( p , BLUE , (self.robot.cbg.x , self.robot.cbg.y) , (self.robot.cbd.x , self.robot.cbd.y) , 10)
+        
+        pygame.display.flip()
 
   
-    def events():
-      for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-          pygame.quit()
-          sys.exit()
+    def events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
 
 

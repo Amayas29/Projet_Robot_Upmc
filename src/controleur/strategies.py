@@ -17,7 +17,7 @@ class Strategie:
         self.is_stop = True
         self.is_start = False
 
-    def run(self, vision):
+    def run(self):
         pass
             
 

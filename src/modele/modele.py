@@ -2,7 +2,6 @@ from time import sleep
 import threading
 from datetime import datetime
 from utils.tools import Vecteur, Point
-from .vision import Vision
 from math import cos, sin, pi
 
 
@@ -22,9 +21,9 @@ class Modele:
 
     def update(self):
         # syncroniser la vision     
-        Vision.sync_vision(self.robot,[])
+        self.robot.vision.sync_vision(self.robot, self.arene.elements)
         
-        if Vision.check_collisions():
+        if self.robot.vision.check_collisions():
             self.stop()
 
         self.forward()
@@ -46,10 +45,10 @@ class Modele:
             
             point_tmp = Point(self.robot.vec_deplacement.vect[0] + distance, self.robot.vec_deplacement.vect[1] + distance)
             
-            self.chg += point_tmp
-            self.cbg += point_tmp
-            self.chd += point_tmp
-            self.cbd += point_tmp
+            self.robot.chg += point_tmp
+            self.robot.cbg += point_tmp
+            self.robot.chd += point_tmp
+            self.robot.cbd += point_tmp
 
         elif  self.robot.lspeed == 0 and self.robot.rspeed != 0:
             roue = Point((self.robot.chg.x + self.robot.chd.x)/2 , (self.robot.chg.y + self.robot.chd.y)/2)

@@ -24,9 +24,9 @@ class Vision:
 
     def sync_vision_simu(self, robot, elements):
         
-        self.vision.elements = []
+        self.elements = []
         
-        largeur = robot.chb - robot.cbd
+        largeur = robot.chd - robot.cbd
 
         vec_norme = Vecteur(robot.chd, robot.cbd)
         vec_src = robot.vec_servo

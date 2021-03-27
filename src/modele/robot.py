@@ -26,6 +26,7 @@ class Robot:
         self.initial_time = None
         self.posr = 0
         self.posl = 0
+        self.WHEEL_DIAMETER = 66
     
     def offset_motor_encoder(self, port, offset):
 

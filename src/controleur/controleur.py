@@ -3,9 +3,9 @@ import threading
 
 class Controleur:
 
-    def __init__(self, vision, robot, arene, fps):
+    def __init__(self, robot, arene, fps):
         self.arene = arene
-        self.vision = vision
+        self.vision = robot.vision
         self.robot = robot
         self.fps = fps
         self.strategies = []
@@ -35,8 +35,8 @@ class Controleur:
         if self.current_strat == len(self.strategies):
             return
 
-        if self.strategies[self.current_strat].is_stop():
+        if self.strategies[self.current_strat].is_stop:
             return
 
-        self.vision.sync_vision(self.arene.elements, self.robot)
-        self.strategies[self.current_strat].run(self.vision)
+        self.vision.sync_vision(self.robot, self.arene.elements)
+        self.strategies[self.current_strat].run()
