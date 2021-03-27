@@ -1,34 +1,30 @@
-from   time import sleep
+from time import sleep
 import threading
+
 
 class Controleur:
 
-    def __init__(self, robot, arene, fps):
+    def __init__(self, arene):
         self.arene = arene
-        self.vision = robot.vision
-        self.robot = robot
-        self.fps = fps
+        self.vision = arene.robot.vision
+        self.robot = arene.robot
         self.strategies = []
         self.current_strat = -1
-
 
     def add_startegie(self, strategie):
         self.strategies.append(strategie)
 
-    
     def select_startegie(self, index):
         if index < 0 or index > len(self.strategies):
             return
-        
+
         self.strategies[self.current_strat].start()
         self.current_strat = index
 
-
-    def boucle(self): 
+    def boucle(self, fps):
         while True:
             self.update()
-            sleep(1./self.fps)
-
+            sleep(1./fps)
 
     def update(self):
 

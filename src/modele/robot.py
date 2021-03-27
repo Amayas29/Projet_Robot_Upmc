@@ -2,9 +2,10 @@ from utils.tools import Point, Vecteur
 from .vision import Vision
 from datetime import datetime
 
+
 class Robot:
 
-    def __init__(self, center, longeur, largeur, vitesse):
+    def __init__(self, center, longeur, largeur):
 
         self.center = center
         self.longeur = longeur
@@ -27,11 +28,11 @@ class Robot:
         self.posr = 0
         self.posl = 0
         self.WHEEL_DIAMETER = 66
-    
+
     def offset_motor_encoder(self, port, offset):
 
         self.initial_time = datetime.now()
-        
+
         if (port == self.MOTOR_LEFT):
             self.posl = offset
 
@@ -40,8 +41,8 @@ class Robot:
 
         elif (port == self.MOTOR_LEFT + self.MOTOR_RIGHT):
             self.posl = offset
-            self.posr = offset 
-        
+            self.posr = offset
+
     def set_motor_dps(self, port, dps):
 
         if self.initial_time is None:
@@ -59,4 +60,4 @@ class Robot:
 
     def get_motor_position(self):
         # Voir l'ordre
-        return (self.posr, self.posl)        
+        return (self.posr, self.posl)
