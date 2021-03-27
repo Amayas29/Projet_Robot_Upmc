@@ -28,7 +28,7 @@ def test():
 
     FPS = 60.
 
-    while True:
+    while not arene.robot.vision.check_collisions():
         # print(robot.chg, robot.cbg, robot.chd, robot.cbd)
         controleur.update()
         arene.update()

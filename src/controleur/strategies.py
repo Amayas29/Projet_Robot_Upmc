@@ -52,7 +52,7 @@ class Avancer(Strategie):
         self.distance_parcouru += k * pi * self.robot.WHEEL_DIAMETER + \
             (r * pi * self.robot.WHEEL_DIAMETER) / 360
 
-        print(self.distance_parcouru)
+        # print(self.distance_parcouru)
         if self.distance_parcouru >= self.distance or self.robot.vision.check_collisions():
             self.robot.set_motor_dps(
                 self.robot.MOTOR_LEFT + self.robot.MOTOR_RIGHT, 0)
