@@ -8,6 +8,7 @@ class Vision:
         self.elements = []
 
     def check_collisions(self):
+        print("Collision ! ")
         return self.elements != []
 
     def sync_vision(self, robot, elements):
