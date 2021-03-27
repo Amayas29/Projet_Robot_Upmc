@@ -29,6 +29,6 @@ controleur.select_startegie(0)
 affichage = Affichage(arene, 60.)
 
 controleur.update()
-# modele.update()
+modele.update()
 affichage.boucle()
 print("Yes")

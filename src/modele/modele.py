@@ -45,10 +45,10 @@ class Modele:
             
             point_tmp = Point(self.robot.vec_deplacement.vect[0] + distance, self.robot.vec_deplacement.vect[1] + distance)
             
-            self.robot.chg += point_tmp
-            self.robot.cbg += point_tmp
-            self.robot.chd += point_tmp
-            self.robot.cbd += point_tmp
+            self.robot.chg + point_tmp
+            self.robot.cbg + point_tmp
+            self.robot.chd + point_tmp
+            self.robot.cbd + point_tmp
 
         elif  self.robot.lspeed == 0 and self.robot.rspeed != 0:
             roue = Point((self.robot.chg.x + self.robot.chd.x)/2 , (self.robot.chg.y + self.robot.chd.y)/2)
