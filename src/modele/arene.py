@@ -21,7 +21,7 @@ class Arene:
         self.robot.vision.sync_vision(self.robot, self.elements)
 
         if self.robot.vision.check_collisions():
-            print("Arret modele")
+            print("Collision ! ")
             self.stop()
             return
 
@@ -57,12 +57,13 @@ class Arene:
 
             self.robot.posr += angle_roue
 
-            angle = distance/((pi * self.robot.chd - self.robot.cbd)/180)
+            angle = distance/((pi * (self.robot.chd - self.robot.cbd))/180)
             self.robot.vec_deplacement = Vecteur.get_vect_from_angle(angle)
-            self.chg.rotate(angle, roue)
-            self.cbg.rotate(angle, roue)
-            self.chd.rotate(angle, roue)
-            self.cbd.rotate(angle, roue)
+            
+            self.robot.chg.rotate(roue, angle)
+            self.robot.cbg.rotate(roue, angle)
+            self.robot.chd.rotate(roue, angle)
+            self.robot.cbd.rotate(roue, angle)
 
         elif self.robot.rspeed == 0 and self.robot.lspeed != 0:
             roue = Point((self.robot.cbg.x + self.robot.cbd.x)/2,

@@ -32,7 +32,7 @@ class Point:
     def __ne__(self, point) -> bool:
         return not self.__eq__(point)
 
-    def rotation(self, center, angle):
+    def rotate(self, center, angle):
         angle = radians(angle)
         self.x -= center.x
         self.y -= center.y

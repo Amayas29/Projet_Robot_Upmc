@@ -1,23 +1,16 @@
-from controleur.strategies import Avancer
+from controleur.strategies import Tourner
 from controleur.controleur import Controleur
 from modele.robot import Robot
 from modele.arene import Arene
 from utils.tools import Point
 from view.affichage import Affichage
-from modele.obstacles import Obstacle
 
 def test():
-    centre = Point(300, 300)
+    centre = Point(100, 800)
     robot = Robot(centre, 50, 50)
 
     arene = Arene()
     arene.set_robot(robot)
-
-    src = Point(300, 50)
-    dest = Point(500, 500)
-
-    obstacle = Obstacle(src, dest)
-    # arene.add_obstacle(obstacle)
 
     controleur = Controleur(arene)
     tourner = Tourner(robot, 90)
