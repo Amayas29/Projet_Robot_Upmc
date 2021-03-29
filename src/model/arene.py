@@ -12,6 +12,9 @@ class Arene:
         self.temps_precedent = datetime.now()
 
     def boucle(self, fps):
+        if self.robot is None:
+            return
+
         while True:
             self.update()
             sleep(1./fps)

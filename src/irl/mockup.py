@@ -9,8 +9,9 @@ class Robot2I013Mockup(object):
         math.pi  # perimetre du cercle de rotation (mm)
     WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * math.pi  # perimetre de la roue (mm)
 
-    def __init__(self, controler, fps=25, resolution=None, servoPort="SERVO1", motionPort="AD1"):
-        pass
+    def __init__(self, fps=25, resolution=None, servoPort="SERVO1", motionPort="AD1"):
+        self.MOTOR_LEFT = 0
+        self.MOTOR_RIGHT = 0
 
     def set_led(self, led, red=0, green=0, blue=0):
         pass
@@ -22,13 +23,13 @@ class Robot2I013Mockup(object):
         pass
 
     def get_motor_position(self):
-        pass
+        return (0, 0)
 
     def offset_motor_encoder(self, port, offset):
         pass
 
     def get_distance(self):
-        pass
+        return 10
 
     def servo_rotate(self, position):
         pass
