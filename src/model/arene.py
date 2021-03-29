@@ -1,7 +1,7 @@
 from time import sleep
 from datetime import datetime
 from utils.tools import Vecteur, Point
-from math import cos, sin, pi
+from math import pi
 
 
 class Arene:
@@ -62,7 +62,7 @@ class Arene:
 
             angle = distance/((pi * (self.robot.chd - self.robot.cbd))/180)
             self.robot.vec_deplacement = Vecteur.get_vect_from_angle(angle)
-            
+
             self.robot.chg.rotate(roue, angle)
             self.robot.cbg.rotate(roue, angle)
             self.robot.chd.rotate(roue, angle)
@@ -80,10 +80,10 @@ class Arene:
             angle = distance/((pi * self.robot.chd - self.robot.cbd)/180)
             self.robot.vec_deplacement = Vecteur.get_vect_from_angle(angle)
 
-            self.chg.rotate(angle, roue)
-            self.cbg.rotate(angle, roue)
-            self.chd.rotate(angle, roue)
-            self.cbd.rotate(angle, roue)
+            self.robot.chg.rotate(roue, angle)
+            self.robot.cbg.rotate(roue, angle)
+            self.robot.chd.rotate(roue, angle)
+            self.robot.cbd.rotate(roue, angle)
 
         # TODO
         elif self.robot.lspeed > self.robot.rspeed:
@@ -101,6 +101,7 @@ class Arene:
     def stop(self):
         self.robot.lspeed = 0
         self.robot.rspeed = 0
+        self.robot.stop()
 
     def set_robot(self, robot):
         if robot != None:

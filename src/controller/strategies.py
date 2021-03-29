@@ -1,4 +1,6 @@
+from abc import ABC
 from math import pi
+from abc import abstractmethod
 
 
 class Strategie:
@@ -16,6 +18,7 @@ class Strategie:
         self.is_stop = True
         self.is_start = False
 
+    @abstractmethod
     def run(self):
         pass
 
@@ -55,8 +58,7 @@ class Avancer(Strategie):
 
         # print(self.distance_parcouru)
         if self.distance_parcouru >= self.distance or self.robot.vision.check_collisions():
-            self.robot.set_motor_dps(
-                self.robot.MOTOR_LEFT + self.robot.MOTOR_RIGHT, 0)
+            self.robot.stop()
             self.stop()
             print("Arret de avancer")
             return
@@ -66,7 +68,7 @@ class Avancer(Strategie):
 
 
 class Tourner(Strategie):
-    
+
     def __init__(self, robot, angle, orientation):
         super().__init__(robot)
         self.angle = angle
@@ -85,7 +87,6 @@ class Tourner(Strategie):
             self.robot.set_motor_dps(self.robot.MOTOR_LEFT,  self.angle)
             self.robot.set_motor_dps(self.robot.MOTOR_RIGHT, 0)
 
-
     def run(self):
 
         if self.is_stop:
@@ -97,8 +98,7 @@ class Tourner(Strategie):
         # Calcule de l'angle_parcouru
 
         if self.robot.vision.check_collisions():
-            self.robot.set_motor_dps(
-                self.robot.MOTOR_LEFT + self.robot.MOTOR_RIGHT, 0)
+            self.robot.stop()
             self.stop()
             print("Arret de tourner")
             return
@@ -109,6 +109,7 @@ class Tourner(Strategie):
         else:
             self.robot.set_motor_dps(self.robot.MOTOR_LEFT,  self.angle)
             self.robot.set_motor_dps(self.robot.MOTOR_RIGHT, 0)
+
 
 """
 class Carre(Strategie):

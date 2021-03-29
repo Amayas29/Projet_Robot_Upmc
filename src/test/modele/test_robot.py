@@ -1,5 +1,5 @@
 import random
-from modele.robot import Robot
+from model.robot import Robot
 import math
 import unittest
 

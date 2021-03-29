@@ -6,7 +6,6 @@ class Vision:
     def __init__(self, distance):
         self.distance = distance
         self.elements = []
-        self.c = 0
 
     def check_collisions(self):
         return self.elements != []
@@ -57,14 +56,12 @@ class Vision:
 
             if max(seg.src.distance_to_droite(left_droite), seg.src.distance_to_droite(right_droite)) > largeur \
                     or max(seg.dest.distance_to_droite(left_droite), seg.dest.distance_to_droite(right_droite)) > largeur:
-                print("3 if") 
+                print("3 if")
                 continue
 
             self.elements.append(elem)
 
     def get_distance(self, robot):
-
-        largeur = robot.chb - robot.cbd
 
         vec_norme = Vecteur(robot.chd, robot.cbd)
         vec_src = robot.vec_servo
@@ -77,10 +74,6 @@ class Vision:
         elif angle > 90:
             milieu = robot.chd
 
-        a, b = Point.get_points_distance(milieu, vec_src, largeur//2)
-
-        left_droite = Droite.get_droite(vec_norme, a)
-        right_droite = Droite.get_droite(vec_norme, b)
         front_droite = Droite.get_droite(vec_src, milieu)
 
         mini = 0

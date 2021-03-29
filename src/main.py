@@ -1,9 +1,9 @@
 from threading import Thread
 from view.affichage import Affichage
-from controleur.controleur import Controleur
-from modele.robot import Robot
-from modele.arene import Arene
-from modele.vision import Vision
+from controller.controleur import Controleur
+from model.robot import Robot
+from model.arene import Arene
+from model.vision import Vision
 from utils.tools import Point
 import configparser
 # protection du config
