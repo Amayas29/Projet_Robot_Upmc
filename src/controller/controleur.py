@@ -26,11 +26,12 @@ class Controleur:
 
     def update(self):
 
-        if self.current_strat == len(self.strategies):
+        if self.current_strat < 0 or self.current_strat == len(self.strategies):
             return
 
         if self.strategies[self.current_strat].is_stop:
             return
 
-        self.arene.robot.vision.sync_vision(self.arene.robot, self.arene.elements)
+        self.arene.robot.vision.sync_vision(
+            self.arene.robot, self.arene.elements)
         self.strategies[self.current_strat].run()
