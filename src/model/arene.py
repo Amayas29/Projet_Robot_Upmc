@@ -21,7 +21,7 @@ class Arene:
         self.robot.vision.sync_vision(self.robot, self.elements)
 
         if self.robot.vision.check_collisions():
-            print("Collision ! ")
+            # print("Collision ! ")
             self.stop()
             return
 
@@ -42,7 +42,7 @@ class Arene:
             self.robot.posl += angle_roue
 
             point_tmp = Point(
-                self.robot.vec_deplacement.vect[0] + distance, self.robot.vec_deplacement.vect[1] + distance)
+                self.robot.vec_deplacement.vect[0] + distance, self.robot.vec_deplacement.vect[1])
 
             self.robot.chg + point_tmp
             self.robot.cbg + point_tmp

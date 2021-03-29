@@ -13,7 +13,7 @@ def test():
     arene.set_robot(robot)
 
     controleur = Controleur(arene)
-    tourner = Tourner(robot, 90)
+    tourner = Tourner(robot, 90, 0)
     controleur.add_startegie(tourner)
     controleur.select_startegie(0)
 
@@ -21,8 +21,11 @@ def test():
 
     FPS = 60.
 
+    i = 0
     while True:
         # print(robot.chg, robot.cbg, robot.chd, robot.cbd)
         controleur.update()
-        arene.update()
+        if i <= 90:
+            arene.update()
+            i += 0.5
         affichage.update(FPS)

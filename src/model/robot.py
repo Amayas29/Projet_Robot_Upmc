@@ -23,7 +23,7 @@ class Robot:
         self.MOTOR_RIGHT = 2
         self.vec_servo = Vecteur.get_vect_from_angle(0)
         self.vec_deplacement = Vecteur.get_vect_from_angle(0)
-        self.vision = Vision(5)
+        self.vision = Vision(10)
         self.initial_time = None
         self.posr = 0
         self.posl = 0

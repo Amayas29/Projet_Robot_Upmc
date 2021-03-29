@@ -6,6 +6,7 @@ class Vision:
     def __init__(self, distance):
         self.distance = distance
         self.elements = []
+        self.c = 0
 
     def check_collisions(self):
         return self.elements != []
@@ -33,7 +34,6 @@ class Vision:
 
         left_droite = Droite.get_droite(vec_norme, a)
         right_droite = Droite.get_droite(vec_norme, b)
-        front_droite = Droite.get_droite(vec_src, milieu)
 
         for elem in elements:
 
@@ -42,18 +42,23 @@ class Vision:
             new_vec_dest = Vecteur(milieu, seg.dest)
 
             if vec_src.angle(new_vec_src) > 90 and vec_src.angle(new_vec_dest) > 90:
+                print("1 if")
                 continue
 
-            if min(seg.src.distance_to_droite(front_droite), seg.dest.distance_to_droite(front_droite)) > self.distance:
-                continue
+            if seg.intersection(a, vec_src) or seg.intersection(b, vec_src):
+                seg_droite = seg.to_droite()
 
-            if min(min(seg.src.distance_to_droite(left_droite), seg.src.distance_to_droite(right_droite)),
-                   min(seg.dest.distance_to_droite(left_droite), seg.dest.distance_to_droite(right_droite))) > largeur:
-                continue
-
-            if not seg.intersection(a, vec_norme) and not seg.intersection(b, vec_norme):
-                if max(seg.src.distance_to_droite(left_droite), seg.src.distance_to_droite(right_droite)) > largeur:
+                if min(a.distance_to_droite(seg_droite), b.distance_to_droite(seg_droite)) > self.distance:
+                    print("2 if")
                     continue
+
+                self.elements.append(elem)
+                continue
+
+            if max(seg.src.distance_to_droite(left_droite), seg.src.distance_to_droite(right_droite)) > largeur \
+                    or max(seg.dest.distance_to_droite(left_droite), seg.dest.distance_to_droite(right_droite)) > largeur:
+                print("3 if") 
+                continue
 
             self.elements.append(elem)
 

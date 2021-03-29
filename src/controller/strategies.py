@@ -78,7 +78,7 @@ class Tourner(Strategie):
         self.robot.offset_motor_encoder(
             self.robot.MOTOR_LEFT + self.robot.MOTOR_RIGHT, 0)
 
-        if orientation == 0:
+        if self.orientation == 0:
             self.robot.set_motor_dps(self.robot.MOTOR_LEFT,  0)
             self.robot.set_motor_dps(self.robot.MOTOR_RIGHT, self.angle)
         else:
@@ -103,7 +103,7 @@ class Tourner(Strategie):
             print("Arret de tourner")
             return
 
-        if orientation == 0:
+        if self.orientation == 0:
             self.robot.set_motor_dps(self.robot.MOTOR_LEFT,  0)
             self.robot.set_motor_dps(self.robot.MOTOR_RIGHT, self.angle)
         else:

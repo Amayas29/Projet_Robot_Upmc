@@ -5,16 +5,18 @@ from modele.arene import Arene
 from utils.tools import Point
 from view.affichage import Affichage
 from modele.obstacles import Obstacle
+from time import sleep
+
 
 def test():
-    centre = Point(50, 50)
+    centre = Point(100, 100)
     robot = Robot(centre, 50, 50)
 
     arene = Arene()
     arene.set_robot(robot)
 
-    src = Point(300, 50)
-    dest = Point(500, 500)
+    src = Point(300, 0)
+    dest = Point(300, 800)
 
     obstacle = Obstacle(src, dest)
     arene.add_obstacle(obstacle)
@@ -28,10 +30,11 @@ def test():
 
     FPS = 60.
 
-    while not arene.robot.vision.check_collisions():
+    while True or not arene.robot.vision.check_collisions():
         # print(robot.chg, robot.cbg, robot.chd, robot.cbd)
         controleur.update()
         arene.update()
+        # print(arene.robot.vision.elements)
         affichage.update(FPS)
 
 
