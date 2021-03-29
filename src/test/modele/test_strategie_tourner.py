@@ -21,11 +21,8 @@ def test():
 
     FPS = 60.
 
-    i = 0
     while True:
         # print(robot.chg, robot.cbg, robot.chd, robot.cbd)
         controleur.update()
-        if i <= 90:
-            arene.update()
-            i += 0.5
+        arene.update()
         affichage.update(FPS)

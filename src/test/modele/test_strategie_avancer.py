@@ -21,7 +21,7 @@ def test():
     arene.add_obstacle(obstacle)
 
     controleur = Controleur()
-    avancer = Avancer(robot, 50, 50)
+    avancer = Avancer(robot, 100000, 50)
     controleur.add_startegie(avancer)
     controleur.select_startegie(0)
 
