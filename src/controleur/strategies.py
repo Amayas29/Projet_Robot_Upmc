@@ -49,6 +49,7 @@ class Avancer(Strategie):
         k = diff // 360
         r = diff % 360
 
+        print(self.distance_parcouru)
         self.distance_parcouru += k * pi * self.robot.WHEEL_DIAMETER + \
             (r * pi * self.robot.WHEEL_DIAMETER) / 360
 
@@ -66,18 +67,23 @@ class Avancer(Strategie):
 
 class Tourner(Strategie):
     
-    def __init__(self, robot, angle):
+    def __init__(self, robot, angle, orientation):
         super().__init__(robot)
         self.angle = angle
         self.angle_parcouru = 0
+        self.orientation = orientation
 
     def start(self):
         super().start()
         self.robot.offset_motor_encoder(
             self.robot.MOTOR_LEFT + self.robot.MOTOR_RIGHT, 0)
-        # Nb : faut determiner quelle roue mettre a 0 et l'autre a angle ...
-        self.robot.set_motor_dps(self.robot.MOTOR_LEFT, 0)
-        self.robot.set_motor_dps(self.robot.MOTOR_RIGHT, self.angle)
+
+        if orientation == 0:
+            self.robot.set_motor_dps(self.robot.MOTOR_LEFT,  0)
+            self.robot.set_motor_dps(self.robot.MOTOR_RIGHT, self.angle)
+        else:
+            self.robot.set_motor_dps(self.robot.MOTOR_LEFT,  self.angle)
+            self.robot.set_motor_dps(self.robot.MOTOR_RIGHT, 0)
 
 
     def run(self):
@@ -97,8 +103,12 @@ class Tourner(Strategie):
             print("Arret de tourner")
             return
 
-        self.robot.set_motor_dps(self.robot.MOTOR_LEFT, 0)
-        self.robot.set_motor_dps(self.robot.MOTOR_RIGHT, self.angle)
+        if orientation == 0:
+            self.robot.set_motor_dps(self.robot.MOTOR_LEFT,  0)
+            self.robot.set_motor_dps(self.robot.MOTOR_RIGHT, self.angle)
+        else:
+            self.robot.set_motor_dps(self.robot.MOTOR_LEFT,  self.angle)
+            self.robot.set_motor_dps(self.robot.MOTOR_RIGHT, 0)
 
 """
 class Carre(Strategie):
