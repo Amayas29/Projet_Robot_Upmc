@@ -41,8 +41,11 @@ class Arene:
             self.robot.posr += angle_roue
             self.robot.posl += angle_roue
 
+            x = self.robot.vec_deplacement.vect[0] * distance
+            y = self.robot.vec_deplacement.vect[1] * distance
+
             point_tmp = Point(
-                self.robot.vec_deplacement.vect[0] + distance, self.robot.vec_deplacement.vect[1])
+                self.robot.vec_deplacement.vect[0] + x, self.robot.vec_deplacement.vect[1] + y)
 
             self.robot.chg + point_tmp
             self.robot.cbg + point_tmp

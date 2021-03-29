@@ -1,7 +1,7 @@
-from controleur.strategies import Tourner
-from controleur.controleur import Controleur
-from modele.robot import Robot
-from modele.arene import Arene
+from controller.strategies import Tourner
+from controller.controleur import Controleur
+from model.robot import Robot
+from model.arene import Arene
 from utils.tools import Point
 from view.affichage import Affichage
 
