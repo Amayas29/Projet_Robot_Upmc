@@ -1,11 +1,9 @@
 from time import sleep
-import threading
 
 
-class Controleur:
+class Controleur(object):
 
-    def __init__(self, arene):
-        self.arene = arene
+    def __init__(self):
         self.strategies = []
         self.current_strat = -1
 
@@ -32,6 +30,4 @@ class Controleur:
         if self.strategies[self.current_strat].is_stop:
             return
 
-        self.arene.robot.vision.sync_vision(
-            self.arene.robot, self.arene.elements)
         self.strategies[self.current_strat].run()

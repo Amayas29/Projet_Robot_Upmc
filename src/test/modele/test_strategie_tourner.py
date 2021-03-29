@@ -7,10 +7,9 @@ from view.affichage import Affichage
 
 
 def test():
-    centre = Point(100, 800)
-    robot = Robot(centre, 50, 50)
-
     arene = Arene()
+    centre = Point(100, 100)
+    robot = Robot(centre, 50, 50, arene)
     arene.set_robot(robot)
 
     controleur = Controleur(arene)

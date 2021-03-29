@@ -3,14 +3,13 @@ from utils.tools import Point, Droite, Vecteur
 
 class Vision:
 
-    def __init__(self, distance):
-        self.distance = distance
+    DISTANCE = 40
+
+    def __init__(self, arene):
         self.elements = []
+        self.arene = arene
 
-    def check_collisions(self):
-        return self.elements != []
-
-    def sync_vision(self, robot, elements):
+    def sync_vision(self, robot):
         """
             Permet de synchroniser la vision du robot selon sa position et son angle
         """
@@ -34,7 +33,7 @@ class Vision:
         left_droite = Droite.get_droite(vec_norme, a)
         right_droite = Droite.get_droite(vec_norme, b)
 
-        for elem in elements:
+        for elem in self.arene.elements:
 
             seg = elem.segment
             new_vec_src = Vecteur(milieu, seg.src)
@@ -47,7 +46,7 @@ class Vision:
             if seg.intersection(a, vec_src) or seg.intersection(b, vec_src):
                 seg_droite = seg.to_droite()
 
-                if min(a.distance_to_droite(seg_droite), b.distance_to_droite(seg_droite)) > self.distance:
+                if min(a.distance_to_droite(seg_droite), b.distance_to_droite(seg_droite)) > self.DISTANCE:
                     print("2 if")
                     continue
 
@@ -76,7 +75,7 @@ class Vision:
 
         front_droite = Droite.get_droite(vec_src, milieu)
 
-        mini = 0
+        mini = float("inf")
         for elem in self.elements:
             seg = elem.segment
             mini = min(seg.src.distance_to_droite(front_droite),

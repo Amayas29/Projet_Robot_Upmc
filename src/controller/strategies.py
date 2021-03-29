@@ -2,7 +2,7 @@ from math import pi
 from abc import abstractmethod
 
 
-class Strategie:
+class Strategie(object):
 
     def __init__(self, robot):
         self.robot = robot
@@ -51,12 +51,10 @@ class Avancer(Strategie):
         k = diff // 360
         r = diff % 360
 
-        print(self.distance_parcouru)
-        self.distance_parcouru += k * pi * self.robot.WHEEL_DIAMETER + \
-            (r * pi * self.robot.WHEEL_DIAMETER) / 360
+        self.distance_parcouru += k * self.robot.WHEEL_CIRCUMFERENCE + \
+            (r * self.robot.WHEEL_CIRCUMFERENCE) / 360
 
-        # print(self.distance_parcouru)
-        if self.distance_parcouru >= self.distance or self.robot.vision.check_collisions():
+        if self.distance_parcouru >= self.distance or self.robot.get_distance() <= 5:
             self.robot.stop()
             self.stop()
             print("Arret de avancer")
@@ -96,7 +94,7 @@ class Tourner(Strategie):
 
         # Calcule de l'angle_parcouru
 
-        if self.robot.vision.check_collisions():
+        if self.robot.get_distance() <= 5:
             self.robot.stop()
             self.stop()
             print("Arret de tourner")

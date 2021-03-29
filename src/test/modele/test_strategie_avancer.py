@@ -8,10 +8,10 @@ from model.obstacles import Obstacle
 
 
 def test():
-    centre = Point(100, 100)
-    robot = Robot(centre, 50, 50)
 
     arene = Arene()
+    centre = Point(100, 100)
+    robot = Robot(centre, 50, 50, arene)
     arene.set_robot(robot)
 
     src = Point(300, 100)
@@ -20,7 +20,7 @@ def test():
     obstacle = Obstacle(src, dest)
     arene.add_obstacle(obstacle)
 
-    controleur = Controleur(arene)
+    controleur = Controleur()
     avancer = Avancer(robot, 50, 50)
     controleur.add_startegie(avancer)
     controleur.select_startegie(0)
@@ -29,11 +29,9 @@ def test():
 
     FPS = 60.
 
-    while True:  # not arene.robot.vision.check_collisions():
-        # print(robot.chg, robot.cbg, robot.chd, robot.cbd)
+    while True:
         controleur.update()
         arene.update()
-        print(arene.robot.vision.elements)
         affichage.update(FPS)
 
 

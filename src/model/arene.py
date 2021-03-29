@@ -17,26 +17,16 @@ class Arene:
             sleep(1./fps)
 
     def update(self):
-        # syncroniser la vision
-        self.robot.vision.sync_vision(self.robot, self.elements)
-
-        if self.robot.vision.check_collisions():
-            # print("Collision ! ")
-            self.stop()
-            return
-
-        self.forward()
-        self.start()
-
-    def forward(self):
         """
         Permet de bouger le robot d'une case en suivant ca direction
         """
         diff_temps = (datetime.now() - self.temps_precedent).total_seconds()
+        self.temps_precedent = datetime.now()
+
         if self.robot.lspeed == self.robot.rspeed:
             angle_roue = diff_temps * self.robot.lspeed
 
-            distance = angle_roue * (pi * self.robot.WHEEL_DIAMETER / 360)
+            distance = angle_roue * (self.robot.WHEEL_CIRCUMFERENCE / 360)
 
             self.robot.posr += angle_roue
             self.robot.posl += angle_roue
@@ -44,8 +34,7 @@ class Arene:
             x = self.robot.vec_deplacement.vect[0] * distance
             y = self.robot.vec_deplacement.vect[1] * distance
 
-            point_tmp = Point(
-                self.robot.vec_deplacement.vect[0] + x, self.robot.vec_deplacement.vect[1] + y)
+            point_tmp = Point(x, y)
 
             self.robot.chg + point_tmp
             self.robot.cbg + point_tmp
@@ -56,7 +45,7 @@ class Arene:
             roue = Point((self.robot.chg.x + self.robot.chd.x)/2,
                          (self.robot.chg.y + self.robot.chd.y)/2)
             angle_roue = diff_temps * self.robot.rspeed
-            distance = angle_roue * (pi * self.robot.WHEEL_DIAMETER / 360)
+            distance = angle_roue * (self.robot.WHEEL_CIRCUMFERENCE / 360)
 
             self.robot.posr += angle_roue
 
@@ -73,7 +62,7 @@ class Arene:
                          (self.robot.cbg.y + self.robot.cbd.y)/2)
 
             angle_roue = diff_temps * self.robot.lspeed
-            distance = angle_roue * (pi * self.robot.WHEEL_DIAMETER / 360)
+            distance = angle_roue * (self.robot.WHEEL_CIRCUMFERENCE / 360)
 
             self.robot.posl += angle_roue
 
@@ -92,16 +81,6 @@ class Arene:
             pass
         else:
             pass
-
-    def start(self):
-        self.temps_precedent = datetime.now()
-        self.robot.offset_motor_encoder(
-            self.robot.MOTOR_LEFT + self.robot.MOTOR_RIGHT, 0)
-
-    def stop(self):
-        self.robot.lspeed = 0
-        self.robot.rspeed = 0
-        self.robot.stop()
 
     def set_robot(self, robot):
         if robot != None:

@@ -10,7 +10,7 @@ class Robot:
     WHEEL_BASE_CIRCUMFERENCE = WHEEL_BASE_WIDTH * math.pi
     WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * math.pi
 
-    def __init__(self, center, longeur, largeur):
+    def __init__(self, center, longeur, largeur, arene):
 
         self.center = center
         self.longeur = longeur
@@ -28,7 +28,7 @@ class Robot:
         self.MOTOR_RIGHT = 2
         self.vec_servo = Vecteur.get_vect_from_angle(0)
         self.vec_deplacement = Vecteur.get_vect_from_angle(0)
-        self.vision = Vision(10)
+        self.vision = Vision(arene)
         self.posr = 0
         self.posl = 0
 
@@ -67,7 +67,8 @@ class Robot:
         return 100
 
     def get_distance(self):
-        return self.vision.get_distance()
+        self.vision.sync_vision(self)
+        return self.vision.get_distance(self)
 
     def servo_rotate(self, position):
         # Pour tourner le servo !
