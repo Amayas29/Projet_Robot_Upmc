@@ -5,6 +5,7 @@ from model.arene import Arene
 from utils.tools import Point
 from view.affichage import Affichage
 
+
 def test():
     centre = Point(100, 800)
     robot = Robot(centre, 50, 50)
