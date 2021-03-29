@@ -8,11 +8,11 @@ from view.affichage import Affichage
 
 def test():
     arene = Arene()
-    centre = Point(100, 100)
+    centre = Point(900, 900)
     robot = Robot(centre, 50, 50, arene)
     arene.set_robot(robot)
 
-    controleur = Controleur(arene)
+    controleur = Controleur()
     tourner = Tourner(robot, 90, 0)
     controleur.add_startegie(tourner)
     controleur.select_startegie(0)
