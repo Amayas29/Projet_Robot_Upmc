@@ -6,8 +6,6 @@ class Controleur:
 
     def __init__(self, arene):
         self.arene = arene
-        self.vision = arene.robot.vision
-        self.robot = arene.robot
         self.strategies = []
         self.current_strat = -1
 
@@ -34,5 +32,5 @@ class Controleur:
         if self.strategies[self.current_strat].is_stop:
             return
 
-        self.vision.sync_vision(self.robot, self.arene.elements)
+        self.arene.robot.vision.sync_vision(self.arene.robot, self.arene.elements)
         self.strategies[self.current_strat].run()
