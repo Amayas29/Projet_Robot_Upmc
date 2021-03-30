@@ -22,7 +22,7 @@ class Affichage:
         self.p = pygame.display.set_mode((1090, 920))
         self.CLOCK = pygame.time.Clock()
         self.epaisseur = 5
-        self.debug = True
+        self.debug = False
 
     def boucle(self, fps):
         while True:
@@ -38,6 +38,15 @@ class Affichage:
             dest = obs.segment.dest
             pygame.draw.line(self.p, WHITE, (src.x, src.y),
                              (dest.x, dest.y), self.epaisseur)
+
+        pygame.draw.line(self.p, BLUE, (self.robot.chg.x, self.robot.chg.y),
+                         (self.robot.chd.x, self.robot.chd.y), self.epaisseur)
+        pygame.draw.line(self.p, BLUE, (self.robot.chg.x, self.robot.chg.y),
+                         (self.robot.cbg.x, self.robot.cbg.y), self.epaisseur)
+        pygame.draw.line(self.p, RED, (self.robot.chd.x, self.robot.chd.y),
+                         (self.robot.cbd.x, self.robot.cbd.y), self.epaisseur)
+        pygame.draw.line(self.p, BLUE, (self.robot.cbg.x, self.robot.cbg.y),
+                         (self.robot.cbd.x, self.robot.cbd.y), self.epaisseur)
 
         if self.debug:
             largeur = self.robot.chd - self.robot.cbd
@@ -73,15 +82,6 @@ class Affichage:
 
             pygame.draw.line(self.p, AUTRE, (src_.x, src_.y),
                              (point_servo.x, point_servo.y), self.epaisseur)
-
-        pygame.draw.line(self.p, BLUE, (self.robot.chg.x, self.robot.chg.y),
-                         (self.robot.chd.x, self.robot.chd.y), self.epaisseur)
-        pygame.draw.line(self.p, BLUE, (self.robot.chg.x, self.robot.chg.y),
-                         (self.robot.cbg.x, self.robot.cbg.y), self.epaisseur)
-        pygame.draw.line(self.p, RED, (self.robot.chd.x, self.robot.chd.y),
-                         (self.robot.cbd.x, self.robot.cbd.y), self.epaisseur)
-        pygame.draw.line(self.p, BLUE, (self.robot.cbg.x, self.robot.cbg.y),
-                         (self.robot.cbd.x, self.robot.cbd.y), self.epaisseur)
 
         pygame.display.flip()
 

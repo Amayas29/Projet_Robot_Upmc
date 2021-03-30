@@ -71,7 +71,9 @@ class Robot:
         return self.vision.get_distance(self)
 
     def servo_rotate(self, position):
-        self.vec_servo = Vecteur.get_vect_from_angle(position)
+        vec_robot = Vecteur(self.cbd, self.chd)
+        angle = Vecteur.get_vect_from_angle(0).angle_sign(vec_robot)
+        self.vec_servo = Vecteur.get_vect_from_angle(position + angle)
 
     def stop(self):
         self.set_motor_dps(self.MOTOR_LEFT + self.MOTOR_RIGHT, 0)

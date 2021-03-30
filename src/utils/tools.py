@@ -27,7 +27,7 @@ class Point:
         return abs(droite.a * self.x + droite.b * self.y + droite.c) / (sqrt(droite.a ** 2 + droite.b ** 2))
 
     def __eq__(self, point) -> bool:
-        return self.x == point.x and self.y == point.y
+        return point != None and self.x == point.x and self.y == point.y
 
     def __ne__(self, point) -> bool:
         return not self.__eq__(point)
@@ -129,10 +129,11 @@ class Segment:
         if denominateur == 0:
             return False
 
+        m = -(-I.vect[0] * self.src.y + I.vect[0] * point.y + I.vect[1] * self.src.x - I.vect[1] * point.x) / denominateur
         k = -(self.src.x * J.vect[1] - point.x * J.vect[1] -
               J.vect[0] * self.src.y + J.vect[0] * point.y) / denominateur
 
-        if 0 < k < 1:
+        if 0 < k < 1 and m > 0:
             return True
 
         return False
@@ -170,7 +171,7 @@ class Droite:
         denominateur = I.vect[0] * J.vect[1] - I.vect[1] * J.vect[0]
 
         if denominateur == 0:
-            return False
+            return None
 
         k = -(p1.x * J.vect[1] - p2.x * J.vect[1] -
               J.vect[0] * p1.y + J.vect[0] * p2.y) / denominateur
