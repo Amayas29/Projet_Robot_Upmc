@@ -20,9 +20,6 @@ class Arene:
             sleep(1./fps)
 
     def update(self):
-        """
-        Permet de bouger le robot d'une case en suivant ca direction
-        """
         diff_temps = (datetime.now() - self.temps_precedent).total_seconds()
         self.temps_precedent = datetime.now()
 

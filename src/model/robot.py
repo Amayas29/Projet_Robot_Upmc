@@ -16,11 +16,11 @@ class Robot:
         self.longeur = longeur
         self.largeur = largeur
 
-        self.chg = Point(center.x - longeur//2, center.y + largeur//2)
-        self.cbg = Point(center.x - longeur//2, center.y - largeur//2)
+        self.chg = Point(center.x - longeur//2, center.y - largeur//2)
+        self.cbg = Point(center.x - longeur//2, center.y + largeur//2)
 
-        self.chd = Point(center.x + longeur//2, center.y + largeur//2)
-        self.cbd = Point(center.x + longeur//2, center.y - largeur//2)
+        self.chd = Point(center.x + longeur//2, center.y - largeur//2)
+        self.cbd = Point(center.x + longeur//2, center.y + largeur//2)
 
         self.lspeed = 0
         self.rspeed = 0
@@ -71,11 +71,13 @@ class Robot:
         return self.vision.get_distance(self)
 
     def servo_rotate(self, position):
-        # Pour tourner le servo !
-        pass
+        self.vec_servo = Vecteur.get_vect_from_angle(position)
 
     def stop(self):
         self.set_motor_dps(self.MOTOR_LEFT + self.MOTOR_RIGHT, 0)
 
     def get_image(self):
         return "Mon image est : 🤖"
+
+    def __str__(self):
+        return " ".join([str(self.chg), str(self.chd), str(self.cbd), str(self.cbg)])

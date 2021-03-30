@@ -30,8 +30,17 @@ class Vision:
 
         a, b = Point.get_points_distance(milieu, vec_src, largeur//2)
 
-        left_droite = Droite.get_droite(vec_norme, a)
-        right_droite = Droite.get_droite(vec_norme, b)
+        new_milieu = Droite.intersection(vec_src, Point.milieu(
+            robot.chd, robot.cbd), Vecteur(a, b), a)
+        if not new_milieu:
+            pass
+        else:
+            print(new_milieu, milieu)
+            # milieu = new_milieu
+            a, b = Point.get_points_distance(new_milieu, vec_src, largeur//2)
+
+        left_droite = Droite.get_droite(vec_src, a)
+        right_droite = Droite.get_droite(vec_src, b)
 
         for elem in self.arene.elements:
 
@@ -82,3 +91,9 @@ class Vision:
                        mini, seg.dest.distance_to_droite(front_droite))
 
         return mini
+
+    def __str__(self):
+        s = ""
+        for elem in self.elements:
+            s += str(elem) + ", "
+        return s

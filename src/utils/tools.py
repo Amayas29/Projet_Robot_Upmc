@@ -161,3 +161,18 @@ class Droite:
         b = vec_norm.vect[1]
         c = - a * point.x - b * point.y
         return Droite(a, b, c)
+
+    @staticmethod
+    def intersection(vec1, p1, vec2, p2):
+
+        I = vec1
+        J = vec2
+        denominateur = I.vect[0] * J.vect[1] - I.vect[1] * J.vect[0]
+
+        if denominateur == 0:
+            return False
+
+        k = -(p1.x * J.vect[1] - p2.x * J.vect[1] -
+              J.vect[0] * p1.y + J.vect[0] * p2.y) / denominateur
+
+        return Point(p1.x + k * I.vect[0], p1.y + k * I.vect[1])
