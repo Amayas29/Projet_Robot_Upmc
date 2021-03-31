@@ -140,7 +140,6 @@ class Carre(Strategie):
     def stop(self):
         super().stop()
         self.cur = -1
-        self.nb = 0
 
     def run(self):
 
@@ -173,4 +172,3 @@ class Carre(Strategie):
             else:
                 self.cur = 0
                 self.nb += 1
-
