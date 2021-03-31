@@ -33,10 +33,9 @@ class Avancer(Strategie):
 
     def start(self):
         super().start()
-        self.robot.offset_motor_encoder(
-            self.robot.MOTOR_LEFT + self.robot.MOTOR_RIGHT, 0)
-        self.robot.set_motor_dps(
-            self.robot.MOTOR_LEFT + self.robot.MOTOR_RIGHT, 0)
+        l, r = self.robot.get_motor_position()
+        self.robot.offset_motor_encoder(self.robot.MOTOR_LEFT, -l)
+        self.robot.offset_motor_encoder(self.robot.MOTOR_RIGHT, -r)
         self.robot.servo_rotate(90)
 
     def run(self):
@@ -48,17 +47,17 @@ class Avancer(Strategie):
             self.start()
 
         diff = self.robot.get_motor_position()[0]
-
+        print(diff)
         k = diff // 360
         r = diff % 360
 
         self.distance_parcouru += k * self.robot.WHEEL_CIRCUMFERENCE + \
             (r * self.robot.WHEEL_CIRCUMFERENCE) / 360
 
-        if self.distance_parcouru >= self.distance or self.robot.get_distance() <= 5:
+        if self.distance_parcouru >= self.distance or self.robot.get_distance() <= 150 :
             self.robot.stop()
             self.stop()
-            print("Arret de avancer")
+            print("Arret de avancer : ", self.distance_parcouru, self.robot.get_distance())
             return
 
         self.robot.set_motor_dps(

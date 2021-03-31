@@ -2,8 +2,8 @@ from threading import Thread
 
 from controller.controleur import Controleur
 from controller.strategies import Carre
-from irl.mockup import Robot2I013Mockup
-
+# from irl.mockup import Robot2I013Mockup
+from robot2I013 import Robot2I013
 # from view.affichage import Affichage
 
 # from model.robot import Robot
@@ -34,7 +34,7 @@ from irl.mockup import Robot2I013Mockup
 # centre = Point(100, 100)
 # robot = Robot(centre, 50, 50, arene)
 
-robot = Robot2I013Mockup()
+robot = Robot2I013()
 
 # arene.set_robot(robot)
 
@@ -45,7 +45,7 @@ robot = Robot2I013Mockup()
 # arene.add_obstacle(obstacle)
 
 controleur = Controleur()
-carre = Carre(robot, 50, 50, 1)
+carre = Carre(robot, 500, 250, 1)
 controleur.add_startegie(carre)
 controleur.select_startegie(0)
 
@@ -53,10 +53,18 @@ controleur.select_startegie(0)
 
 FPS = 60.0
 
+#robot.stop()
+#exit(0)
 # thread_affichage = Thread(target=affichage.boucle, args=(FPS,))
 thread_controleur = Thread(target=controleur.boucle, args=(FPS,))
 # thread_modele = Thread(target=arene.boucle, args=(FPS,))
 
-thread_controleur.start()
+try:
+	thread_controleur.start()
+except  KeyboardInterrupt:
+	thread_controleur.join(timeout=0)
+	robot.stop()
 # thread_modele.start()
 # thread_affichage.start()
+
+# robot.stop()
