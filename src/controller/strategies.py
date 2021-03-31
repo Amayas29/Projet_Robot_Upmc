@@ -45,7 +45,7 @@ class Avancer(Strategie):
         if not self.is_start:
             self.start()
 
-        diff = self.initiale_position - self.robot.get_motor_position()[0]
+        diff = self.robot.get_motor_position()[0] - self.initiale_position
 
         print(diff)
         k = diff // 360
@@ -99,8 +99,8 @@ class Tourner(Strategie):
         if not self.is_start:
             self.start()
 
-        diff = self.initiale_position - \
-            self.robot.get_motor_position()[self.orientation]
+        diff = self.robot.get_motor_position()[self.orientation] - \
+            self.initiale_position
 
         k = diff // 360
         r = diff % 360
