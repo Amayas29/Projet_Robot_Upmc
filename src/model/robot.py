@@ -35,14 +35,14 @@ class Robot:
     def offset_motor_encoder(self, port, offset):
 
         if (port == self.MOTOR_LEFT):
-            self.posl = offset
+            self.posl += offset
 
         elif(port == self.MOTOR_RIGHT):
-            self.posr = offset
+            self.posr += offset
 
         elif (port == self.MOTOR_LEFT + self.MOTOR_RIGHT):
-            self.posl = offset
-            self.posr = offset
+            self.posl += offset
+            self.posr += offset
 
     def set_motor_dps(self, port, dps):
 
@@ -58,7 +58,7 @@ class Robot:
 
     def get_motor_position(self):
         # Voir l'ordre
-        return (self.posr, self.posl)
+        return (self.posl, self.posr)
 
     def set_led(self, led, red=0, green=0, blue=0):
         print(f"Changement de la led {led} à ({red},{green},{blue})")

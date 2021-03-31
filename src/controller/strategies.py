@@ -8,6 +8,7 @@ class Strategie(object):
         self.robot = robot
         self.is_stop = False
         self.is_start = False
+        self.initiale_position = None
 
     def start(self):
         self.is_stop = False
@@ -33,9 +34,7 @@ class Avancer(Strategie):
 
     def start(self):
         super().start()
-        l, r = self.robot.get_motor_position()
-        self.robot.offset_motor_encoder(self.robot.MOTOR_LEFT, -l)
-        self.robot.offset_motor_encoder(self.robot.MOTOR_RIGHT, -r)
+        self.initiale_position = self.robot.get_motor_position()[0]
         self.robot.servo_rotate(90)
 
     def run(self):
@@ -46,7 +45,8 @@ class Avancer(Strategie):
         if not self.is_start:
             self.start()
 
-        diff = self.robot.get_motor_position()[0]
+        diff = self.initiale_position - self.robot.get_motor_position()[0]
+
         print(diff)
         k = diff // 360
         r = diff % 360
@@ -79,8 +79,7 @@ class Tourner(Strategie):
 
     def start(self):
         super().start()
-        self.robot.offset_motor_encoder(
-            self.robot.MOTOR_LEFT + self.robot.MOTOR_RIGHT, 0)
+        self.initiale_position = self.robot.get_motor_position()[0]
 
         if self.orientation == self.GAUCHE:
             self.robot.set_motor_dps(self.robot.MOTOR_LEFT,  0)
@@ -101,6 +100,8 @@ class Tourner(Strategie):
             diff = self.robot.get_motor_position()[0]
         elif self.orientation == self.DROITE:
             diff = self.robot.get_motor_position()[1]
+
+        diff = self.initiale_position - diff
 
         k = diff // 360
         r = diff % 360
