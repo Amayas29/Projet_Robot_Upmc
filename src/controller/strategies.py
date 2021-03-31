@@ -54,10 +54,11 @@ class Avancer(Strategie):
         self.distance_parcouru += k * self.robot.WHEEL_CIRCUMFERENCE + \
             (r * self.robot.WHEEL_CIRCUMFERENCE) / 360
 
-        if self.distance_parcouru >= self.distance or self.robot.get_distance() <= 150 :
+        if self.distance_parcouru >= self.distance or self.robot.get_distance() <= 150:
             self.robot.stop()
             self.stop()
-            print("Arret de avancer : ", self.distance_parcouru, self.robot.get_distance())
+            print("Arret de avancer : ", self.distance_parcouru,
+                  self.robot.get_distance())
             return
 
         self.robot.set_motor_dps(

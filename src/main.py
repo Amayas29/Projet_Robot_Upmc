@@ -53,17 +53,17 @@ controleur.select_startegie(0)
 
 FPS = 60.0
 
-#robot.stop()
-#exit(0)
+# robot.stop()
+# exit(0)
 # thread_affichage = Thread(target=affichage.boucle, args=(FPS,))
 thread_controleur = Thread(target=controleur.boucle, args=(FPS,))
 # thread_modele = Thread(target=arene.boucle, args=(FPS,))
 
 try:
-	thread_controleur.start()
-except  KeyboardInterrupt:
-	thread_controleur.join(timeout=0)
-	robot.stop()
+    thread_controleur.start()
+except KeyboardInterrupt:
+    thread_controleur.join(timeout=0)
+    robot.stop()
 # thread_modele.start()
 # thread_affichage.start()
 

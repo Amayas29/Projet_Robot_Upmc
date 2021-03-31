@@ -16,9 +16,7 @@ def test():
     # obstacle = Obstacle(src, dest)
     # arene.add_obstacle(obstacle)
 
-
-
-    for i in range (0, 180):
+    for i in range(0, 180):
         arene = Arene()
         centre = Point(100, 100)
         robot = Robot(centre, 50, 50, arene)
