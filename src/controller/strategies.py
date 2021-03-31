@@ -124,10 +124,13 @@ class Tourner(Strategie):
 
 class Carre(Strategie):
 
-    def __init__(self, robot):
-        self.avancer = Avancer(robot,)
-        self.tourner = Tourner()
-        self.stop()
+    NB_MAX = 8
+
+    def __init__(self, robot, cote, vitesse, orientation):
+        self.avancer = Avancer(robot, cote, vitesse)
+        self.tourner = Tourner(robot, 90, orientation, vitesse)
+        self.cur = -1
+        self.nb = 0
 
     def start(self):
         super().start()
@@ -139,5 +142,32 @@ class Carre(Strategie):
         self.cur = -1
         self.nb = 0
 
-    def run():
-        pass
+    def run(self):
+
+        if self.is_stop:
+            return
+
+        if not self.is_start:
+            self.start()
+
+        if self.nb == self.NB_MAX:
+            self.stop()
+            return
+
+        if self.cur == 0:
+            if not self.avancer.is_start:
+                self.avancer.start()
+
+            if not self.avancer.is_stop:
+                self.avancer.run()
+            else:
+                self.cur = 1
+
+        else:
+            if not self.tourner.is_start:
+                self.tourner.start()
+
+            if not self.tourner.is_stop:
+                self.tourner.run()
+            else:
+                self.cur = 0
