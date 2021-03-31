@@ -13,7 +13,7 @@ def test():
     arene.set_robot(robot)
 
     controleur = Controleur()
-    tourner = Tourner(robot, 90, 0)
+    tourner = Tourner(robot, 180, 0, 50)
     controleur.add_startegie(tourner)
     controleur.select_startegie(0)
 
