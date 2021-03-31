@@ -81,12 +81,13 @@ class Tourner(Strategie):
 
     def start(self):
         super().start()
-        self.initiale_position = self.robot.get_motor_position()[self.orientation]
+        self.initiale_position = self.robot.get_motor_position()[
+            self.orientation]
 
         if self.orientation == self.GAUCHE:
             self.robot.set_motor_dps(self.robot.MOTOR_LEFT,  0)
             self.robot.set_motor_dps(self.robot.MOTOR_RIGHT, self.vitesse)
-        elif self.orientation == self.DROITE:
+        else:
             self.robot.set_motor_dps(self.robot.MOTOR_LEFT,  self.vitesse)
             self.robot.set_motor_dps(self.robot.MOTOR_RIGHT, 0)
 
@@ -98,8 +99,8 @@ class Tourner(Strategie):
         if not self.is_start:
             self.start()
 
-
-        diff = self.initiale_position - self.robot.get_motor_position()[self.orientation]
+        diff = self.initiale_position - \
+            self.robot.get_motor_position()[self.orientation]
 
         k = diff // 360
         r = diff % 360
@@ -116,7 +117,7 @@ class Tourner(Strategie):
         if self.orientation == self.GAUCHE:
             self.robot.set_motor_dps(self.robot.MOTOR_LEFT,  0)
             self.robot.set_motor_dps(self.robot.MOTOR_RIGHT, self.vitesse)
-        elif self.orientation == self.GAUCHE:
+        else:
             self.robot.set_motor_dps(self.robot.MOTOR_LEFT,  self.vitesse)
             self.robot.set_motor_dps(self.robot.MOTOR_RIGHT, 0)
 
