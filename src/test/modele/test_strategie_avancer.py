@@ -18,13 +18,13 @@ def test():
 
 
 
-    for i in range (33, 180):
+    for i in range (0, 180):
         arene = Arene()
-        centre = Point(250, 100)
+        centre = Point(100, 100)
         robot = Robot(centre, 50, 50, arene)
         arene.set_robot(robot)
 
-        robot.servo_rotate(i)
+        robot.servo_rotate(90)
         src = Point(300, 100)
         dest = Point(800, 100)
 
@@ -33,12 +33,11 @@ def test():
 
         affichage = Affichage(arene)
         controleur = Controleur()
-        avancer = Avancer(robot, float("inf"), 400)
+        avancer = Avancer(robot, float("inf"), 100)
         controleur.add_startegie(avancer)
         controleur.select_startegie(0)
 
         FPS = 60.
-        print(i)
         try:
             while True:
                 # print(robot.vision)

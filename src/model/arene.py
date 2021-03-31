@@ -24,9 +24,14 @@ class Arene:
         self.temps_precedent = datetime.now()
 
         if self.robot.lspeed == self.robot.rspeed:
+
             angle_roue = diff_temps * self.robot.lspeed
 
-            distance = angle_roue * (self.robot.WHEEL_CIRCUMFERENCE / 360)
+            k = angle_roue // 360
+            r = angle_roue % 360
+
+            distance = k * self.robot.WHEEL_CIRCUMFERENCE + \
+                (r * self.robot.WHEEL_CIRCUMFERENCE) / 360
 
             self.robot.posr += angle_roue
             self.robot.posl += angle_roue

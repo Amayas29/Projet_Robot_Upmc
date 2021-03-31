@@ -22,7 +22,7 @@ class Affichage:
         self.p = pygame.display.set_mode((1090, 920))
         self.CLOCK = pygame.time.Clock()
         self.epaisseur = 5
-        self.debug = False
+        self.debug = True
 
     def boucle(self, fps):
         while True:
@@ -68,7 +68,7 @@ class Affichage:
 
             new_milieu = Droite.intersection(
                 vec_src, point_servo, Vecteur(a, b), a)
-            if not new_milieu:
+            if new_milieu == None:
                 pass
             else:
                 a, b = Point.get_points_distance(
