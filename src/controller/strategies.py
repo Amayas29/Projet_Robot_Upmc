@@ -67,11 +67,13 @@ class Avancer(Strategie):
 
 class Tourner(Strategie):
 
-    GAUCHE = 1
-    DROITE = 0
+    GAUCHE = 0
+    DROITE = 1
 
     def __init__(self, robot, angle, orientation, vitesse):
         super().__init__(robot)
+        if orientation != self.DROITE and orientation != self.GAUCHE:
+            orientation = self.GAUCHE
         self.orientation = orientation
         self.vitesse = vitesse
         self.distance = 2 * pi * robot.WHEEL_BASE_WIDTH * angle / 360
@@ -79,7 +81,7 @@ class Tourner(Strategie):
 
     def start(self):
         super().start()
-        self.initiale_position = self.robot.get_motor_position()[0]
+        self.initiale_position = self.robot.get_motor_position()[self.orientation]
 
         if self.orientation == self.GAUCHE:
             self.robot.set_motor_dps(self.robot.MOTOR_LEFT,  0)
@@ -96,12 +98,8 @@ class Tourner(Strategie):
         if not self.is_start:
             self.start()
 
-        if self.orientation == self.GAUCHE:
-            diff = self.robot.get_motor_position()[0]
-        elif self.orientation == self.DROITE:
-            diff = self.robot.get_motor_position()[1]
 
-        diff = self.initiale_position - diff
+        diff = self.initiale_position - self.robot.get_motor_position()[self.orientation]
 
         k = diff // 360
         r = diff % 360
