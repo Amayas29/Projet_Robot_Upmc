@@ -24,7 +24,7 @@ def test():
         robot = Robot(centre, 50, 50, arene)
         arene.set_robot(robot)
 
-        robot.servo_rotate(90)
+        robot.servo_rotate(i)
         src = Point(300, 100)
         dest = Point(800, 100)
 
