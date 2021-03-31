@@ -162,6 +162,7 @@ class Carre(Strategie):
                 self.avancer.run()
             else:
                 self.cur = 1
+                self.nb += 1
 
         else:
             if not self.tourner.is_start:
@@ -171,3 +172,5 @@ class Carre(Strategie):
                 self.tourner.run()
             else:
                 self.cur = 0
+                self.nb += 1
+
