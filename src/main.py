@@ -1,7 +1,7 @@
 from threading import Thread
 
 from controller.controleur import Controleur
-from controller.strategies import Carre
+from controller.strategies import Carre, Tourner
 from irl.mockup import Robot2I013Mockup
 # from robot2I013 import Robot2I013
 from view.affichage import Affichage
@@ -9,7 +9,8 @@ from view.affichage import Affichage
 from model.robot import Robot
 from model.arene import Arene
 from model.obstacles import Obstacle
-from utils.tools import Point
+from utils.tools import Point, Vecteur
+
 
 
 # import configparser
@@ -38,7 +39,9 @@ robot = Robot(centre, arene)
 # robot = Robot2I013Mockup()
 
 arene.set_robot(robot)
+# robot.vec_deplacement = Vecteur.get_vect_from_angle(180)
 
+robot.refresh()
 # src = Point(300, 100)
 # dest = Point(800, 100)
 
@@ -47,6 +50,7 @@ arene.set_robot(robot)
 
 controleur = Controleur()
 carre = Carre(robot, 100, 250, 0)
+
 controleur.add_startegie(carre)
 controleur.select_startegie(0)
 
