@@ -2,8 +2,8 @@ from threading import Thread
 
 from controller.controleur import Controleur
 from controller.strategies import Carre
-from irl.mockup import Robot2I013Mockup
-# from robot2I013 import Robot2I013
+# from irl.mockup import Robot2I013Mockup
+from robot2I013 import Robot2I013
 from view.affichage import Affichage
 
 from model.robot import Robot
@@ -29,11 +29,12 @@ from utils.tools import Point
 #     print("simu off")
 # programe
 
-arene = Arene()
-centre = Point(100, 100)
-robot = Robot(centre, arene)
+# arene = Arene()
+# centre = Point(100, 100)
+# robot = Robot(centre, arene)
+robot = Robot2I013()
 
-arene.set_robot(robot)
+# arene.set_robot(robot)
 
 controleur = Controleur()
 carre = Carre(robot, 50, 301, 0)
@@ -41,14 +42,14 @@ carre = Carre(robot, 50, 301, 0)
 controleur.add_startegie(carre)
 controleur.select_startegie(0)
 
-affichage = Affichage(arene)
+# affichage = Affichage(arene)
 
 FPS = 60.0
 
-thread_affichage = Thread(target=affichage.boucle, args=(FPS,))
+# thread_affichage = Thread(target=affichage.boucle, args=(FPS,))
 thread_controleur = Thread(target=controleur.boucle, args=(FPS,))
-thread_modele = Thread(target=arene.boucle, args=(FPS,))
+# thread_modele = Thread(target=arene.boucle, args=(FPS,))
 
 thread_controleur.start()
-thread_modele.start()
-thread_affichage.start()
+# thread_modele.start()
+# thread_affichage.start()
