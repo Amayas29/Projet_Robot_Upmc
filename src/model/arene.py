@@ -9,7 +9,7 @@ class Arene:
     def __init__(self):
         self.elements = []
         self.robot = None
-        self.temps_precedent = datetime.now()
+        self.temps_precedent = None
         self.a = 0
 
     def boucle(self, fps):
@@ -21,6 +21,13 @@ class Arene:
             sleep(1./fps)
 
     def update(self):
+
+        if self.robot.lspeed == 0 and self.robot.rspeed == 0:
+            return
+
+        if self.temps_precedent is None:
+            self.temps_precedent = datetime.now()
+
         diff_temps = (datetime.now() - self.temps_precedent).total_seconds()
         self.temps_precedent = datetime.now()
 
@@ -44,7 +51,6 @@ class Arene:
 
             self.robot.center + point_tmp
             self.robot.refresh()
-
             return
 
         if self.robot.lspeed == 0 and self.robot.rspeed != 0:
@@ -64,7 +70,6 @@ class Arene:
             (r * self.robot.WHEEL_CIRCUMFERENCE) / 360
 
         angle = distance * 180 / (pi * self.robot.WHEEL_BASE_WIDTH)
-        print(roue)
 
         if self.robot.lspeed == 0 and self.robot.rspeed != 0:
             angle = -angle

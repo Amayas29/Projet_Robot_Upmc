@@ -14,6 +14,7 @@ class Strategie(object):
         self.is_start = True
 
     def stop(self):
+        self.robot.stop()
         self.is_stop = True
 
     @abstractmethod
@@ -32,6 +33,7 @@ class Avancer(Strategie):
 
     def start(self):
         super().start()
+        self.robot.stop()
         self.old_position = self.robot.get_motor_position()[0]
         self.robot.servo_rotate(90)
         self.distance_parcouru = 0
@@ -54,7 +56,6 @@ class Avancer(Strategie):
             (r * self.robot.WHEEL_CIRCUMFERENCE) / 360
 
         if self.distance_parcouru >= self.distance or self.robot.get_distance() <= 150:
-            self.robot.stop()
             self.stop()
             print("Arret de avancer : ", self.distance_parcouru,
                   self.robot.get_distance())
@@ -80,15 +81,9 @@ class Tourner(Strategie):
 
     def start(self):
         super().start()
+        self.robot.stop()
         self.old_position = self.robot.get_motor_position()[
             self.orientation]
-
-        if self.orientation == self.GAUCHE:
-            self.robot.set_motor_dps(self.robot.MOTOR_LEFT,  0)
-            self.robot.set_motor_dps(self.robot.MOTOR_RIGHT, self.vitesse)
-        else:
-            self.robot.set_motor_dps(self.robot.MOTOR_LEFT,  self.vitesse)
-            self.robot.set_motor_dps(self.robot.MOTOR_RIGHT, 0)
 
         self.distance_parcouru = 0
 
@@ -112,11 +107,10 @@ class Tourner(Strategie):
         self.distance_parcouru += k * self.robot.WHEEL_CIRCUMFERENCE + \
             (r * self.robot.WHEEL_CIRCUMFERENCE) / 360
 
-        # print(self.distance, self.distance_parcouru)
+        # print(self.distance_parcouru)
         if self.robot.get_distance() <= 150 or self.distance_parcouru >= self.distance:
-            self.robot.stop()
             self.stop()
-            print("Arret de tourner")
+            print("Arret de tourner", self.distance_parcouru, self.distance)
             return
 
         if self.orientation == self.GAUCHE:
@@ -132,6 +126,7 @@ class Carre(Strategie):
     NB_MAX = 8
 
     def __init__(self, robot, cote, vitesse, orientation):
+        super().__init__(robot)
         self.avancer = Avancer(robot, cote, vitesse)
         self.tourner = Tourner(robot, 90, orientation, vitesse)
         self.cur = -1

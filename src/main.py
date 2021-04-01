@@ -36,7 +36,7 @@ robot = Robot(centre, arene)
 arene.set_robot(robot)
 
 controleur = Controleur()
-carre = Carre(robot, 100, 250, 0)
+carre = Carre(robot, 50, 301, 0)
 
 controleur.add_startegie(carre)
 controleur.select_startegie(0)
