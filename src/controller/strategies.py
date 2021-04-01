@@ -67,8 +67,8 @@ class Avancer(Strategie):
 
 class Tourner(Strategie):
 
-    GAUCHE = 0
-    DROITE = 1
+    GAUCHE = 1
+    DROITE = 0
 
     def __init__(self, robot, angle, orientation, vitesse):
         super().__init__(robot)
@@ -101,14 +101,14 @@ class Tourner(Strategie):
 
         diff = self.robot.get_motor_position()[self.orientation] - \
             self.initiale_position
-
+      
         k = diff // 360
         r = diff % 360
 
         self.distance_parcouru += k * self.robot.WHEEL_CIRCUMFERENCE + \
             (r * self.robot.WHEEL_CIRCUMFERENCE) / 360
-
-        if self.robot.get_distance() <= 5 and self.distance_parcouru != self.distance:
+        # print("dist :",self.distance_parcouru,"a dist = ", self.distance)
+        if self.robot.get_distance() <= 5 or self.distance_parcouru  >= self.distance:
             self.robot.stop()
             self.stop()
             print("Arret de tourner")

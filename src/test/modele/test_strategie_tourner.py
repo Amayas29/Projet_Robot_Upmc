@@ -4,11 +4,12 @@ from model.robot import Robot
 from model.arene import Arene
 from utils.tools import Point
 from view.affichage import Affichage
+import time
 
 
 def test():
     arene = Arene()
-    centre = Point(900, 900)
+    centre = Point(100, 100)
     robot = Robot(centre, 50, 50, arene)
     arene.set_robot(robot)
 
@@ -21,8 +22,12 @@ def test():
 
     FPS = 60.
 
+   
     while True:
         # print(robot.chg, robot.cbg, robot.chd, robot.cbd)
+        
+        affichage.update(FPS)
         controleur.update()
         arene.update()
-        affichage.update(FPS)
+        time.sleep(1)
+        
