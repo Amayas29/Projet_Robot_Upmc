@@ -69,9 +69,8 @@ class Arene:
         if self.robot.lspeed == 0 and self.robot.rspeed != 0:
             angle = -angle
        
-        self.robot.vec_deplacement = Vecteur.get_vect_from_angle(
-            angle + Vecteur.get_vect_from_angle(0).angle(self.robot.vec_deplacement))
-
+        self.robot.vec_deplacement = Vecteur.get_vect_from_angle(Vecteur.get_vect_from_angle(0).angle_sign(Vecteur(self.robot.chg,self.robot.chd)))
+        
         self.robot.chg.rotate(roue, angle)
         self.robot.cbg.rotate(roue, angle)
         self.robot.chd.rotate(roue, angle)
