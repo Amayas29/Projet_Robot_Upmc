@@ -14,7 +14,7 @@ class Robot:
     def __init__(self, center, arene):
 
         self.center = center
-    
+
         self.vec_deplacement = Vecteur.get_vect_from_angle(0)
         self.refresh()
 

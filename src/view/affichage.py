@@ -50,7 +50,8 @@ class Affichage:
 
         if self.debug:
             a = Point.milieu(self.robot.chd, self.robot.cbd)
-            b = Point(a.x + self.robot.vec_deplacement.vect[0]*100,a.y + self.robot.vec_deplacement.vect[1]*100)
+            b = Point(
+                a.x + self.robot.vec_deplacement.vect[0]*100, a.y + self.robot.vec_deplacement.vect[1]*100)
             pygame.draw.line(self.p, RED, (a.x, a.y),
                              (b.x, b.y), self.epaisseur)
             m1 = Point((self.robot.cbg.x + self.robot.cbd.x)/2,
