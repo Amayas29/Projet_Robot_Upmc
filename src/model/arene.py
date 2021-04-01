@@ -64,13 +64,13 @@ class Arene:
         distance = k * self.robot.WHEEL_CIRCUMFERENCE + \
             (r * self.robot.WHEEL_CIRCUMFERENCE) / 360
 
-       
         angle = distance * 180 / (pi * self.robot.WHEEL_BASE_WIDTH)
         if self.robot.lspeed == 0 and self.robot.rspeed != 0:
             angle = -angle
-       
-        self.robot.vec_deplacement = Vecteur.get_vect_from_angle(Vecteur.get_vect_from_angle(0).angle_sign(Vecteur(self.robot.chg,self.robot.chd)))
-        
+
+        self.robot.vec_deplacement = Vecteur.get_vect_from_angle(
+            Vecteur.get_vect_from_angle(0).angle_sign(Vecteur(self.robot.chg, self.robot.chd)))
+
         self.robot.chg.rotate(roue, angle)
         self.robot.cbg.rotate(roue, angle)
         self.robot.chd.rotate(roue, angle)
