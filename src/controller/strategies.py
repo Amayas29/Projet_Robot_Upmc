@@ -35,7 +35,7 @@ class Avancer(Strategie):
         super().start()
         self.robot.stop()
         self.old_position = self.robot.get_motor_position()[0]
-        self.robot.servo_rotate(90)
+        self.robot.servo_rotate(89)
         self.distance_parcouru = 0
 
     def run(self):
@@ -95,7 +95,7 @@ class Tourner(Strategie):
         if not self.is_start:
             self.start()
 
-        self.robot.servo_rotate(135)
+        self.robot.servo_rotate(60)
         diff = self.robot.get_motor_position()[self.orientation] - \
             self.old_position
 

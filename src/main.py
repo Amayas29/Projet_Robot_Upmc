@@ -4,11 +4,11 @@ from controller.controleur import Controleur
 from controller.strategies import Carre
 # from irl.mockup import Robot2I013Mockup
 from robot2I013 import Robot2I013
-from view.affichage import Affichage
+# from view.affichage import Affichage
 
-from model.robot import Robot
-from model.arene import Arene
-from utils.tools import Point
+# from model.robot import Robot
+# from model.arene import Arene
+# from utils.tools import Point
 
 
 # import configparser
@@ -32,12 +32,13 @@ from utils.tools import Point
 # arene = Arene()
 # centre = Point(100, 100)
 # robot = Robot(centre, arene)
-robot = Robot2I013()
+
 
 # arene.set_robot(robot)
 
 controleur = Controleur()
-carre = Carre(robot, 50, 301, 0)
+robot = Robot2I013(controleur)
+carre = Carre(robot, 50, 100, 0)
 
 controleur.add_startegie(carre)
 controleur.select_startegie(0)
