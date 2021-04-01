@@ -8,7 +8,7 @@ class Strategie(object):
         self.robot = robot
         self.is_stop = False
         self.is_start = False
-        self.initiale_position = None
+        self.old_position = None
 
     def start(self):
         self.is_stop = False
@@ -16,7 +16,6 @@ class Strategie(object):
 
     def stop(self):
         self.is_stop = True
-        self.is_start = False
 
     @abstractmethod
     def run(self):
@@ -34,8 +33,9 @@ class Avancer(Strategie):
 
     def start(self):
         super().start()
-        self.initiale_position = self.robot.get_motor_position()[0]
+        self.old_position = self.robot.get_motor_position()[0]
         self.robot.servo_rotate(90)
+        self.distance_parcouru = 0
 
     def run(self):
 
@@ -45,9 +45,10 @@ class Avancer(Strategie):
         if not self.is_start:
             self.start()
 
-        diff = self.robot.get_motor_position()[0] - self.initiale_position
+        diff = self.robot.get_motor_position()[0] - self.old_position
+        self.old_position = self.robot.get_motor_position()[0]
 
-        print(diff)
+        # print(diff)
         k = diff // 360
         r = diff % 360
 
@@ -76,12 +77,12 @@ class Tourner(Strategie):
             orientation = self.GAUCHE
         self.orientation = orientation
         self.vitesse = vitesse
-        self.distance = 2 * pi * robot.WHEEL_BASE_WIDTH * angle / 360
+        self.distance = (robot.WHEEL_BASE_CIRCUMFERENCE * angle) / 180
         self.distance_parcouru = 0
 
     def start(self):
         super().start()
-        self.initiale_position = self.robot.get_motor_position()[
+        self.old_position = self.robot.get_motor_position()[
             self.orientation]
 
         if self.orientation == self.GAUCHE:
@@ -91,6 +92,8 @@ class Tourner(Strategie):
             self.robot.set_motor_dps(self.robot.MOTOR_LEFT,  self.vitesse)
             self.robot.set_motor_dps(self.robot.MOTOR_RIGHT, 0)
 
+        self.distance_parcouru = 0
+
     def run(self):
 
         if self.is_stop:
@@ -99,16 +102,20 @@ class Tourner(Strategie):
         if not self.is_start:
             self.start()
 
+        self.robot.servo_rotate(135)
         diff = self.robot.get_motor_position()[self.orientation] - \
-            self.initiale_position
-      
+            self.old_position
+
+        self.old_position = self.robot.get_motor_position()[self.orientation]
+
         k = diff // 360
         r = diff % 360
 
         self.distance_parcouru += k * self.robot.WHEEL_CIRCUMFERENCE + \
             (r * self.robot.WHEEL_CIRCUMFERENCE) / 360
-        # print("dist :",self.distance_parcouru,"a dist = ", self.distance)
-        if self.robot.get_distance() <= 5 or self.distance_parcouru  >= self.distance:
+
+        print(self.distance, self.distance_parcouru)
+        if self.robot.get_distance() <= 150 or self.distance_parcouru >= self.distance:
             self.robot.stop()
             self.stop()
             print("Arret de tourner")
