@@ -141,6 +141,7 @@ class Carre(Strategie):
         super().start()
         self.cur = 0
         self.nb = 0
+        self.avancer.start()
 
     def stop(self):
         super().stop()
