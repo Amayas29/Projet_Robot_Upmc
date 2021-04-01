@@ -14,21 +14,15 @@ class Robot:
     def __init__(self, center, arene):
 
         self.center = center
-        longeur = self.WHEEL_BASE_WIDTH
-        largeur = self.WHEEL_BASE_WIDTH
-
-        self.chg = Point(center.x - longeur//2, center.y - largeur//2)
-        self.cbg = Point(center.x - longeur//2, center.y + largeur//2)
-
-        self.chd = Point(center.x + longeur//2, center.y - largeur//2)
-        self.cbd = Point(center.x + longeur//2, center.y + largeur//2)
+    
+        self.vec_deplacement = Vecteur.get_vect_from_angle(0)
+        self.refresh()
 
         self.lspeed = 0
         self.rspeed = 0
         self.MOTOR_LEFT = 1
         self.MOTOR_RIGHT = 2
         self.vec_servo = Vecteur.get_vect_from_angle(0)
-        self.vec_deplacement = Vecteur.get_vect_from_angle(0)
         self.vision = Vision(arene)
         self.posr = 0
         self.posl = 0
@@ -93,10 +87,10 @@ class Robot:
         self.chg = Point(center.x - (self.WHEEL_BASE_WIDTH//2) * self.vec_deplacement.vect[0] - (self.WHEEL_BASE_WIDTH//2) * vec_norm.vect[0],
                          center.y - (self.WHEEL_BASE_WIDTH//2) * self.vec_deplacement.vect[1] - (self.WHEEL_BASE_WIDTH//2) * vec_norm.vect[1])
 
-        self.chd = Point(center.x - (self.WHEEL_BASE_WIDTH//2) * self.vec_deplacement.vect[0] + (self.WHEEL_BASE_WIDTH//2) * vec_norm.vect[0],
+        self.cbg = Point(center.x - (self.WHEEL_BASE_WIDTH//2) * self.vec_deplacement.vect[0] + (self.WHEEL_BASE_WIDTH//2) * vec_norm.vect[0],
                          center.y - (self.WHEEL_BASE_WIDTH//2) * self.vec_deplacement.vect[1] + (self.WHEEL_BASE_WIDTH//2) * vec_norm.vect[1])
 
-        self.cbg = Point(center.x + (self.WHEEL_BASE_WIDTH//2) * self.vec_deplacement.vect[0] - (self.WHEEL_BASE_WIDTH//2) * vec_norm.vect[0],
+        self.chd = Point(center.x + (self.WHEEL_BASE_WIDTH//2) * self.vec_deplacement.vect[0] - (self.WHEEL_BASE_WIDTH//2) * vec_norm.vect[0],
                          center.y + (self.WHEEL_BASE_WIDTH//2) * self.vec_deplacement.vect[1] - (self.WHEEL_BASE_WIDTH//2) * vec_norm.vect[1])
 
         self.cbd = Point(center.x + (self.WHEEL_BASE_WIDTH//2) * self.vec_deplacement.vect[0] + (self.WHEEL_BASE_WIDTH//2) * vec_norm.vect[0],
