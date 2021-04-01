@@ -66,7 +66,7 @@ class Arene:
 
        
         angle = distance * 180 / (pi * self.robot.WHEEL_BASE_WIDTH)
-        if self.robot.rspeed == 0 and self.robot.lspeed != 0:
+        if self.robot.lspeed == 0 and self.robot.rspeed != 0:
             angle = -angle
        
         self.robot.vec_deplacement = Vecteur.get_vect_from_angle(
