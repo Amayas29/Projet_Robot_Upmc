@@ -1,4 +1,4 @@
-            
+
 from utils.tools import Point, Vecteur
 from .vision import Vision
 import math
@@ -90,17 +90,14 @@ class Robot:
         vec_norm = Vecteur(
             Point(0, 0), Point(- self.vec_deplacement.vect[1], self.vec_deplacement.vect[0]))
 
-        self.chg = Point(center.x - (self.WHEEL_BASE_WIDTH//2) * self.vec_deplacement.vect[0] -(self.WHEEL_BASE_WIDTH//2) * vec_norm.vect[0],\
-             center.y - (self.WHEEL_BASE_WIDTH//2) * self.vec_deplacement.vect[1] -(self.WHEEL_BASE_WIDTH//2) * vec_norm.vect[1])
+        self.chg = Point(center.x - (self.WHEEL_BASE_WIDTH//2) * self.vec_deplacement.vect[0] - (self.WHEEL_BASE_WIDTH//2) * vec_norm.vect[0],
+                         center.y - (self.WHEEL_BASE_WIDTH//2) * self.vec_deplacement.vect[1] - (self.WHEEL_BASE_WIDTH//2) * vec_norm.vect[1])
 
+        self.chd = Point(center.x - (self.WHEEL_BASE_WIDTH//2) * self.vec_deplacement.vect[0] + (self.WHEEL_BASE_WIDTH//2) * vec_norm.vect[0],
+                         center.y - (self.WHEEL_BASE_WIDTH//2) * self.vec_deplacement.vect[1] + (self.WHEEL_BASE_WIDTH//2) * vec_norm.vect[1])
 
-        self.chd = Point(center.x + (self.WHEEL_BASE_WIDTH//2) * self.vec_deplacement.vect[0] +(self.WHEEL_BASE_WIDTH//2) * vec_norm.vect[0],\
-             center.y - (self.WHEEL_BASE_WIDTH//2) * self.vec_deplacement.vect[1] - (self.WHEEL_BASE_WIDTH//2) * vec_norm.vect[1])
+        self.cbg = Point(center.x + (self.WHEEL_BASE_WIDTH//2) * self.vec_deplacement.vect[0] - (self.WHEEL_BASE_WIDTH//2) * vec_norm.vect[0],
+                         center.y + (self.WHEEL_BASE_WIDTH//2) * self.vec_deplacement.vect[1] - (self.WHEEL_BASE_WIDTH//2) * vec_norm.vect[1])
 
-        self.cbg = Point(center.x + (self.WHEEL_BASE_WIDTH//2) * self.vec_deplacement.vect[0] (self.WHEEL_BASE_WIDTH//2) * vec_norm.vect[0],\
-             center.y + (self.WHEEL_BASE_WIDTH//2) * self.vec_deplacement.vect[1] + (self.WHEEL_BASE_WIDTH//2) * vec_norm.vect[1])
-
-        self.cbd = Point(center.x - (self.WHEEL_BASE_WIDTH//2) * self.vec_deplacement.vect[0] -(self.WHEEL_BASE_WIDTH//2) * vec_norm.vect[0],\
-             center.y + (self.WHEEL_BASE_WIDTH//2) * self.vec_deplacement.vect[1] + (self.WHEEL_BASE_WIDTH//2) * vec_norm.vect[1])
-
-        
+        self.cbd = Point(center.x + (self.WHEEL_BASE_WIDTH//2) * self.vec_deplacement.vect[0] + (self.WHEEL_BASE_WIDTH//2) * vec_norm.vect[0],
+                         center.y + (self.WHEEL_BASE_WIDTH//2) * self.vec_deplacement.vect[1] + (self.WHEEL_BASE_WIDTH//2) * vec_norm.vect[1])
