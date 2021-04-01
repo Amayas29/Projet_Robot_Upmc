@@ -32,21 +32,21 @@ from utils.tools import Point
 
 arene = Arene()
 centre = Point(100, 100)
-robot = Robot(centre, 50, 50, arene)
+robot = Robot(centre, arene)
 
 # robot = Robot2I013()
 # robot = Robot2I013Mockup()
 
 arene.set_robot(robot)
 
-src = Point(300, 100)
-dest = Point(800, 100)
+# src = Point(300, 100)
+# dest = Point(800, 100)
 
-obstacle = Obstacle(src, dest)
-arene.add_obstacle(obstacle)
+# obstacle = Obstacle(src, dest)
+# arene.add_obstacle(obstacle)
 
 controleur = Controleur()
-carre = Carre(robot, 500, 250, 1)
+carre = Carre(robot, 500, 250, 0)
 controleur.add_startegie(carre)
 controleur.select_startegie(0)
 
@@ -59,9 +59,7 @@ thread_controleur = Thread(target=controleur.boucle, args=(FPS,))
 thread_modele = Thread(target=arene.boucle, args=(FPS,))
 
 thread_controleur.start()
-
-robot.stop()
-# thread_modele.start()
-# thread_affichage.start()
+thread_modele.start()
+thread_affichage.start()
 
 # robot.stop()

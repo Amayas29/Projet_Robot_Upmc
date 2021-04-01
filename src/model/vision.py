@@ -13,7 +13,7 @@ class Vision:
 
         self.elements = []
 
-        largeur = robot.chd - robot.cbd
+        largeur = robot.WHEEL_BASE_WIDTH
 
         vec_norme = Vecteur(robot.chd, robot.cbd)
         vec_src = robot.vec_servo
@@ -65,7 +65,7 @@ class Vision:
 
     def get_distance(self, robot):
 
-        largeur = robot.chd - robot.cbd
+        largeur = robot.WHEEL_BASE_WIDTH
 
         vec_norme = Vecteur(robot.chd, robot.cbd)
         vec_src = robot.vec_servo

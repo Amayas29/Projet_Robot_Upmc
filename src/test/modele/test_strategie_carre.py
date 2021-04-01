@@ -1,30 +1,25 @@
-from controller.strategies import Avancer
+from controller.strategies import Carre
 from controller.controleur import Controleur
 from model.robot import Robot
 from model.arene import Arene
 from utils.tools import Point
 from view.affichage import Affichage
-from model.obstacles import Obstacle
+import time
 
 
 def test():
 
     arene = Arene()
-    centre = Point(100, 100)
+    centre = Point(500, 500)
     robot = Robot(centre, arene)
     arene.set_robot(robot)
 
     robot.servo_rotate(90)
-    src = Point(300, 100)
-    dest = Point(800, 100)
-
-    obstacle = Obstacle(src, dest)
-    arene.add_obstacle(obstacle)
 
     affichage = Affichage(arene)
     controleur = Controleur()
-    avancer = Avancer(robot, 175, 100)
-    controleur.add_startegie(avancer)
+    carre = Carre(robot, 100, 100, 0)
+    controleur.add_startegie(carre)
     controleur.select_startegie(0)
 
     FPS = 60.

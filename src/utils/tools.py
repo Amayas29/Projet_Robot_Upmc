@@ -33,14 +33,10 @@ class Point:
         return not self.__eq__(point)
 
     def rotate(self, center, angle):
-        # angle = radians(angle)
-        # self.x -= center.x
-        # self.y -= center.y
-        # self.x = self.x * cos(angle) + self.y * sin(angle) + center.x
-        # self.y = -self.x * sin(angle) + self.y * cos(angle) + center.y
         distance = self - center
-        vect_src = Vecteur(center , self)
-        angle_vect_dest = Vecteur.get_vect_from_angle(0).angle_sign(vect_src) + angle
+        vect_src = Vecteur(center, self)
+        angle_vect_dest = Vecteur.get_vect_from_angle(
+            0).angle_sign(vect_src) + angle
         vect_dest = Vecteur.get_vect_from_angle(angle_vect_dest)
         self.x = center.x + vect_dest.vect[0] * distance
         self.y = center.y + vect_dest.vect[1] * distance
@@ -135,7 +131,8 @@ class Segment:
         if denominateur == 0:
             return False
 
-        m = -(-I.vect[0] * self.src.y + I.vect[0] * point.y + I.vect[1] * self.src.x - I.vect[1] * point.x) / denominateur
+        m = -(-I.vect[0] * self.src.y + I.vect[0] * point.y +
+              I.vect[1] * self.src.x - I.vect[1] * point.x) / denominateur
         k = -(self.src.x * J.vect[1] - point.x * J.vect[1] -
               J.vect[0] * self.src.y + J.vect[0] * point.y) / denominateur
 

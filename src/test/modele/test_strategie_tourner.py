@@ -10,7 +10,7 @@ import time
 def test():
     arene = Arene()
     centre = Point(100, 100)
-    robot = Robot(centre, 50, 50, arene)
+    robot = Robot(centre, arene)
     arene.set_robot(robot)
 
     controleur = Controleur()
@@ -22,12 +22,10 @@ def test():
 
     FPS = 60.
 
-   
     while True:
-        # print(robot.chg, robot.cbg, robot.chd, robot.cbd)
-        
-        affichage.update(FPS)
         controleur.update()
         arene.update()
+        affichage.update(FPS)
+
+        # Ce bg pose un probleme ! (Hamid c'etait pas moi le probleme xD !)
         time.sleep(1)
-        

@@ -1,4 +1,3 @@
-from math import pi
 from abc import abstractmethod
 
 
@@ -48,7 +47,6 @@ class Avancer(Strategie):
         diff = self.robot.get_motor_position()[0] - self.old_position
         self.old_position = self.robot.get_motor_position()[0]
 
-        # print(diff)
         k = diff // 360
         r = diff % 360
 
@@ -114,7 +112,7 @@ class Tourner(Strategie):
         self.distance_parcouru += k * self.robot.WHEEL_CIRCUMFERENCE + \
             (r * self.robot.WHEEL_CIRCUMFERENCE) / 360
 
-        print(self.distance, self.distance_parcouru)
+        # print(self.distance, self.distance_parcouru)
         if self.robot.get_distance() <= 150 or self.distance_parcouru >= self.distance:
             self.robot.stop()
             self.stop()
@@ -161,21 +159,19 @@ class Carre(Strategie):
             return
 
         if self.cur == 0:
-            if not self.avancer.is_start:
-                self.avancer.start()
 
             if not self.avancer.is_stop:
                 self.avancer.run()
             else:
                 self.cur = 1
                 self.nb += 1
+                self.tourner.start()
 
         else:
-            if not self.tourner.is_start:
-                self.tourner.start()
 
             if not self.tourner.is_stop:
                 self.tourner.run()
             else:
                 self.cur = 0
                 self.nb += 1
+                self.avancer.start()

@@ -38,8 +38,7 @@ class Affichage:
             dest = obs.segment.dest
             pygame.draw.line(self.p, WHITE, (src.x, src.y),
                              (dest.x, dest.y), self.epaisseur)
-        
-        
+
         pygame.draw.line(self.p, BLUE, (self.robot.chg.x, self.robot.chg.y),
                          (self.robot.chd.x, self.robot.chd.y), self.epaisseur)
         pygame.draw.line(self.p, BLUE, (self.robot.chg.x, self.robot.chg.y),
@@ -51,11 +50,12 @@ class Affichage:
 
         if self.debug:
             m1 = Point((self.robot.cbg.x + self.robot.cbd.x)/2,
-                         (self.robot.cbg.y + self.robot.cbd.y)/2)
+                       (self.robot.cbg.y + self.robot.cbd.y)/2)
             m2 = Point((self.robot.chg.x + self.robot.chd.x)/2,
-                         (self.robot.chg.y + self.robot.chd.y)/2)
+                       (self.robot.chg.y + self.robot.chd.y)/2)
 
-            pygame.draw.line(self.p, RED, (m2.x, m2.y),(m1.x, m1.y), self.epaisseur)
+            pygame.draw.line(self.p, RED, (m2.x, m2.y),
+                             (m1.x, m1.y), self.epaisseur)
             largeur = self.robot.chd - self.robot.cbd
 
             vec_norme = Vecteur(self.robot.chd, self.robot.cbd)

@@ -10,11 +10,11 @@ class Robot:
     WHEEL_BASE_CIRCUMFERENCE = WHEEL_BASE_WIDTH * math.pi
     WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * math.pi
 
-    def __init__(self, center, longeur, largeur, arene):
+    def __init__(self, center, arene):
 
         self.center = center
-        self.longeur = longeur
-        self.largeur = largeur
+        longeur = self.WHEEL_BASE_WIDTH
+        largeur = self.WHEEL_BASE_WIDTH
 
         self.chg = Point(center.x - longeur//2, center.y - largeur//2)
         self.cbg = Point(center.x - longeur//2, center.y + largeur//2)
