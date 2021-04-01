@@ -38,7 +38,7 @@ from robot2I013 import Robot2I013
 
 controleur = Controleur()
 robot = Robot2I013(controleur)
-carre = Carre(robot, 50, 100, 0)
+carre = Carre(robot, 50, 300, 0)
 
 controleur.add_startegie(carre)
 controleur.select_startegie(0)
