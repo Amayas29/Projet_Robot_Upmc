@@ -47,6 +47,8 @@ else:  #mode REEL
   thread_controleur = Thread(target=controleur.boucle, args=(FPS,))
   thread_controleur.start()
 
+print("fin du main")
+
 
 
 
