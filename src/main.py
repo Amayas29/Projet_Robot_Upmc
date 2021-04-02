@@ -2,21 +2,24 @@ from threading import Thread
 from utils.tools import Config
 # protection du config
 config = Config()
-if ( config.get_vers() != 0.2):
+if ( config.get_vers() != 0.3):
   print("Config version non conforme")
   print(config.get_vers())
   exit(1)
-
 if ( config.get_dist_secu() < 13.0):
   print("Erreur critique: la distance de sécurité est trop faible! (minimum 13.0)")
   exit(1)
-
 mode = config.get_mode()
 if (mode):
   print("Simu on")
 else:
   print("simu off")
 # programe
+
+startlist = config.get_strat_list()
+print(startlist)
+print(config.get_strat(startlist[0]))
+#exit(1)
 
 FPS = 60.0
 
@@ -46,10 +49,4 @@ else:  #mode REEL
   controleur.select_startegie(0)
   thread_controleur = Thread(target=controleur.boucle, args=(FPS,))
   thread_controleur.start()
-
 print("fin du main")
-
-
-
-
-

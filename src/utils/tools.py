@@ -189,7 +189,7 @@ class Config:
   def __init__(self):
     self.conf = configparser.ConfigParser()
     self.conf.read('config.cfg')
-
+# Init du main
   def get_vers(self):
     return float(self.conf['Version']['config_version'])
 
@@ -198,5 +198,29 @@ class Config:
 
   def get_mode(self):
     return self.conf['Robot'].getboolean('mode_simu')
-
+# Fin de l'init
+  def get_strat_list(self):
+    res = []
+    for x in self.conf['Strat']:
+      res.append(x)
+    return res
+  
+  def get_strat(self, strat):
+    try:
+      txt = self.conf['Strat'][strat]
+      return txt.split(",")
+    except Exception as e:
+      print("Erreur : Strategie ", e, ' inexistante')
+    
+  def get_obstacle(self):
+    res = []
+    for x in self.conf['Obstacles']:
+      temp = self.conf['Obstacles'][x].split(";")
+      res1= []
+      for y in temp:
+        temp1=y.split(",")
+        res2 = Point(float(temp1[0]), float(temp1[1]))
+        res1.append(res2)
+      res.append(res1)
+    return res
 
