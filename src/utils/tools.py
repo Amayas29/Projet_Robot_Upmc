@@ -130,7 +130,7 @@ class Segment:
         denominateur = I.vect[0] * J.vect[1] - I.vect[1] * J.vect[0]
 
         if denominateur == 0:
-            return False
+            return None
 
         m = -(-I.vect[0] * self.src.y + I.vect[0] * point.y +
               I.vect[1] * self.src.x - I.vect[1] * point.x) / denominateur
@@ -138,9 +138,9 @@ class Segment:
               J.vect[0] * self.src.y + J.vect[0] * point.y) / denominateur
 
         if 0 < k < 1 and m > 0:
-            return True
+            return Point(self.src.x + k * I.vect[0], self.src.y + k * I.vect[1])
 
-        return False
+        return None
 
     def to_droite(self):
         vec_unit = Vecteur(self.src, self.dest)

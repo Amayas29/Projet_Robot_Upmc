@@ -1,5 +1,7 @@
 from threading import Thread
+from controller.strategies import Tourner
 from utils.tools import Config
+import sys
 
 # protection du config
 config = Config()
@@ -27,18 +29,37 @@ if (mode):  # Mode Simu
     from model.robot import Robot
     from model.arene import Arene
     from utils.tools import Point
+    from model.obstacles import Obstacle
     from controller.controleur import Controleur
     from controller.strategies import Carre
 
     arene = Arene()
     controleur = Controleur()
 
-    robot = Robot(Point(100, 100), arene)
+    try:
+        test = int(sys.argv[1])
+    except:
+        test = 1
+
+    if test == 1:
+        arene.add_obstacle(Obstacle(Point(100, 10), Point(900, 900)))
+    elif test == 2:
+        arene.add_obstacle(Obstacle(Point(100, 270), Point(900, 10)))
+    elif test == 3:
+        arene.add_obstacle(Obstacle(Point(250, 270), Point(900, 10)))
+    elif test == 4:
+        # wtf 260 in dest.y
+        arene.add_obstacle(Obstacle(Point(300, 260), Point(900, 255)))
+    else:
+        arene.add_obstacle(Obstacle(Point(300, 300), Point(900, 300)))
+
+    robot = Robot(Point(230, 300), arene)
     arene.set_robot(robot)
 
     affichage = Affichage(arene)
 
-    carre = Carre(robot, 50, 300, 0)
+    carre = Tourner(robot, 90, 1, 300)
+    carre = Carre(robot, 100, 300, 1)
     controleur.add_startegie(carre)
     controleur.select_startegie(0)
 

@@ -1,4 +1,5 @@
 from utils.tools import Point, Droite, Vecteur
+import sys
 
 
 class Vision:
@@ -48,7 +49,7 @@ class Vision:
             if vec_norme.angle(new_vec_src) > 180 and vec_norme.angle(new_vec_dest) > 180:
                 continue
 
-            if seg.intersection(a, vec_src) or seg.intersection(b, vec_src):
+            if seg.intersection(a, vec_src) is not None or seg.intersection(b, vec_src) is not None:
                 seg_droite = seg.to_droite()
 
                 if min(a.distance_to_droite(seg_droite), b.distance_to_droite(seg_droite)) > self.DISTANCE:
@@ -82,14 +83,32 @@ class Vision:
 
         new_milieu = Droite.intersection(vec_src, Point.milieu(
             robot.chd, robot.cbd), Vecteur(a, b), a)
+        if new_milieu == None:
+            new_milieu = milieu
+        else:
+            a, b = Point.get_points_distance(new_milieu, vec_src, largeur//2)
 
         front_droite = Droite.get_droite(vec_src, new_milieu)
 
         mini = float("inf")
         for elem in self.elements:
             seg = elem.segment
-            mini = min(seg.src.distance_to_droite(front_droite),
-                       mini, seg.dest.distance_to_droite(front_droite))
+
+            p1 = seg.intersection(a, vec_src)
+            p2 = seg.intersection(b, vec_src)
+
+            if p1 is not None or p2 is not None:
+
+                dist_inter_1 = float("inf")
+                dist_inter_2 = float("inf")
+
+                if p1 is not None:
+                    dist_inter_1 = p1.distance_to_droite(front_droite)
+                if p2 is not None:
+                    dist_inter_2 = p2.distance_to_droite(front_droite)
+
+            mini = min(mini, dist_inter_1, dist_inter_2, seg.src.distance_to_droite(
+                front_droite), seg.dest.distance_to_droite(front_droite))
 
         return mini
 
