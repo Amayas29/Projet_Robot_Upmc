@@ -10,8 +10,7 @@ from model.obstacles import Obstacle
 def test():
 
     arene = Arene()
-    centre = Point(100, 100)
-    robot = Robot(centre, arene)
+    robot = Robot(Point(100, 100), arene)
     arene.set_robot(robot)
 
     robot.servo_rotate(90)
