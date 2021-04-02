@@ -1,4 +1,6 @@
 from math import pi, radians, degrees, sqrt, acos, cos, sin
+import configparser
+
 
 
 class Point:
@@ -180,3 +182,21 @@ class Droite:
               J.vect[0] * p1.y + J.vect[0] * p2.y) / denominateur
 
         return Point(p1.x + k * I.vect[0], p1.y + k * I.vect[1])
+
+
+class Config:
+
+  def __init__(self):
+    self.conf = configparser.ConfigParser()
+    self.conf.read('config.cfg')
+
+  def get_vers(self):
+    return float(self.conf['Version']['config_version'])
+
+  def get_dist_secu(self):
+    return float(self.conf['Robot']['distance_securite'])
+
+  def get_mode(self):
+    return self.conf['Robot'].getboolean('mode_simu')
+
+

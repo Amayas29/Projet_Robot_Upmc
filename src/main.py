@@ -1,24 +1,22 @@
 from threading import Thread
-
-
-import configparser
+from utils.tools import Config
 # protection du config
-config = configparser.ConfigParser()
-
-config.read('config.cfg')
-if (float(config['Version']['config_version']) != 0.2):
+config = Config()
+if ( config.get_vers() != 0.2):
   print("Config version non conforme")
+  print(config.get_vers())
   exit(1)
-if (float(config['Robot']['distance_securite']) < 13.0):
+
+if ( config.get_dist_secu() < 13.0):
   print("Erreur critique: la distance de sécurité est trop faible! (minimum 13.0)")
   exit(1)
-mode = config['Robot'].getboolean('mode_simu')
+
+mode = config.get_mode()
 if (mode):
   print("Simu on")
 else:
   print("simu off")
 # programe
-
 
 FPS = 60.0
 

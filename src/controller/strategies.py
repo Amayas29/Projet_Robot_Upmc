@@ -94,8 +94,12 @@ class Tourner(Strategie):
 
         if not self.is_start:
             self.start()
-
-        self.robot.servo_rotate(60)
+        
+        if self.orientation==self.GAUCHE:
+            self.robot.servo_rotate(60)
+        else:
+            self.robot.servo_rotate(110)
+        
         diff = self.robot.get_motor_position()[self.orientation] - \
             self.old_position
 
