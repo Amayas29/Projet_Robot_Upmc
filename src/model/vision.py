@@ -93,22 +93,27 @@ class Vision:
         mini = float("inf")
         for elem in self.elements:
             seg = elem.segment
+            seg_droite = seg.to_droite()
 
             p1 = seg.intersection(a, vec_src)
             p2 = seg.intersection(b, vec_src)
 
-            if p1 is not None or p2 is not None:
+            dist_inter_1 = float("inf")
+            dist_inter_2 = float("inf")
 
-                dist_inter_1 = float("inf")
-                dist_inter_2 = float("inf")
+            if p1 is not None or p2 is not None:
 
                 if p1 is not None:
                     dist_inter_1 = p1.distance_to_droite(front_droite)
+
                 if p2 is not None:
                     dist_inter_2 = p2.distance_to_droite(front_droite)
 
+            # Debug
+            # print(">>>", "disp1", dist_inter_1, "distp2", dist_inter_2, "src", seg.src.distance_to_droite(front_droite), "dest", seg.dest.distance_to_droite(front_droite), "***", str(robot), "|||", seg_droite, "££", a, b, "--->", vec_src.vect, "dist a_b", a.distance_to_droite(seg_droite), b.distance_to_droite(seg_droite))
+
             mini = min(mini, dist_inter_1, dist_inter_2, seg.src.distance_to_droite(
-                front_droite), seg.dest.distance_to_droite(front_droite))
+                front_droite), seg.dest.distance_to_droite(front_droite), a.distance_to_droite(seg_droite), b.distance_to_droite(seg_droite))
 
         return mini
 

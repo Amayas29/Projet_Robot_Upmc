@@ -182,6 +182,9 @@ class Droite:
 
         return Point(p1.x + k * I.vect[0], p1.y + k * I.vect[1])
 
+    def __str__(self):
+        return f"{self.a} x + {self.b} y + {self.c}"
+
 
 class Config:
 

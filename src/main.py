@@ -4,23 +4,24 @@ from utils.tools import Config
 import sys
 
 # protection du config
-config = Config()
+# config = Config()
 
-if (config.get_vers() != 0.3):
-    print("Config version non conforme")
-    print(config.get_vers())
-    exit(1)
+# if (config.get_vers() != 0.3):
+#     print("Config version non conforme")
+#     print(config.get_vers())
+#     exit(1)
 
-if (config.get_dist_secu() < 130.0):
-    print("Erreur critique: la distance de sécurité est trop faible! (minimum 130.0)")
-    exit(1)
+# if (config.get_dist_secu() < 130.0):
+#     print("Erreur critique: la distance de sécurité est trop faible! (minimum 130.0)")
+#     exit(1)
 
-mode = config.get_mode()
-if (mode):
-    print("Simu on")
-else:
-    print("simu off")
-# programe
+# mode = config.get_mode()
+# if (mode):
+#     print("Simu on")
+# else:
+#     print("simu off")
+
+mode = True
 
 FPS = 60.0
 
@@ -48,8 +49,7 @@ if (mode):  # Mode Simu
     elif test == 3:
         arene.add_obstacle(Obstacle(Point(250, 270), Point(900, 10)))
     elif test == 4:
-        # wtf 260 in dest.y
-        arene.add_obstacle(Obstacle(Point(300, 260), Point(900, 255)))
+        arene.add_obstacle(Obstacle(Point(300, 260), Point(900, 260)))
     else:
         arene.add_obstacle(Obstacle(Point(300, 300), Point(900, 300)))
 

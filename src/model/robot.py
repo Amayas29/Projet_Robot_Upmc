@@ -63,7 +63,7 @@ class Robot:
 
     def get_distance(self):
         self.vision.sync_vision(self)
-        return self.vision.get_distance(self) * 10
+        return self.vision.get_distance(self)
 
     def servo_rotate(self, position):
         vec_robot = Vecteur(self.cbd, self.chd)

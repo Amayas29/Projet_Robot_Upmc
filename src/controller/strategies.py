@@ -57,17 +57,14 @@ class Avancer(Strategie):
 
         if self.distance_parcouru >= self.distance:
             self.stop()
-            print("Arret de avancer : ", self.distance_parcouru,
+            print("Arret de avancer __dist__ :", self.distance_parcouru,
                   self.robot.get_distance())
-            # exit(0)
-
             return
 
         if self.robot.get_distance() <= 150:
-            self.stop()
-            print("Arret de avancer : ", self.distance_parcouru,
+            self.robot.stop()
+            print("Arret de avancer __collid__ :", self.distance_parcouru,
                   self.robot.get_distance())
-            # exit(0)
             return
 
         self.robot.set_motor_dps(
@@ -122,12 +119,14 @@ class Tourner(Strategie):
 
         if self.distance_parcouru >= self.distance:
             self.stop()
-            print("Arret de tourner", self.distance_parcouru, self.distance)
+            print("Arret de tourner __dist__ :", self.distance_parcouru,
+                  self.robot.get_distance())
             return
 
         if self.robot.get_distance() <= 150:
-            self.stop()
-            print("Arret de tourner", self.distance_parcouru, self.distance)
+            self.robot.stop()
+            print("Arret de tourner __collid__ :", self.distance_parcouru,
+                  self.robot.get_distance())
             return
 
         if self.orientation == self.GAUCHE:
