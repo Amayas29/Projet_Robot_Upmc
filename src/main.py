@@ -1,25 +1,25 @@
 from threading import Thread
 from controller.strategies import Tourner
-from utils.tools import Config
+from utils.config import Config
 import sys
 
 # protection du config
-# config = Config()
+config = Config()
 
-# if (config.get_vers() != 0.3):
-#     print("Config version non conforme")
-#     print(config.get_vers())
-#     exit(1)
+if (config.get_vers() != 0.3):
+    print("Config version non conforme")
+    print(config.get_vers())
+    exit(1)
 
 # if (config.get_dist_secu() < 130.0):
 #     print("Erreur critique: la distance de sécurité est trop faible! (minimum 130.0)")
 #     exit(1)
 
-# mode = config.get_mode()
-# if (mode):
-#     print("Simu on")
-# else:
-#     print("simu off")
+mode = config.get_mode()
+if (mode):
+    print("Simu on")
+else:
+    print("simu off")
 
 mode = True
 
@@ -37,21 +37,25 @@ if (mode):  # Mode Simu
     arene = Arene()
     controleur = Controleur()
 
-    try:
-        test = int(sys.argv[1])
-    except:
-        test = 1
+    obstacles = config.get_obstacles()
+    for obstacle in obstacles:
+        arene.add_obstacle(obstacle)
 
-    if test == 1:
-        arene.add_obstacle(Obstacle(Point(100, 10), Point(900, 900)))
-    elif test == 2:
-        arene.add_obstacle(Obstacle(Point(100, 270), Point(900, 10)))
-    elif test == 3:
-        arene.add_obstacle(Obstacle(Point(250, 270), Point(900, 10)))
-    elif test == 4:
-        arene.add_obstacle(Obstacle(Point(300, 260), Point(900, 260)))
-    else:
-        arene.add_obstacle(Obstacle(Point(300, 300), Point(900, 300)))
+    # try:
+    #     test = int(sys.argv[1])
+    # except:
+    #     test = 1
+
+    # if test == 1:
+    #     arene.add_obstacle(Obstacle(Point(100, 10), Point(900, 900)))
+    # elif test == 2:
+    #     arene.add_obstacle(Obstacle(Point(100, 270), Point(900, 10)))
+    # elif test == 3:
+    #     arene.add_obstacle(Obstacle(Point(250, 270), Point(900, 10)))
+    # elif test == 4:
+    #     arene.add_obstacle(Obstacle(Point(300, 260), Point(900, 260)))
+    # else:
+    #     arene.add_obstacle(Obstacle(Point(300, 300), Point(900, 300)))
 
     robot = Robot(Point(230, 300), arene)
     arene.set_robot(robot)
