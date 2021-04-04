@@ -1,4 +1,4 @@
-from controller.strategies import Avancer
+from controller.strategies import Avancer, Tourner
 from controller.controleur import Controleur
 from model.robot import Robot
 from model.arene import Arene
@@ -9,48 +9,29 @@ from model.obstacles import Obstacle
 
 def test():
 
-    # y = 127
-    # src = Point(150, y)
-    # dest = Point(200, y)
+    arene = Arene()
+    robot = Robot(Point(433, 500), arene)
 
-    # obstacle = Obstacle(src, dest)
-    # arene.add_obstacle(obstacle)
+    robot.vec_deplacement = Vecteur.get_vect_from_angle(30)
+    robot.refresh()
 
+    arene.set_robot(robot)
 
+    robot.servo_rotate(90)
+    arene.add_obstacle(Obstacle(Point(900, 500), Point(100, 700)))
 
-    for i in range (0, 180):
-        arene = Arene()
-        centre = Point(100, 100)
-        robot = Robot(centre, 50, 50, arene)
-        arene.set_robot(robot)
+    affichage = Affichage(arene)
+    controleur = Controleur()
 
-        robot.servo_rotate(90)
-        src = Point(300, 100)
-        dest = Point(800, 100)
+    avancer = Avancer(robot, 175, 600)
 
-        obstacle = Obstacle(src, dest)
-        arene.add_obstacle(obstacle)
+    controleur.add_startegie(avancer)
+    controleur.select_startegie(0)
 
-        affichage = Affichage(arene)
-        controleur = Controleur()
-        avancer = Avancer(robot, float("inf"), 100)
-        controleur.add_startegie(avancer)
-        controleur.select_startegie(0)
+    FPS = 60.
 
-        FPS = 60.
-        try:
-            while True:
-                # print(robot.vision)
-                controleur.update()
-                arene.update()
-                affichage.update(FPS)
-        except KeyboardInterrupt:
-            continue
+    while True:
 
-
-# if __name__ == "__main__":
-#    a = '/home/runner/ProjetRobotUpmc/src'
-#    sys.path.insert(0, a)
-#    "cd ../.. ; pwd"
-#    sys.insert(0, )
-#    test()
+        controleur.update()
+        arene.update()
+        affichage.update(FPS)

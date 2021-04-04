@@ -1,4 +1,4 @@
-from controller.strategies import Tourner
+from controller.strategies import Carre
 from controller.controleur import Controleur
 from model.robot import Robot
 from model.arene import Arene
@@ -8,17 +8,19 @@ import time
 
 
 def test():
+
     arene = Arene()
-    centre = Point(100, 100)
+    centre = Point(500, 500)
     robot = Robot(centre, arene)
     arene.set_robot(robot)
 
-    controleur = Controleur()
-    tourner = Tourner(robot, 90, 0, 100)
-    controleur.add_startegie(tourner)
-    controleur.select_startegie(0)
+    robot.servo_rotate(90)
 
     affichage = Affichage(arene)
+    controleur = Controleur()
+    carre = Carre(robot, 100, 100, 0)
+    controleur.add_startegie(carre)
+    controleur.select_startegie(0)
 
     FPS = 60.
 
@@ -26,6 +28,3 @@ def test():
         controleur.update()
         arene.update()
         affichage.update(FPS)
-
-        # Ce bg pose un probleme ! (Hamid c'etait pas moi le probleme xD !)
-        time.sleep(1)

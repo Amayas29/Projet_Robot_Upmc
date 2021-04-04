@@ -1,4 +1,4 @@
-from math import pi, radians, degrees, sqrt, acos, cos, sin
+from math import radians, degrees, sqrt, acos, cos, sin
 
 
 class Point:
@@ -33,11 +33,13 @@ class Point:
         return not self.__eq__(point)
 
     def rotate(self, center, angle):
-        angle = radians(angle)
-        self.x -= center.x
-        self.y -= center.y
-        self.x = self.x * cos(angle) + self.y * sin(angle) + center.x
-        self.y = -self.x * sin(angle) + self.y * cos(angle) + center.y
+        distance = self - center
+        vect_src = Vecteur(center, self)
+        angle_vect_dest = Vecteur.get_vect_from_angle(
+            0).angle_sign(vect_src) + angle
+        vect_dest = Vecteur.get_vect_from_angle(angle_vect_dest)
+        self.x = center.x + vect_dest.vect[0] * distance
+        self.y = center.y + vect_dest.vect[1] * distance
 
     @staticmethod
     def milieu(point1, point2):
@@ -127,16 +129,17 @@ class Segment:
         denominateur = I.vect[0] * J.vect[1] - I.vect[1] * J.vect[0]
 
         if denominateur == 0:
-            return False
+            return None
 
-        m = -(-I.vect[0] * self.src.y + I.vect[0] * point.y + I.vect[1] * self.src.x - I.vect[1] * point.x) / denominateur
+        m = -(-I.vect[0] * self.src.y + I.vect[0] * point.y +
+              I.vect[1] * self.src.x - I.vect[1] * point.x) / denominateur
         k = -(self.src.x * J.vect[1] - point.x * J.vect[1] -
               J.vect[0] * self.src.y + J.vect[0] * point.y) / denominateur
 
         if 0 < k < 1 and m > 0:
-            return True
+            return Point(self.src.x + k * I.vect[0], self.src.y + k * I.vect[1])
 
-        return False
+        return None
 
     def to_droite(self):
         vec_unit = Vecteur(self.src, self.dest)
@@ -177,3 +180,6 @@ class Droite:
               J.vect[0] * p1.y + J.vect[0] * p2.y) / denominateur
 
         return Point(p1.x + k * I.vect[0], p1.y + k * I.vect[1])
+
+    def __str__(self):
+        return f"{self.a} x + {self.b} y + {self.c}"
