@@ -11,8 +11,8 @@ if (config.get_vers() != 0.4):
     print(config.get_vers())
     exit(1)
 
-if (config.get_dist_secu() < 130.0):
-    print("Erreur critique: la distance de sécurité est trop faible! (minimum 130.0)")
+if (config.get_dist_secu() < 13.0):
+    print("Erreur critique: la distance de sécurité est trop faible! (minimum 13.0)")
     exit(1)
 
 mode = config.get_mode()

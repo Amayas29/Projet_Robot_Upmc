@@ -128,14 +128,21 @@ class Tourner(Strategie):
             print("Arret de tourner __collid__ :", self.distance_parcouru,
                   self.robot.get_distance())
             return
-
-        if self.orientation == self.GAUCHE:
-            self.robot.set_motor_dps(self.robot.MOTOR_LEFT,  0)
-            self.robot.set_motor_dps(self.robot.MOTOR_RIGHT, self.vitesse)
+        if self.distance_parcouru < self.distance *3/4:
+          if self.orientation == self.GAUCHE:
+              self.robot.set_motor_dps(self.robot.MOTOR_LEFT,  0)
+              self.robot.set_motor_dps(self.robot.MOTOR_RIGHT, self.vitesse)
+          else:
+              self.robot.set_motor_dps(self.robot.MOTOR_LEFT,  self.vitesse)
+              self.robot.set_motor_dps(self.robot.MOTOR_RIGHT, 0)
         else:
-            self.robot.set_motor_dps(self.robot.MOTOR_LEFT,  self.vitesse)
-            self.robot.set_motor_dps(self.robot.MOTOR_RIGHT, 0)
-
+            if self.orientation == self.GAUCHE:
+              self.robot.set_motor_dps(self.robot.MOTOR_LEFT,  0)
+              self.robot.set_motor_dps(self.robot.MOTOR_RIGHT, self.vitesse/4)
+            else:
+              self.robot.set_motor_dps(self.robot.MOTOR_LEFT,  self.vitesse/4)
+              self.robot.set_motor_dps(self.robot.MOTOR_RIGHT, 0)
+          
 
 class Carre(Strategie):
 

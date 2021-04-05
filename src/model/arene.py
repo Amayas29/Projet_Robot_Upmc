@@ -10,7 +10,8 @@ class Arene:
         self.elements = []
         self.robot = None
         self.temps_precedent = None
-        self.a = 0
+        self.angle_parcouru = 0
+  
 
     def boucle(self, fps):
         if self.robot is None:
@@ -73,10 +74,10 @@ class Arene:
 
         if self.robot.lspeed == 0 and self.robot.rspeed != 0:
             angle = -angle
-
-        self.robot.vec_deplacement = Vecteur.get_vect_from_angle(
-            angle + (Vecteur.get_vect_from_angle(0).angle_sign(self.robot.vec_deplacement)+360) % 360)
-
+        self.angle_parcouru += angle
+        
+        self.robot.vec_deplacement = Vecteur.get_vect_from_angle(self.angle_parcouru)
+        
         self.robot.center.rotate(roue, angle)
         self.robot.refresh()
 
