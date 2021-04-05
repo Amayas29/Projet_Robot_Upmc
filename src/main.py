@@ -11,9 +11,9 @@ if (config.get_vers() != 0.3):
     print(config.get_vers())
     exit(1)
 
-# if (config.get_dist_secu() < 130.0):
-#     print("Erreur critique: la distance de sécurité est trop faible! (minimum 130.0)")
-#     exit(1)
+if (config.get_dist_secu() < 130.0):
+    print("Erreur critique: la distance de sécurité est trop faible! (minimum 130.0)")
+    exit(1)
 
 mode = config.get_mode()
 if (mode):
@@ -21,7 +21,6 @@ if (mode):
 else:
     print("simu off")
 
-mode = True
 
 FPS = 60.0
 
