@@ -17,6 +17,9 @@ class Config:
     def get_dist_secu(self):
         return float(self.conf['Robot']['distance_securite'])
 
+    def get_fps(self):
+        return float(self.conf['Robot']['fps'])
+
     def get_mode(self):
         return self.conf['Robot'].getboolean('mode_simu')
 

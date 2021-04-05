@@ -6,7 +6,7 @@ import sys
 # protection du config
 config = Config()
 
-if (config.get_vers() != 0.3):
+if (config.get_vers() != 0.4):
     print("Config version non conforme")
     print(config.get_vers())
     exit(1)
@@ -21,7 +21,7 @@ if (mode):
 else:
     print("simu off")
 
-FPS = 60.0
+FPS = config.get_fps()
 
 if (mode):  # Mode Simu
     from view.affichage import Affichage
