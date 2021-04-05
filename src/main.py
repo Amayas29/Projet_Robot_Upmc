@@ -21,7 +21,6 @@ if (mode):
 else:
     print("simu off")
 
-
 FPS = 60.0
 
 if (mode):  # Mode Simu
