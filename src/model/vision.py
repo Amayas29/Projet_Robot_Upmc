@@ -1,5 +1,4 @@
 from utils.tools import Point, Droite, Vecteur
-import sys
 
 
 class Vision:
@@ -109,11 +108,18 @@ class Vision:
                 if p2 is not None:
                     dist_inter_2 = p2.distance_to_droite(front_droite)
 
+            dist_b = float("inf")
+            dist_a = float("inf")
+
+            if dist_inter_1 != float("inf") and dist_inter_2 != float("inf"):
+                dist_a = a.distance_to_droite(seg_droite)
+                dist_b = b.distance_to_droite(seg_droite)
+
             # Debug
-            # print(">>>", "disp1", dist_inter_1, "distp2", dist_inter_2, "src", seg.src.distance_to_droite(front_droite), "dest", seg.dest.distance_to_droite(front_droite), "***", str(robot), "|||", seg_droite, "££", a, b, "--->", vec_src.vect, "dist a_b", a.distance_to_droite(seg_droite), b.distance_to_droite(seg_droite))
+            # print(">>>", "disp1", dist_inter_1, "distp2", dist_inter_2, "src", seg.src.distance_to_droite(front_droite), "dest", seg.dest.distance_to_droite(front_droite), "***", str(robot), "|||", seg_droite, "££", a, b, "--->", vec_src.vect, "dist a_b", dist_a, dist_b)
 
             mini = min(mini, dist_inter_1, dist_inter_2, seg.src.distance_to_droite(
-                front_droite), seg.dest.distance_to_droite(front_droite), a.distance_to_droite(seg_droite), b.distance_to_droite(seg_droite))
+                front_droite), seg.dest.distance_to_droite(front_droite), dist_a, dist_b)
 
         return mini
 

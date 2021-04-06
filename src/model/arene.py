@@ -11,7 +11,6 @@ class Arene:
         self.robot = None
         self.temps_precedent = None
         self.angle_parcouru = 0
-  
 
     def boucle(self, fps):
         if self.robot is None:
@@ -29,8 +28,9 @@ class Arene:
         if self.temps_precedent is None:
             self.temps_precedent = datetime.now()
 
-        diff_temps = (datetime.now() - self.temps_precedent).total_seconds()
-        self.temps_precedent = datetime.now()
+        now = datetime.now()
+        diff_temps = (now - self.temps_precedent).total_seconds()
+        self.temps_precedent = now
 
         if self.robot.lspeed == self.robot.rspeed:
 
@@ -54,32 +54,38 @@ class Arene:
             self.robot.refresh()
             return
 
-        if self.robot.lspeed == 0 and self.robot.rspeed != 0:
-            roue = Point.milieu(self.robot.chg, self.robot.chd)
-            angle_roue = diff_temps * self.robot.rspeed
-            self.robot.posr += angle_roue
+        # Pour les prochains if
+        if self.robot.lspeed * self.robot.rspeed == 0:
 
-        elif self.robot.rspeed == 0 and self.robot.lspeed != 0:
-            roue = Point.milieu(self.robot.cbg, self.robot.cbd)
-            angle_roue = diff_temps * self.robot.lspeed
-            self.robot.posl += angle_roue
+            if self.robot.lspeed == 0 and self.robot.rspeed != 0:
+                roue = Point.milieu(self.robot.chg, self.robot.chd)
+                angle_roue = diff_temps * self.robot.rspeed
+                self.robot.posr += angle_roue
 
-        k = angle_roue // 360
-        r = angle_roue % 360
+            elif self.robot.rspeed == 0 and self.robot.lspeed != 0:
+                roue = Point.milieu(self.robot.cbg, self.robot.cbd)
+                angle_roue = diff_temps * self.robot.lspeed
+                self.robot.posl += angle_roue
 
-        distance = k * self.robot.WHEEL_CIRCUMFERENCE + \
-            (r * self.robot.WHEEL_CIRCUMFERENCE) / 360
+            k = angle_roue // 360
+            r = angle_roue % 360
 
-        angle = distance * 180 / (pi * self.robot.WHEEL_BASE_WIDTH)
+            distance = k * self.robot.WHEEL_CIRCUMFERENCE + \
+                (r * self.robot.WHEEL_CIRCUMFERENCE) / 360
 
-        if self.robot.lspeed == 0 and self.robot.rspeed != 0:
-            angle = -angle
-        self.angle_parcouru += angle
-        
-        self.robot.vec_deplacement = Vecteur.get_vect_from_angle(self.angle_parcouru)
-        
-        self.robot.center.rotate(roue, angle)
-        self.robot.refresh()
+            angle = distance * 180 / (pi * self.robot.WHEEL_BASE_WIDTH)
+
+            if self.robot.lspeed == 0 and self.robot.rspeed != 0:
+                angle = -angle
+
+            self.angle_parcouru += angle
+            self.robot.vec_deplacement = Vecteur.get_vect_from_angle(
+                self.angle_parcouru)
+
+            self.robot.center.rotate(roue, angle)
+            self.robot.refresh()
+
+            return
 
         # # TODO
         # elif self.robot.lspeed > self.robot.rspeed:

@@ -1,7 +1,10 @@
 from threading import Thread
 from controller.strategies import Tourner
 from utils.config import Config
-import sys
+from controller.controleur import Controleur
+from controller.strategies import Carre, Triangle, EviterObstacle
+
+controleur = Controleur()
 
 # protection du config
 config = Config()
@@ -16,28 +19,24 @@ if (config.get_dist_secu() < 13.0):
     exit(1)
 
 mode = config.get_mode()
-if (mode):
-    print("Simu on")
-else:
-    print("simu off")
 
 FPS = config.get_fps()
 
 if (mode):  # Mode Simu
+    print("Simu on")
+
     from view.affichage import Affichage
     from model.robot import Robot
     from model.arene import Arene
     from utils.tools import Point
     from model.obstacles import Obstacle
-    from controller.controleur import Controleur
-    from controller.strategies import Carre,Triangle,EviterObstacle
+    import sys
 
     arene = Arene()
-    controleur = Controleur()
 
-    obstacles = config.get_obstacles()
-    for obstacle in obstacles:
-        arene.add_obstacle(obstacle)
+    # obstacles = config.get_obstacles()
+    # for obstacle in obstacles:
+    #     arene.add_obstacle(obstacle)
 
     # try:
     #     test = int(sys.argv[1])
@@ -57,14 +56,17 @@ if (mode):  # Mode Simu
 
     robot = Robot(Point(230, 300), arene)
     arene.set_robot(robot)
+
     arene.add_obstacle(Obstacle(Point(500, 300), Point(900, 300)))
     affichage = Affichage(arene)
 
-    carre = Tourner(robot, 90, 1, 300)
-    carre = Carre(robot, 100, 300, 1)
-    carre = Triangle(robot, 100, 300, 1)
-    carre = EviterObstacle(robot,100,10000,90,20)
-    controleur.add_startegie(carre)
+    # strat = Tourner(robot, 90, 1, 300)
+    # strat = Carre(robot, 100, 300, 1)
+    # strat = Triangle(robot, 100, 300, 1)
+
+    strat = EviterObstacle(robot, 300)
+
+    controleur.add_startegie(strat)
     controleur.select_startegie(0)
 
     thread_controleur = Thread(target=controleur.boucle, args=(FPS,))
@@ -76,10 +78,7 @@ if (mode):  # Mode Simu
     thread_affichage.start()
 
 else:  # mode REEL
-    from controller.controleur import Controleur
-    from controller.strategies import Carre
-
-    controleur = Controleur()
+    print("simu off")
 
     try:
         from robot2I013 import Robot2I013
@@ -88,12 +87,10 @@ else:  # mode REEL
         from irl.mockup import Robot2I013Mockup
         robot = Robot2I013Mockup()
 
-    carre = Carre(robot, 50, 300, 0)
-    controleur.add_startegie(carre)
+    strat = Carre(robot, 50, 300, 0)
+    controleur.add_startegie(strat)
     controleur.select_startegie(0)
 
     thread_controleur = Thread(target=controleur.boucle, args=(FPS,))
 
     thread_controleur.start()
-
-print("fin du main")
