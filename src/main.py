@@ -30,7 +30,7 @@ if (mode):  # Mode Simu
     from utils.tools import Point
     from model.obstacles import Obstacle
     from controller.controleur import Controleur
-    from controller.strategies import Carre
+    from controller.strategies import Carre,Triangle,EviterObstacle
 
     arene = Arene()
     controleur = Controleur()
@@ -57,11 +57,13 @@ if (mode):  # Mode Simu
 
     robot = Robot(Point(230, 300), arene)
     arene.set_robot(robot)
-
+    arene.add_obstacle(Obstacle(Point(500, 300), Point(900, 300)))
     affichage = Affichage(arene)
 
     carre = Tourner(robot, 90, 1, 300)
     carre = Carre(robot, 100, 300, 1)
+    carre = Triangle(robot, 100, 300, 1)
+    carre = EviterObstacle(robot,100,10000,90,20)
     controleur.add_startegie(carre)
     controleur.select_startegie(0)
 

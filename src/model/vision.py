@@ -4,7 +4,7 @@ import sys
 
 class Vision:
 
-    DISTANCE = 40
+    DISTANCE = 400
 
     def __init__(self, arene):
         self.elements = []
