@@ -61,7 +61,7 @@ class Avancer(Strategie):
                   self.robot.get_distance())
             return
       
-        if self.robot.get_distance() <= 5:
+        if self.robot.get_distance() <= 150:
             self.robot.stop()
             print("Arret de avancer __collid__ :", self.distance_parcouru,
                   self.robot.get_distance())
