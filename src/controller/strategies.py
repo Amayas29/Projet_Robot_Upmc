@@ -45,7 +45,7 @@ class Avancer(Strategie):
 
         if not self.is_start:
             self.start()
-
+        self.robot.servo_rotate(90)
         diff = self.robot.get_motor_position()[0] - self.old_position
         self.old_position = self.robot.get_motor_position()[0]
 
@@ -61,7 +61,7 @@ class Avancer(Strategie):
                   self.robot.get_distance())
             return
 
-        if self.robot.get_distance() <= 10:
+        if self.robot.get_distance() <= 110:
             self.robot.stop()
             print("Arret de avancer __collid__ :", self.distance_parcouru,
                   self.robot.get_distance())
@@ -101,9 +101,9 @@ class Tourner(Strategie):
             self.start()
 
         if self.orientation == self.GAUCHE:
-            self.robot.servo_rotate(60)
-        else:
             self.robot.servo_rotate(110)
+        else:
+            self.robot.servo_rotate(60)
 
         diff = self.robot.get_motor_position()[self.orientation] - \
             self.old_position
@@ -254,56 +254,12 @@ class Triangle(Strategie):
                 self.avancer.start()
 
 
-class EviterObstacle(Strategie):
-
-    def __init__(self, robot, vitesse):
-        super().__init__(robot)
-        self.avancer = Avancer(robot, float("inf"), vitesse)
-        self.tourner = Tourner(robot, 90, Tourner.DROITE, vitesse)
-
-    def start(self):
-        super().start()
-        self.collid = False
-        self.avancer.start()
-
-    def stop(self):
-        super().stop()
-        self.avancer.stop()
-        self.tourner.stop()
-
-    def run(self):
-        if self.is_stop:
-            return
-
-        if not self.is_start:
-            self.start()
-
-        if not self.avancer.is_stop and self.robot.get_distance() > 80:
-            self.avancer.run()
-            return
-
-        self.avancer.stop()
-        self.tourner.start()
-
-        self.robot.servo_rotate(90)
-
-        print(self.robot.get_distance())
-        if self.robot.get_distance() <= 80:
-            self.tourner.run()
-            return
-
-        self.tourner.stop()
-        self.avancer.start()
-
-
 # class EviterObstacle(Strategie):
 
-#     def __init__(self ,robot,vitesse,distance,angle,securite):
+#     def __init__(self, robot, vitesse):
 #         super().__init__(robot)
-#         self.avancer = Avancer(self.robot,distance,vitesse)
-#         self.tourner = Tourner(self.robot,angle,Tourner.DROITE,vitesse)
-#         self.collid = False
-#         self.securite = securite
+#         self.avancer = Avancer(robot, float("inf"), vitesse)
+#         self.tourner = Tourner(robot, 90, Tourner.DROITE, vitesse)
 
 #     def start(self):
 #         super().start()
@@ -322,23 +278,67 @@ class EviterObstacle(Strategie):
 #         if not self.is_start:
 #             self.start()
 
-#         if self.collid:
+#         if not self.avancer.is_stop and self.robot.get_distance() > 80:
+#             self.avancer.run()
+#             return
+
+#         self.avancer.stop()
+#         self.tourner.start()
+
+#         self.robot.servo_rotate(90)
+
+#         print(self.robot.get_distance())
+#         if self.robot.get_distance() <= 80:
 #             self.tourner.run()
 #             return
-#         print(self.robot.get_distance())
 
-#         if self.robot.get_distance() <= self.securite:
-#             self.tourner.start()
-#             print("collision detecter",self.robot.get_distance(), self.securite)
-#             self.robot.servo_rotate(20)
-#             if self.robot.get_distance() <= self.securite:
-#                 self.tourner.orientation = Tourner.GAUCHE
-#             self.collid = True
-#             self.tourner.start()
-#             return
-#         else:
-#             if not self.avancer.is_start:
-#                 self.avancer.start()
-#             self.collid = False
+#         self.tourner.stop()
+#         self.avancer.start()
 
-#         self.avancer.run()
+
+class EviterObstacle(Strategie):
+
+    def __init__(self ,robot,vitesse,distance,angle,securite):
+        super().__init__(robot)
+        self.avancer = Avancer(self.robot,distance,vitesse)
+        self.tourner = Tourner(self.robot,angle,Tourner.DROITE,vitesse)
+        self.collid = False
+        self.securite = securite
+
+    def start(self):
+        super().start()
+        self.collid = False
+        self.avancer.start()
+
+    def stop(self):
+        super().stop()
+        self.avancer.stop()
+        self.tourner.stop()
+
+    def run(self):
+        if self.is_stop:
+            return
+
+        if not self.is_start:
+            self.start()
+
+        
+        self.collid= self.robot.get_distance() <= self.securite
+            
+
+        if self.collid:
+            if not self.tourner.is_start:
+                self.tourner.start()
+            print("collision detecter",self.robot.get_distance(), self.securite)
+            self.robot.servo_rotate(20)
+            if self.robot.get_distance() <= self.securite:
+                self.tourner.orientation = Tourner.GAUCHE
+
+            self.tourner.run()
+            return
+        
+        if not self.avancer.is_start:
+            self.avancer.start()
+        
+
+        self.avancer.run()
