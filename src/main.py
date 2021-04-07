@@ -82,7 +82,7 @@ else:  # mode REEL
 
     try:
         from robot2I013 import Robot2I013
-        robot = Robot2I013(controleur)
+        robot = Robot2I013()
     except ImportError:
         from irl.mockup import Robot2I013Mockup
         robot = Robot2I013Mockup()

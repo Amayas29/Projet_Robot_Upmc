@@ -56,7 +56,7 @@ class Robot:
         return (self.posl, self.posr)
 
     def set_led(self, led, red=0, green=0, blue=0):
-        print(f"Changement de la led {led} à ({red},{green},{blue})")
+        print("Changement de la led {} à ({},{},{})".format(led, red, green, blue))
 
     def get_voltage(self):
         return 100

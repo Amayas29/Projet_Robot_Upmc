@@ -65,7 +65,7 @@ class Point:
         return Point(point.x + a, point.y + b), Point(point.x - a, point.y - b)
 
     def __str__(self) -> str:
-        return f"({self.x}, {self.y})"
+        return "({}, {})".format(self.x, self.y)
 
 
 class Vecteur:
@@ -182,4 +182,4 @@ class Droite:
         return Point(p1.x + k * I.vect[0], p1.y + k * I.vect[1])
 
     def __str__(self):
-        return f"{self.a} x + {self.b} y + {self.c}"
+        return "{} x + {} y + {}".format(self.a, self.b, self.c)
