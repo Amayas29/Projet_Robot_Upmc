@@ -64,7 +64,7 @@ if (mode):  # Mode Simu
     # strat = Carre(robot, 100, 300, 1)
     # strat = Triangle(robot, 100, 300, 1)
 
-    strat = EviterObstacle(robot, 300)
+    strat = EviterObstacle(robot, 300, 1000, 90, 100)
 
     controleur.add_startegie(strat)
     controleur.select_startegie(0)
