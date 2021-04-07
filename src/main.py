@@ -1,8 +1,8 @@
 from threading import Thread
-from controller.strategies import Tourner
 from utils.config import Config
 from controller.controleur import Controleur
-from controller.strategies import Carre, Triangle, EviterObstacle
+from controller.strategies import Carre, Triangle, EviterObstacle, Unitaire, Avancer, Tourner
+from controller.wrapper import Wrapper
 
 controleur = Controleur()
 
@@ -57,14 +57,20 @@ if (mode):  # Mode Simu
     robot = Robot(Point(230, 300), arene)
     arene.set_robot(robot)
 
-    arene.add_obstacle(Obstacle(Point(500, 300), Point(900, 300)))
+    arene.add_obstacle(Obstacle(Point(500, 500), Point(700, 100)))
+    # arene.add_obstacle(Obstacle(Point(500, 450), Point(900, 450)))
+
     affichage = Affichage(arene)
 
-    # strat = Tourner(robot, 90, 1, 300)
-    # strat = Carre(robot, 100, 300, 1)
-    # strat = Triangle(robot, 100, 300, 1)
+    wrapper = Wrapper(robot)
+    def f(): return wrapper.get_distance() <= 30
+    strat = Unitaire(Avancer(wrapper, 100000, 300), f)
 
-    strat = EviterObstacle(robot, 300, 1000, 90, 100)
+    # strat = Tourner(wrapper, 90, 1, 300)
+    # strat = Carre(wrapper, 100, 300, 1)
+    # strat = Triangle(wrapper, 100, 300, 1)
+
+    # strat = EviterObstacle(wrapper, 300, 1000, 90, 50)
 
     controleur.add_startegie(strat)
     controleur.select_startegie(0)

@@ -87,39 +87,17 @@ class Vision:
         else:
             a, b = Point.get_points_distance(new_milieu, vec_src, largeur//2)
 
-        front_droite = Droite.get_droite(vec_src, new_milieu)
-
         mini = float("inf")
         for elem in self.elements:
             seg = elem.segment
-            seg_droite = seg.to_droite()
 
-            p1 = seg.intersection(a, vec_src)
-            p2 = seg.intersection(b, vec_src)
+            p1 = seg.intersection(new_milieu, vec_src)
 
-            dist_inter_1 = float("inf")
-            dist_inter_2 = float("inf")
+            dist = float("inf")
+            if p1 is not None:
+                dist = p1 - new_milieu
 
-            if p1 is not None or p2 is not None:
-
-                if p1 is not None:
-                    dist_inter_1 = p1.distance_to_droite(front_droite)
-
-                if p2 is not None:
-                    dist_inter_2 = p2.distance_to_droite(front_droite)
-
-            dist_b = float("inf")
-            dist_a = float("inf")
-
-            if dist_inter_1 != float("inf") and dist_inter_2 != float("inf"):
-                dist_a = a.distance_to_droite(seg_droite)
-                dist_b = b.distance_to_droite(seg_droite)
-
-            # Debug
-            # print(">>>", "disp1", dist_inter_1, "distp2", dist_inter_2, "src", seg.src.distance_to_droite(front_droite), "dest", seg.dest.distance_to_droite(front_droite), "***", str(robot), "|||", seg_droite, "££", a, b, "--->", vec_src.vect, "dist a_b", dist_a, dist_b)
-
-            mini = min(mini, dist_inter_1, dist_inter_2, seg.src.distance_to_droite(
-                front_droite), seg.dest.distance_to_droite(front_droite), dist_a, dist_b)
+            mini = min(mini, dist)
 
         return mini
 
