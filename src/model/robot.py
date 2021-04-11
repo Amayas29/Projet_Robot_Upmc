@@ -66,7 +66,8 @@ class Robot:
         return self.vision.get_distance(self)
 
     def servo_rotate(self, position):
-        vec_robot = Vecteur(self.cbd, self.chd)
+        position = -position
+        vec_robot = Vecteur(self.chd, self.cbd)
         angle = Vecteur.get_vect_from_angle(0).angle_sign(vec_robot)
         self.vec_servo = Vecteur.get_vect_from_angle(position + angle)
 

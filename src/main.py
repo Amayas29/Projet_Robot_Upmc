@@ -57,14 +57,14 @@ if (mode):  # Mode Simu
     robot = Robot(Point(230, 300), arene)
     arene.set_robot(robot)
 
-    arene.add_obstacle(Obstacle(Point(500, 300), Point(900, 300)))
+    # arene.add_obstacle(Obstacle(Point(500, 300), Point(900, 300)))
     affichage = Affichage(arene)
 
     # strat = Tourner(robot, 90, 1, 300)
     # strat = Carre(robot, 100, 300, 1)
-    # strat = Triangle(robot, 100, 300, 1)
+    strat = Triangle(robot, 100, 300, 1)
 
-    strat = EviterObstacle(robot, 300, 1000, 90, 100)
+    # strat = EviterObstacle(robot, 300, 1000, 90, 100)
 
     controleur.add_startegie(strat)
     controleur.select_startegie(0)
