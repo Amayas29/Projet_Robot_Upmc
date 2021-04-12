@@ -1,7 +1,6 @@
 from time import sleep
 import pygame
 from utils.tools import Point, Vecteur, Droite
-from copy import deepcopy
 
 # colors
 BLACK = (0, 0, 0, 255)
