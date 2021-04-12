@@ -25,12 +25,13 @@ class Strategie(object):
 
 class Avancer(Strategie):
 
-    def __init__(self, robot, distance, vitesse):
+    def __init__(self, robot, distance, vitesse, secu=None):
 
         super().__init__(robot)
         self.distance = distance
         self.distance_parcouru = 0
         self.vitesse = vitesse
+        self.secu = 110 if secu is None else secu
 
     def start(self):
         super().start()
@@ -62,7 +63,7 @@ class Avancer(Strategie):
                   self.robot.get_distance())
             return
 
-        if self.robot.get_distance() <= 110:
+        if self.robot.get_distance() <= self.secu:
             self.robot.stop()
             print("Arret de avancer __collid__ :", self.distance_parcouru,
                   self.robot.get_distance())
@@ -312,7 +313,7 @@ class EviterObstacle(Strategie):
 
     def __init__(self, robot, vitesse, distance, angle, securite):
         super().__init__(robot)
-        self.avancer = Avancer(self.robot, distance, vitesse)
+        self.avancer = Avancer(self.robot, distance, vitesse, 20)
         self.tourner = Tourner(self.robot, angle, Tourner.DROITE, vitesse)
         self.securite = securite
 
