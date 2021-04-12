@@ -26,6 +26,7 @@ class Robot:
         self.vision = Vision(arene)
         self.posr = 0
         self.posl = 0
+        self.crayon = False
 
     def offset_motor_encoder(self, port, offset):
 

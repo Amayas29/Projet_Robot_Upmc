@@ -1,5 +1,5 @@
 from abc import abstractmethod
-#import math
+import math
 
 
 class Strategie(object):
@@ -305,7 +305,8 @@ class Polygone(Strategie):
     def __init__(self, robot, nb_cotes, cote, vitesse, orientation):
         super().__init__(robot)
         self.avancer = Avancer(robot, cote, vitesse)
-        self.tourner = Tourner(robot, 360/nb_cotes, orientation, vitesse)
+        self.tourner = Tourner(robot, 180 - (180 * (((nb_cotes - 2) * math.pi) / nb_cotes)) / math.pi, orientation, vitesse)
+        #self.tourner = Tourner(robot, 360/nb_cotes , orientation, vitesse)
         self.cur = -1
         self.nb = 0
         self.nb_cotes = nb_cotes

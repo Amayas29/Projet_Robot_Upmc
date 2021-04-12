@@ -162,7 +162,7 @@ def q23() :
         
         affichage = Affichage(arene)
 
-        strat = EviterObstacle( robot, 200, 50, 0, 50)
+        strat = EviterObstacle( robot, 200, 1000, 0, 5)
 
 
         controleur.add_startegie(strat)
