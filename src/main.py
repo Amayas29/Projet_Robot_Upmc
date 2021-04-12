@@ -2,7 +2,7 @@ from threading import Thread
 from controller.strategies import Tourner
 from utils.config import Config
 from controller.controleur import Controleur
-from controller.strategies import Carre, Triangle, EviterObstacle, Polygone
+from controller.strategies import Carre, Triangle, EviterObstacle, Polygone, Droit
 
 
 controleur = Controleur()
@@ -35,14 +35,14 @@ if (mode):  # Mode Simu
 
     arene = Arene()
 
-    # obstacles = config.get_obstacles()
-    # for obstacle in obstacles:
-    #     arene.add_obstacle(obstacle)
+    obstacles = config.get_obstacles()
+    for obstacle in obstacles:
+       arene.add_obstacle(obstacle)
 
-    # try:
-    #     test = int(sys.argv[1])
-    # except:
-    #     test = 1
+    #try:
+       #test = int(sys.argv[1])
+   # except:
+       #test = 1
 
     # if test == 1:
     #     arene.add_obstacle(Obstacle(Point(100, 10), Point(900, 900)))
@@ -64,7 +64,8 @@ if (mode):  # Mode Simu
     # strat = Tourner(robot, 90, 1, 300)
     # strat = Carre(robot, 100, 300, 1)
     #strat = Triangle(robot, 100, 300, 1) #equilateral
-    strat = Polygone(robot, 50, 300, 1, 8)
+    #strat = Polygone(robot, 50, 300, 1, 8)
+    strat = Droit(robot, 50, 300, 1)
 
     # strat = EviterObstacle(robot, 300, 1000, 90, 100)
 

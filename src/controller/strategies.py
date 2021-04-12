@@ -62,7 +62,7 @@ class Avancer(Strategie):
                   self.robot.get_distance())
             return
 
-        if self.robot.get_distance() <= 110:
+        if self.robot.get_distance() <= 0.05:
             self.robot.stop()
             print("Arret de avancer __collid__ :", self.distance_parcouru,
                   self.robot.get_distance())
@@ -123,7 +123,7 @@ class Tourner(Strategie):
                   self.robot.get_distance())
             return
 
-        if self.robot.get_distance() <= 10:
+        if self.robot.get_distance() <= 0.05:
             self.robot.stop()
             print("Arret de tourner __collid__ :", self.distance_parcouru,
                   self.robot.get_distance())
@@ -351,3 +351,99 @@ class Polygone(Strategie):
             self.cur = 0
             self.nb += 1
             self.avancer.start()
+
+class Contour(Strategie):
+
+    NB_MAX = 8
+
+    def __init__(self, robot, vitesse, orientation):
+        super().__init__(robot)
+        self.avancer = Avancer(robot, cote, vitesse)
+        self.tourner = Tourner(robot, 90, orientation, vitesse)
+        self.cur = -1
+        self.nb = 0
+
+    def start(self):
+        super().start()
+        self.cur = 0
+        self.nb = 0
+        self.avancer.start()
+
+    def stop(self):
+        super().stop()
+        self.cur = -1
+        self.avancer.stop()
+        self.tourner.stop()
+
+    def run(self):
+
+        if self.is_stop:
+            return
+
+        if not self.is_start:
+            self.start()
+
+        if self.nb == self.NB_MAX:
+            self.stop()
+            return
+
+        if self.cur == 0:
+
+            if not self.avancer.is_stop:
+                self.avancer.run()
+            else:
+                self.cur = 1
+                self.nb += 1
+                self.tourner.start()
+
+            return
+
+        if not self.tourner.is_stop:
+            self.tourner.run()
+        else:
+            self.cur = 0
+            self.nb += 1
+            self.avancer.start()
+
+class Droit(Strategie):
+
+
+    def __init__(self, robot, cote, vitesse, orientation):
+        super().__init__(robot)
+        self.avancer = Avancer(robot, cote/10, vitesse)
+        self.cur = -1
+        self.nb = 0
+
+    def start(self):
+        super().start()
+        self.cur = 0
+        self.nb = 0
+        self.avancer.start()
+
+    def stop(self):
+        super().stop()
+        self.cur = -1
+        self.avancer.stop()
+
+    def run(self):
+
+        if self.is_stop:
+            return
+
+        if not self.is_start:
+            self.start()
+
+        if self.nb == 10:
+            self.stop()
+            return
+
+        if self.cur == 0:
+
+            if not self.avancer.is_stop:
+                self.avancer.run()
+            else:
+                self.cur = 1
+                self.nb += 1
+                self.robot.dessin(nb%2==0)
+
+            return
