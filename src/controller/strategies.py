@@ -1,4 +1,5 @@
 from abc import abstractmethod
+from math import pi
 
 
 class Strategie(object):
@@ -252,6 +253,59 @@ class Triangle(Strategie):
                 self.cur = 0
                 self.nb += 1
                 self.avancer.start()
+
+
+class PolygoneRegulier(Strategie):
+
+    def __init__(self, robot, nombre, cote, vitesse, orientation):
+        super().__init__(robot)
+        self.nombre = nombre
+        self.nombre_inc = 0
+        self.cur = 0
+        self.cote = cote
+        self.avancer = Avancer(robot, cote, vitesse)
+        angle = 180 - (180 * (((nombre - 2) * pi) / nombre)) / pi
+        self.tourner = Tourner(robot, angle, orientation, vitesse)
+
+    def start(self):
+        super().start()
+        self.cur = 0
+        self.nb = 0
+        self.avancer.start()
+
+    def stop(self):
+        super().stop()
+        self.avancer.stop()
+        self.tourner.stop()
+
+    def run(self):
+
+        if self.is_stop:
+            return
+
+        if not self.is_start:
+            self.start()
+
+        if self.nb == self.nombre:
+            self.stop()
+            return
+
+        if self.cur == 0:
+
+            if not self.avancer.is_stop:
+                self.avancer.run()
+            else:
+                self.cur = 1
+                self.nb += 1
+                self.tourner.start()
+
+            return
+
+        if not self.tourner.is_stop:
+            self.tourner.run()
+        else:
+            self.cur = 0
+            self.avancer.start()
 
 
 class EviterObstacle(Strategie):
