@@ -45,7 +45,7 @@ def q1_2():
     thread_controleur = Thread(target=controleur.boucle, args=(FPS,))
     thread_modele = Thread(target=arene.boucle, args=(FPS,))
     thread_affichage = Thread(target=affichage.boucle, args=(FPS,))
-    thread_crayon = Thread(target=boucle, args=(arene.robot))
+    thread_crayon = Thread(target=boucle, args=(arene.robot, ))
 
     thread_controleur.start()
     thread_crayon.start()
