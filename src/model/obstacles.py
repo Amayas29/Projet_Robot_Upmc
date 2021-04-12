@@ -12,8 +12,7 @@ class Obstacle:
 class Gemme:
 
     def __init__(self):
-        self.pos = Point()
         x = random.randint(100, 900)
         y = random.randint(50, 850)
         self.pos = Point(x, y)
-        self.duree_vie = random.randrange(10, 15, 0.15)
+        self.duree_vie = random.randint(10, 15)
