@@ -2,7 +2,7 @@ from threading import Thread
 from controller.strategies import Tourner
 from utils.config import Config
 from controller.controleur import Controleur
-from controller.strategies import Carre, Triangle, EviterObstacle,polygone
+from controller.strategies import Carre, Triangle, EviterObstacle,polygone,Avancer
 
 controleur = Controleur()
 
@@ -34,38 +34,23 @@ if (mode):  # Mode Simu
 
     arene = Arene()
 
-    # obstacles = config.get_obstacles()
-    # for obstacle in obstacles:
-    #     arene.add_obstacle(obstacle)
-
-    # try:
-    #     test = int(sys.argv[1])
-    # except:
-    #     test = 1
-
-    # if test == 1:
-    #     arene.add_obstacle(Obstacle(Point(100, 10), Point(900, 900)))
-    # elif test == 2:
-    #     arene.add_obstacle(Obstacle(Point(100, 270), Point(900, 10)))
-    # elif test == 3:
-    #     arene.add_obstacle(Obstacle(Point(250, 270), Point(900, 10)))
-    # elif test == 4:
-    #     arene.add_obstacle(Obstacle(Point(300, 260), Point(900, 260)))
-    # else:
-    #     arene.add_obstacle(Obstacle(Point(300, 300), Point(900, 300)))
+    numero_strategie = 0
 
     robot = Robot(Point(230, 300), arene)
     arene.set_robot(robot)
-
-    # arene.add_obstacle(Obstacle(Point(500, 300), Point(900, 300)))
     affichage = Affichage(arene)
+    if numero_strategie == 0:
+        strat = Avancer(robot,float("inf"),300)
+    elif numero_strategie == 1:
+        strat = polygone(robot,100,200,8)
+    elif numero_strategie == 2:
+        arene.add_obstacle(Obstacle(Point(0, 0), Point(0, 920)))
+        arene.add_obstacle(Obstacle(Point(0, 0), Point(1090, 0)))
+        arene.add_obstacle(Obstacle(Point(1090, 0), Point(1090, 920)))
+        arene.add_obstacle(Obstacle(Point(0, 920), Point(1090, 920)))
+        strat = EviterObstacle(robot, 300)
 
-    # strat = Tourner(robot, 90, 1, 300)
-    # strat = Carre(robot, 100, 300, 1)
-    # strat = Triangle(robot, 100, 300, 1)
-    strat = polygone(robot,100,200,8)
-
-    # strat = EviterObstacle(robot, 300, 1000, 90, 100)
+ 
 
     controleur.add_startegie(strat)
     controleur.select_startegie(0)
