@@ -1,4 +1,5 @@
 from abc import abstractmethod
+from math import pi
 
 
 class Strategie(object):
@@ -304,10 +305,10 @@ class Polygone(Strategie):
     def __init__(self, robot, cote, vitesse, orientation, nb_coter):
         super().__init__(robot)
         self.avancer = Avancer(robot, cote, vitesse)
-        self.tourner = Tourner(robot, (((nb_coter -2)*pi)/ nb_coter), orientation, vitesse)
+        self.tourner = Tourner(robot, 360/nb_coter, orientation, vitesse)
         self.cur = -1
         self.nb = 0
-        self.NB_MAX=nb_coter*2
+        self.nb_coter=nb_coter
 
     def start(self):
         super().start()
@@ -329,7 +330,7 @@ class Polygone(Strategie):
         if not self.is_start:
             self.start()
 
-        if self.nb == self.NB_MAX:
+        if self.nb == (self.nb_coter*2):
             self.stop()
             return
 
