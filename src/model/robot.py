@@ -26,6 +26,7 @@ class Robot:
         self.vision = Vision(arene)
         self.posr = 0
         self.posl = 0
+        self.dessiner = False
 
     def offset_motor_encoder(self, port, offset):
 
@@ -82,6 +83,7 @@ class Robot:
 
     def refresh(self):
         center = self.center
+        
         vec_norm = Vecteur(
             Point(0, 0), Point(- self.vec_deplacement.vect[1], self.vec_deplacement.vect[0]))
 
@@ -96,3 +98,9 @@ class Robot:
 
         self.cbd = Point(center.x + (self.WHEEL_BASE_WIDTH//2) * self.vec_deplacement.vect[0] + (self.WHEEL_BASE_WIDTH//2) * vec_norm.vect[0],
                          center.y + (self.WHEEL_BASE_WIDTH//2) * self.vec_deplacement.vect[1] + (self.WHEEL_BASE_WIDTH//2) * vec_norm.vect[1])
+
+    def up(self):
+        self.dessiner = False
+
+    def down(self):
+        self.dessiner = True

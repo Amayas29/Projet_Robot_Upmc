@@ -71,6 +71,8 @@ class Avancer(Strategie):
             self.robot.MOTOR_LEFT + self.robot.MOTOR_RIGHT, self.vitesse)
 
 
+
+
 class Tourner(Strategie):
 
     GAUCHE = 1

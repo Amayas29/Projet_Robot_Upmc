@@ -22,6 +22,9 @@ class Affichage:
         self.CLOCK = pygame.time.Clock()
         self.epaisseur = 5
         self.debug = True
+        self.old_point_robot = None
+        self.nombre_point_dessiner = 0
+        self.robot.down()
 
     def boucle(self, fps):
         while True:
@@ -46,6 +49,20 @@ class Affichage:
                          (self.robot.cbd.x, self.robot.cbd.y), self.epaisseur)
         pygame.draw.line(self.p, BLUE, (self.robot.cbg.x, self.robot.cbg.y),
                          (self.robot.cbd.x, self.robot.cbd.y), self.epaisseur)
+        print("hamid")
+
+        if self.robot.dessiner:
+           if self.old_point_robot == None:
+               self.old_point_robot = self.robot.center
+
+        else:
+            self.old_point_robot = None
+        if self.old_point_robot != None:
+            pygame.draw.line(self.p, BLUE, (self.robot.center.x, self.robot.center.y),
+                         (self.old_point_robot.x, self.old_point_robot.y), self.epaisseur)
+        self.old_point_robot = self.robot.center
+        
+        
 
         self.display_debug()
 
