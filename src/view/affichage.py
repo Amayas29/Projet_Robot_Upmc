@@ -47,7 +47,7 @@ class Affichage:
         pygame.draw.line(self.p, BLUE, (self.robot.cbg.x, self.robot.cbg.y),
                          (self.robot.cbd.x, self.robot.cbd.y), self.epaisseur)
 
-        self.display_debug()
+        #self.display_debug()
 
         pygame.display.flip()
 

@@ -61,8 +61,8 @@ if (mode):  # Mode Simu
     affichage = Affichage(arene)
 
     # strat = Tourner(robot, 90, 1, 300)
-    # strat = Carre(robot, 100, 300, 1)
-    strat = Triangle(robot, 100, 300, 1)
+    strat = Carre(robot, 100, 300, 1)
+    # strat = Triangle(robot, 100, 300, 1)
 
     # strat = EviterObstacle(robot, 300, 1000, 90, 100)
 

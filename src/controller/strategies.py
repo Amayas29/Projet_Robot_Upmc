@@ -1,4 +1,5 @@
 from abc import abstractmethod
+import math
 
 
 class Strategie(object):
@@ -296,3 +297,59 @@ class EviterObstacle(Strategie):
             self.avancer.start()
 
         self.avancer.run()
+
+
+class Polygone(Strategie):
+
+
+    def __init__(self, robot, nb_cotes, cote, vitesse, orientation):
+        super().__init__(robot)
+        self.avancer = Avancer(robot, cote, vitesse)
+        self.tourner = Tourner(robot, 360/nb_cotes, orientation, vitesse)
+        self.cur = -1
+        self.nb = 0
+        self.nb_cotes = nb_cotes
+    
+    
+
+    def start(self):
+        super().start()
+        self.cur = 0
+        self.nb = 0
+        self.avancer.start()
+
+    def stop(self):
+        super().stop()
+        self.avancer.stop()
+        self.tourner.stop()
+        self.cur = -1
+
+    def run(self):
+
+        if self.is_stop:
+            return
+
+        if not self.is_start:
+            self.start()
+
+        if self.nb == self.nb_cotes * 2:
+            self.stop()
+            return
+
+        if self.cur == 0:
+
+            if not self.avancer.is_stop:
+                self.avancer.run()
+            else:
+                self.cur = 1
+                self.nb += 1
+                self.tourner.start()
+
+        else:
+
+            if not self.tourner.is_stop:
+                self.tourner.run()
+            else:
+                self.cur = 0
+                self.nb += 1
+                self.avancer.start()
