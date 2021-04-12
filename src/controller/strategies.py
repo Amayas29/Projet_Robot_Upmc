@@ -200,6 +200,7 @@ class Carre(Strategie):
             self.avancer.start()
 
 
+
 class Triangle(Strategie):
 
     NB_MAX = 6
@@ -253,7 +254,6 @@ class Triangle(Strategie):
                 self.nb += 1
                 self.avancer.start()
 
-
 class EviterObstacle(Strategie):
 
     def __init__(self, robot, vitesse, distance, angle, securite):
@@ -296,3 +296,57 @@ class EviterObstacle(Strategie):
             self.avancer.start()
 
         self.avancer.run()
+
+
+class Polygone(Strategie):
+
+
+    def __init__(self, robot, cote, vitesse, orientation, nb_coter):
+        super().__init__(robot)
+        self.avancer = Avancer(robot, cote, vitesse)
+        self.tourner = Tourner(robot, (((nb_coter -2)*pi)/ nb_coter), orientation, vitesse)
+        self.cur = -1
+        self.nb = 0
+        self.NB_MAX=nb_coter*2
+
+    def start(self):
+        super().start()
+        self.cur = 0
+        self.nb = 0
+        self.avancer.start()
+
+    def stop(self):
+        super().stop()
+        self.cur = -1
+        self.avancer.stop()
+        self.tourner.stop()
+
+    def run(self):
+
+        if self.is_stop:
+            return
+
+        if not self.is_start:
+            self.start()
+
+        if self.nb == self.NB_MAX:
+            self.stop()
+            return
+
+        if self.cur == 0:
+
+            if not self.avancer.is_stop:
+                self.avancer.run()
+            else:
+                self.cur = 1
+                self.nb += 1
+                self.tourner.start()
+
+            return
+
+        if not self.tourner.is_stop:
+            self.tourner.run()
+        else:
+            self.cur = 0
+            self.nb += 1
+            self.avancer.start()

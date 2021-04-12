@@ -62,7 +62,8 @@ if (mode):  # Mode Simu
 
     # strat = Tourner(robot, 90, 1, 300)
     # strat = Carre(robot, 100, 300, 1)
-    strat = Triangle(robot, 100, 300, 1)
+    #strat = Triangle(robot, 100, 300, 1) #equilateral
+    strat = Polygone(robot, 100, 300, 1, 8)
 
     # strat = EviterObstacle(robot, 300, 1000, 90, 100)
 
