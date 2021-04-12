@@ -22,7 +22,7 @@ class Affichage:
         self.p = pygame.display.set_mode((1090, 920))
         self.CLOCK = pygame.time.Clock()
         self.epaisseur = 5
-        self.debug = True
+        self.debug = False
         self.old_position = []
 
     def boucle(self, fps):
