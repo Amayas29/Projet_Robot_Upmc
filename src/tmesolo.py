@@ -19,14 +19,14 @@ def q1_1():
     return
 
 
-def boucle(FPS, robot):
+def boucle(robot):
     while True:
         if robot.crayon:
-            robot.down()
-        else:
             robot.up()
+        else:
+            robot.down()
 
-        sleep(1./FPS)
+        sleep(1)
 
 
 def q1_2():
@@ -45,7 +45,7 @@ def q1_2():
     thread_controleur = Thread(target=controleur.boucle, args=(FPS,))
     thread_modele = Thread(target=arene.boucle, args=(FPS,))
     thread_affichage = Thread(target=affichage.boucle, args=(FPS,))
-    thread_crayon = Thread(target=boucle, args=(FPS, arene.robot))
+    thread_crayon = Thread(target=boucle, args=(arene.robot))
 
     thread_controleur.start()
     thread_crayon.start()
@@ -83,6 +83,7 @@ def q2_2():
 
     arene = Arene()
     robot = Robot(Point(500, 500), arene)
+    robot.down()
 
     arene.set_robot(robot)
     strat = PolygoneRegulier(robot, 8, 100, 300, 1)
@@ -120,7 +121,7 @@ def q2_3():
     arene.add_obstacle(Obstacle(Point(0, 920), Point(1090, 920)))
 
     arene.set_robot(robot)
-    strat = EviterObstacle(robot, 300, float("inf"), 90, 50)
+    strat = EviterObstacle(robot, 300, float("inf"), float("inf"), 50)
 
     affichage = Affichage(arene)
 
@@ -136,33 +137,9 @@ def q2_3():
     thread_affichage.start()
 
 
+def q3_1():
+    pass
 
-
-def q():
-
-    controleur = Controleur()
-
-    arene = Arene()
-    robot = Robot(Point(500, 500), arene)
-
-    arene.set_robot(robot)
-    strat = PolygoneRegulier(robot, 8, 100, 300, 1)
-
-    affichage = Affichage(arene)
-
-    controleur.add_startegie(strat)
-    controleur.select_startegie(0)
-
-    thread_controleur = Thread(target=controleur.boucle, args=(FPS,))
-    thread_modele = Thread(target=arene.boucle, args=(FPS,))
-    thread_affichage = Thread(target=affichage.boucle, args=(FPS,))
-    thread_crayon = Thread(target=boucle, args=(FPS, arene.robot))
-
-
-    thread_crayon.start()
-    thread_controleur.start()
-    thread_modele.start()
-    thread_affichage.start()
 
 if __name__ == '__main__':
-    q()
+    q2_2()

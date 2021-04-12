@@ -78,7 +78,7 @@ class Tourner(Strategie):
     GAUCHE = 1
     DROITE = 0
 
-    def __init__(self, robot, angle, orientation, vitesse):
+    def __init__(self, robot, angle, orientation, vitesse, secu=None):
         super().__init__(robot)
         if orientation != self.DROITE and orientation != self.GAUCHE:
             orientation = self.GAUCHE
@@ -86,6 +86,7 @@ class Tourner(Strategie):
         self.vitesse = vitesse
         self.distance = (robot.WHEEL_BASE_CIRCUMFERENCE * angle) / 180
         self.distance_parcouru = 0
+        self.secu = 10 if secu is None else secu
 
     def start(self):
         super().start()
@@ -124,10 +125,10 @@ class Tourner(Strategie):
                   self.robot.get_distance())
             return
 
-        if self.robot.get_distance() <= 10:
+        if self.robot.get_distance() <= self.secu:
             self.robot.stop()
             print("Arret de tourner __collid__ :", self.distance_parcouru,
-                  self.robot.get_distance())
+                  self.robot.get_distance(), self.secu)
             return
 
         vitesse = self.vitesse
@@ -313,8 +314,8 @@ class EviterObstacle(Strategie):
 
     def __init__(self, robot, vitesse, distance, angle, securite):
         super().__init__(robot)
-        self.avancer = Avancer(self.robot, distance, vitesse, 20)
-        self.tourner = Tourner(self.robot, angle, Tourner.DROITE, vitesse)
+        self.avancer = Avancer(self.robot, distance, vitesse, -1)
+        self.tourner = Tourner(self.robot, angle, Tourner.DROITE, vitesse, -1)
         self.securite = securite
 
     def start(self):
@@ -341,8 +342,10 @@ class EviterObstacle(Strategie):
             print("Collision", self.robot.get_distance(), self.securite)
             self.robot.servo_rotate(20)
 
-            if self.robot.get_distance() <= self.securite:
+            if self.robot.get_distance() <= 50:
                 self.tourner.orientation = Tourner.GAUCHE
+            else:
+                self.tourner.orientation = Tourner.DROITE
 
             self.tourner.run()
             return

@@ -22,8 +22,8 @@ class Affichage:
         self.p = pygame.display.set_mode((1090, 920))
         self.CLOCK = pygame.time.Clock()
         self.epaisseur = 5
-        self.debug = False
-        self.old_position = None
+        self.debug = True
+        self.old_position = []
 
     def boucle(self, fps):
         while True:
@@ -50,12 +50,24 @@ class Affichage:
         pygame.draw.line(self.p, BLUE, (self.arene.robot.cbg.x, self.arene.robot.cbg.y),
                          (self.arene.robot.cbd.x, self.arene.robot.cbd.y), self.epaisseur)
 
-        if self.old_position is None:
-            self.old_position = deepcopy(self.arene.robot.center)
+        if self.old_position == []:
+            self.old_position.append(deepcopy(self.arene.robot.center))
 
         if self.arene.robot.crayon:
-            pygame.draw.line(self.p, BLUE, (self.old_position.x, self.old_position.y),
-                             (self.arene.robot.center.x, self.arene.robot.center.y), self.epaisseur)
+            for i in range(1, len(self.old_position)):
+
+                old_i = self.old_position[i]
+                old_i_1 = self.old_position[i-1]
+
+                if old_i is None or old_i_1 is None:
+                    continue
+
+                pygame.draw.line(self.p, YELLOW, (old_i_1.x, old_i_1.y),
+                                 (old_i.x, old_i.y), self.epaisseur)
+
+            self.old_position.append(deepcopy(self.arene.robot.center))
+        else:
+            self.old_position.append(None)
 
         self.display_debug()
         pygame.display.flip()

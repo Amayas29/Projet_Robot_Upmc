@@ -2,7 +2,7 @@ from time import sleep
 from datetime import datetime
 from utils.tools import Vecteur, Point
 from math import pi
-
+from .obstacles import Gemme
 
 class Arene:
 
@@ -11,6 +11,8 @@ class Arene:
         self.robot = None
         self.temps_precedent = None
         self.angle_parcouru = 0
+        self.gemme = Gemme()
+        self.temps = 0
 
     def boucle(self, fps):
         if self.robot is None:
@@ -22,15 +24,21 @@ class Arene:
 
     def update(self):
 
-        if self.robot.lspeed == 0 and self.robot.rspeed == 0:
-            return
-
         if self.temps_precedent is None:
             self.temps_precedent = datetime.now()
 
         now = datetime.now()
         diff_temps = (now - self.temps_precedent).total_seconds()
         self.temps_precedent = now
+
+        self.temps += diff_temps
+
+        if self.temps >= self.gemme.duree_vie:
+            self.gemme = Gemme()
+            self.temps = 0
+
+        if self.robot.lspeed == 0 and self.robot.rspeed == 0:
+            return
 
         if self.robot.lspeed == self.robot.rspeed:
 

@@ -1,5 +1,5 @@
 
-from utils.tools import Point, Vecteur
+from utils.tools import Point, Vecteur, Droite
 from .vision import Vision
 import math
 
@@ -18,6 +18,7 @@ class Robot:
         self.vec_deplacement = Vecteur.get_vect_from_angle(0)
         self.refresh()
 
+        self.arene = arene
         self.lspeed = 0
         self.rspeed = 0
         self.MOTOR_LEFT = 1
@@ -99,7 +100,22 @@ class Robot:
                          center.y + (self.WHEEL_BASE_WIDTH//2) * self.vec_deplacement.vect[1] + (self.WHEEL_BASE_WIDTH//2) * vec_norm.vect[1])
 
     def up(self):
-        self.crayon = True
+        self.crayon = False
 
     def down(self):
-        self.crayon = False
+        self.crayon = True
+
+    def get_signal(self):
+
+        gemme = self.arene.gemme
+        if gemme is None:
+            return 0, float("inf")
+
+        angle = Vecteur.get_vect_from_angle(0).angle_sign(
+            Vecteur(self.center, gemme.pos))
+
+        pos = gemme.pos
+        front_droite = Droite.get_droite(self.vec_deplacement, self.chd)
+        dist = pos.distance_to_droite(front_droite)
+
+        return angle, dist
