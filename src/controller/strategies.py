@@ -1,5 +1,5 @@
 from abc import abstractmethod
-import math
+#import math
 
 
 class Strategie(object):
