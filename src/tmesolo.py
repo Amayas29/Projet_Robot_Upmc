@@ -117,7 +117,7 @@ def q23() :
     from controller.strategies import Tourner
     from utils.config import Config
     from controller.controleur import Controleur
-    from controller.strategies import Polygone
+    from controller.strategies import Avancer , EviterObstacle
 
     controleur = Controleur()
 
@@ -152,10 +152,18 @@ def q23() :
         robot = Robot(Point(230, 300), arene)
         arene.set_robot(robot)
 
+        #murs
+        arene.add_obstacle(Obstacle(Point(0, 0), Point(1090 ,0)))
+        arene.add_obstacle(Obstacle(Point(0, 0), Point(0 ,920)))
+        arene.add_obstacle(Obstacle(Point(1090, 920), Point(1090 ,0)))
+        arene.add_obstacle(Obstacle(Point(0, 920), Point(1090 ,920)))
+
+
         
         affichage = Affichage(arene)
 
-        strat = Polygone(robot, 8, 50, 150, 0)
+        strat = EviterObstacle( robot, 200, 50, 0, 50)
+
 
         controleur.add_startegie(strat)
         controleur.select_startegie(0)
@@ -187,5 +195,5 @@ def q23() :
     
 
 #q21()
-#q23()
-
+#q22()
+q23()
