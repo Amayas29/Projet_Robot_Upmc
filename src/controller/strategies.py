@@ -1,19 +1,21 @@
 from abc import abstractmethod
+from math import pi
 
 
 class Strategie(object):
 
-    def __init__(self, wrapper):
-        self.wrapper = wrapper
+    def __init__(self, robot):
+        self.robot = robot
         self.is_stop = False
         self.is_start = False
+        self.old_position = None
 
     def start(self):
         self.is_stop = False
         self.is_start = True
 
     def stop(self):
-        self.wrapper.stop()
+        self.robot.stop()
         self.is_stop = True
 
     @abstractmethod
@@ -23,18 +25,18 @@ class Strategie(object):
 
 class Avancer(Strategie):
 
-    def __init__(self, wrapper, distance, vitesse):
+    def __init__(self, robot, distance, vitesse):
 
-        super().__init__(wrapper)
+        super().__init__(robot)
         self.distance = distance
         self.distance_parcouru = 0
         self.vitesse = vitesse
 
     def start(self):
         super().start()
-        self.wrapper.stop()
-        self.wrapper.begin(self, 0)
-        self.wrapper.tourner_servo(90)
+        self.robot.stop()
+        self.old_position = self.robot.get_motor_position()[0]
+        self.robot.servo_rotate(90)
         self.distance_parcouru = 0
 
     def run(self):
@@ -44,18 +46,30 @@ class Avancer(Strategie):
 
         if not self.is_start:
             self.start()
+        self.robot.servo_rotate(90)
+        diff = self.robot.get_motor_position()[0] - self.old_position
+        self.old_position = self.robot.get_motor_position()[0]
 
-        self.wrapper.tourner_servo(90)
+        k = diff // 360
+        r = diff % 360
 
-        self.distance_parcouru += self.wrapper.get_distance_parcouru(self, 0)
+        self.distance_parcouru += k * self.robot.WHEEL_CIRCUMFERENCE + \
+            (r * self.robot.WHEEL_CIRCUMFERENCE) / 360
 
         if self.distance_parcouru >= self.distance:
             self.stop()
             print("Arret de avancer __dist__ :", self.distance_parcouru,
-                  self.wrapper.get_distance())
+                  self.robot.get_distance())
             return
 
-        self.wrapper.avancer(self.vitesse)
+        if self.robot.get_distance() <= 110:
+            self.robot.stop()
+            print("Arret de avancer __collid__ :", self.distance_parcouru,
+                  self.robot.get_distance())
+            return
+
+        self.robot.set_motor_dps(
+            self.robot.MOTOR_LEFT + self.robot.MOTOR_RIGHT, self.vitesse)
 
 
 class Tourner(Strategie):
@@ -63,20 +77,20 @@ class Tourner(Strategie):
     GAUCHE = 1
     DROITE = 0
 
-    def __init__(self, wrapper, angle, orientation, vitesse):
-        super().__init__(wrapper)
-
+    def __init__(self, robot, angle, orientation, vitesse):
+        super().__init__(robot)
         if orientation != self.DROITE and orientation != self.GAUCHE:
             orientation = self.GAUCHE
-
         self.orientation = orientation
         self.vitesse = vitesse
-        self.distance = (wrapper.WHEEL_BASE_CIRCUMFERENCE * angle) / 180
+        self.distance = (robot.WHEEL_BASE_CIRCUMFERENCE * angle) / 180
         self.distance_parcouru = 0
 
     def start(self):
         super().start()
-        self.wrapper.begin(self, self.orientation)
+        self.old_position = self.robot.get_motor_position()[
+            self.orientation]
+
         self.distance_parcouru = 0
 
     def run(self):
@@ -88,17 +102,31 @@ class Tourner(Strategie):
             self.start()
 
         if self.orientation == self.GAUCHE:
-            self.wrapper.tourner_servo(110)
+            self.robot.servo_rotate(110)
         else:
-            self.wrapper.tourner_servo(60)
+            self.robot.servo_rotate(60)
 
-        self.distance_parcouru += self.wrapper.get_distance_parcouru(
-            self, self.orientation)
+        diff = self.robot.get_motor_position()[self.orientation] - \
+            self.old_position
+
+        self.old_position = self.robot.get_motor_position()[self.orientation]
+
+        k = diff // 360
+        r = diff % 360
+
+        self.distance_parcouru += k * self.robot.WHEEL_CIRCUMFERENCE + \
+            (r * self.robot.WHEEL_CIRCUMFERENCE) / 360
 
         if self.distance_parcouru >= self.distance:
             self.stop()
             print("Arret de tourner __dist__ :", self.distance_parcouru,
-                  self.wrapper.get_distance())
+                  self.robot.get_distance())
+            return
+
+        if self.robot.get_distance() <= 10:
+            self.robot.stop()
+            print("Arret de tourner __collid__ :", self.distance_parcouru,
+                  self.robot.get_distance())
             return
 
         vitesse = self.vitesse
@@ -111,123 +139,36 @@ class Tourner(Strategie):
 
         # vitesse = 10 if vitesse < 10 else vitesse
 
-        self.wrapper.tourner(self.orientation, vitesse)
-
-
-class Switcher(Strategie):
-
-    def __init__(self, strat_1, strat_2, fct_switcher):
-        super().__init__(strat_1.wrapper)
-        self.strat_1 = strat_1
-        self.strat_2 = strat_2
-        self.current = strat_1
-        self.fct_switcher = fct_switcher
-
-    def stop(self):
-        super().stop()
-        self.strat_1.stop()
-        self.strat_2.stop()
-
-    def run(self):
-
-        if self.is_stop:
-            return
-
-        if not self.is_start:
-            self.start()
-
-        self.current = self.fct_switcher(
-            self.current, self.strat_1, self.strat_2)
-
-        self.current.run()
-
-
-class SwitcherSequentiel(Switcher):
-
-    def __init__(self, strat_1, strat_2, max_number):
-        super().__init__(strat_1, strat_2, SwitcherSequentiel.fct_switcher)
-        self.number = 0
-        self.max_number = max_number
-        self.current = self.strat_1
-
-    def run(self):
-
-        if self.is_stop:
-            return
-
-        if not self.is_start:
-            self.start()
-
-        if self.number == self.max_number:
-            self.stop()
-            return
-
-        curr = self.fct_switcher(
-            self.current, self.strat_1, self.strat_2)
-
-        if curr != self.current:
-            self.current = curr
-            self.number += 1
-
-        self.current.run()
-
-    @staticmethod
-    def fct_switcher(current, strat_1, strat_2):
-
-        if current == strat_1:
-            if strat_1.is_stop:
-                strat_2.start()
-                return strat_2
-            return strat_1
-
-        if strat_2.is_stop:
-            strat_1.start()
-            return strat_1
-        return strat_2
-
-
-class Unitaire(Strategie):
-
-    def __init__(self, strat, fct_arret):
-        super().__init__(strat.wrapper)
-        self.strat = strat
-        self.fct_arret = fct_arret
-
-    def stop(self):
-        super().stop()
-        self.strat.stop()
-
-    def run(self):
-
-        if self.fct_arret():
-            self.strat.stop()
-            return
-
-        self.strat.run()
+        if self.orientation == self.GAUCHE:
+            self.robot.set_motor_dps(self.robot.MOTOR_LEFT,  0)
+            self.robot.set_motor_dps(self.robot.MOTOR_RIGHT, vitesse)
+        else:
+            self.robot.set_motor_dps(self.robot.MOTOR_LEFT, vitesse)
+            self.robot.set_motor_dps(self.robot.MOTOR_RIGHT, 0)
 
 
 class Carre(Strategie):
 
     NB_MAX = 8
 
-    def __init__(self, wrapper, cote, vitesse, orientation, securite):
-        super().__init__(wrapper)
-        avancer = Avancer(wrapper, cote, vitesse)
-        tourner = Tourner(wrapper, 90, orientation, vitesse)
-        switcher = SwitcherSequentiel(avancer, tourner, self.NB_MAX)
-        self.switcher = Unitaire(switcher, self.fct_arret)
-        self.securite = securite
-
-    def fct_arret(self):
-        return self.wrapper.get_distance() <= self.securite
+    def __init__(self, robot, cote, vitesse, orientation):
+        super().__init__(robot)
+        self.avancer = Avancer(robot, cote, vitesse)
+        self.tourner = Tourner(robot, 90, orientation, vitesse)
+        self.cur = -1
+        self.nb = 0
 
     def start(self):
         super().start()
-        self.switcher.start()
+        self.cur = 0
+        self.nb = 0
+        self.avancer.start()
 
     def stop(self):
         super().stop()
-        self.switcher.stop()
+        self.cur = -1
+        self.avancer.stop()
+        self.tourner.stop()
 
     def run(self):
 
@@ -237,31 +178,52 @@ class Carre(Strategie):
         if not self.is_start:
             self.start()
 
-        self.switcher.run()
+        if self.nb == self.NB_MAX:
+            self.stop()
+            return
+
+        if self.cur == 0:
+
+            if not self.avancer.is_stop:
+                self.avancer.run()
+            else:
+                self.cur = 1
+                self.nb += 1
+                self.tourner.start()
+
+            return
+
+        if not self.tourner.is_stop:
+            self.tourner.run()
+        else:
+            self.cur = 0
+            self.nb += 1
+            self.avancer.start()
+
 
 
 class Triangle(Strategie):
 
     NB_MAX = 6
 
-    def __init__(self, wrapper, cote, vitesse, orientation, securite):
-        super().__init__(wrapper)
-        avancer = Avancer(wrapper, cote, vitesse)
-        tourner = Tourner(wrapper, 120, orientation, vitesse)
-        switcher = SwitcherSequentiel(avancer, tourner, self.NB_MAX)
-        self.switcher = Unitaire(switcher, self.fct_arret)
-        self.securite = securite
-
-    def fct_arret(self):
-        return self.wrapper.get_distance() <= self.securite
+    def __init__(self, robot, cote, vitesse, orientation):
+        super().__init__(robot)
+        self.avancer = Avancer(robot, cote, vitesse)
+        self.tourner = Tourner(robot, 120, orientation, vitesse)
+        self.cur = -1
+        self.nb = 0
 
     def start(self):
         super().start()
-        self.switcher.start()
+        self.cur = 0
+        self.nb = 0
+        self.avancer.start()
 
     def stop(self):
         super().stop()
-        self.switcher.stop()
+        self.avancer.stop()
+        self.tourner.stop()
+        self.cur = -1
 
     def run(self):
 
@@ -271,46 +233,44 @@ class Triangle(Strategie):
         if not self.is_start:
             self.start()
 
-        self.switcher.run()
+        if self.nb == self.NB_MAX:
+            self.stop()
+            return
 
+        if self.cur == 0:
+
+            if not self.avancer.is_stop:
+                self.avancer.run()
+            else:
+                self.cur = 1
+                self.nb += 1
+                self.tourner.start()
+
+        else:
+
+            if not self.tourner.is_stop:
+                self.tourner.run()
+            else:
+                self.cur = 0
+                self.nb += 1
+                self.avancer.start()
 
 class EviterObstacle(Strategie):
 
-    def __init__(self, wrapper, vitesse, distance, angle, securite):
-        super().__init__(wrapper)
-        avancer = Avancer(wrapper, distance, vitesse)
-        tourner = Tourner(wrapper, angle, Tourner.DROITE, vitesse)
-        switcher = Switcher(avancer, tourner, self.fct_switcher)
-        self.switcher = Unitaire(switcher, self.fct_arret)
+    def __init__(self, robot, vitesse, distance, angle, securite):
+        super().__init__(robot)
+        self.avancer = Avancer(self.robot, distance, vitesse)
+        self.tourner = Tourner(self.robot, angle, Tourner.DROITE, vitesse)
         self.securite = securite
-
-    def fct_arret(self):
-        return self.wrapper.get_distance() <= 10
 
     def start(self):
         super().start()
-        self.switcher.start()
+        self.avancer.start()
 
     def stop(self):
         super().stop()
-        self.switcher.stop()
-
-    def fct_switcher(self, current, avancer, tourner):
-
-        wrapper = avancer.wrapper
-
-        if wrapper.get_distance() <= self.securite:
-
-            tourner.start()
-
-            wrapper.tourner_servo(60)
-
-            if wrapper.get_distance() <= self.securite:
-                tourner.orientation = Tourner.GAUCHE
-
-            return tourner
-
-        return avancer
+        self.avancer.stop()
+        self.tourner.stop()
 
     def run(self):
         if self.is_stop:
@@ -319,5 +279,74 @@ class EviterObstacle(Strategie):
         if not self.is_start:
             self.start()
 
-        self.switcher.run()
-        self.switcher.strat.strat_2.orientation = Tourner.DROITE
+        if self.robot.get_distance() <= self.securite:
+
+            if not self.tourner.is_start:
+                self.tourner.start()
+
+            print("Collision", self.robot.get_distance(), self.securite)
+            self.robot.servo_rotate(20)
+
+            if self.robot.get_distance() <= self.securite:
+                self.tourner.orientation = Tourner.GAUCHE
+
+            self.tourner.run()
+            return
+
+        if not self.avancer.is_start:
+            self.avancer.start()
+
+        self.avancer.run()
+
+
+class Polygone(Strategie):
+
+    def __init__(self, robot, cote, vitesse, orientation, n):
+        super().__init__(robot)
+        self.avancer = Avancer(robot, cote, vitesse)
+        self.tourner = Tourner(robot, 360/n, orientation, vitesse)
+        self.cur = -1
+        self.nb = 0
+        self.n = n
+
+    def start(self):
+        super().start()
+        self.cur = 0
+        self.nb = 0
+        self.avancer.start()
+
+    def stop(self):
+        super().stop()
+        self.cur = -1
+        self.avancer.stop()
+        self.tourner.stop()
+
+    def run(self):
+
+        if self.is_stop:
+            return
+
+        if not self.is_start:
+            self.start()
+
+        if self.nb == (self.n*2):
+            self.stop()
+            return
+
+        if self.cur == 0:
+
+            if not self.avancer.is_stop:
+                self.avancer.run()
+            else:
+                self.cur = 1
+                self.nb += 1
+                self.tourner.start()
+
+            return
+
+        if not self.tourner.is_stop:
+            self.tourner.run()
+        else:
+            self.cur = 0
+            self.nb += 1
+            self.avancer.start()

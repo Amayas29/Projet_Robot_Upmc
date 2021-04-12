@@ -1,0 +1,14 @@
+﻿MBOURANGA Winn-Elie
+L2-MONO-INFO Grp3
+n°étudiant: 28601343
+
+=========== TME SOLO ==============
+
+
+Exercice 2:
+
+Q1)
+Pour se faire, j'ai utilisé la stratégie Triangle en lui donnat comme angle a tourner 120 pour que il l'effectue.
+
+Q2)
+Pour effectuer un polygone, j'ai voulu reprendre la stratégie Carré en modifiant le nb de coté (passant de 4 a un nombre n)

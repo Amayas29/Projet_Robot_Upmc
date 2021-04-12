@@ -1,8 +1,8 @@
 from threading import Thread
 from utils.config import Config
 from controller.controleur import Controleur
-from controller.strategies import Carre, Triangle, EviterObstacle, Unitaire, Avancer, Tourner
-from controller.wrapper import Wrapper
+from controller.strategies import Carre, Triangle,  Avancer, Tourner
+
 
 controleur = Controleur()
 
@@ -33,44 +33,17 @@ if (mode):  # Mode Simu
     import sys
 
     arene = Arene()
-
-    # obstacles = config.get_obstacles()
-    # for obstacle in obstacles:
-    #     arene.add_obstacle(obstacle)
-
-    # try:
-    #     test = int(sys.argv[1])
-    # except:
-    #     test = 1
-
-    # if test == 1:
-    #     arene.add_obstacle(Obstacle(Point(100, 10), Point(900, 900)))
-    # elif test == 2:
-    #     arene.add_obstacle(Obstacle(Point(100, 270), Point(900, 10)))
-    # elif test == 3:
-    #     arene.add_obstacle(Obstacle(Point(250, 270), Point(900, 10)))
-    # elif test == 4:
-    #     arene.add_obstacle(Obstacle(Point(300, 260), Point(900, 260)))
-    # else:
-    #     arene.add_obstacle(Obstacle(Point(300, 300), Point(900, 300)))
-
+    
     robot = Robot(Point(230, 300), arene)
     arene.set_robot(robot)
 
-    arene.add_obstacle(Obstacle(Point(500, 500), Point(700, 100)))
-    # arene.add_obstacle(Obstacle(Point(500, 450), Point(900, 450)))
-
     affichage = Affichage(arene)
 
-    wrapper = Wrapper(robot)
-    def f(): return wrapper.get_distance() <= 30
-    strat = Unitaire(Avancer(wrapper, 100000, 300), f)
+    # Exo 2 Q.1)
+    strat = Triangle(robot, 100, 200, 5)
 
-    # strat = Tourner(wrapper, 90, 1, 300)
-    # strat = Carre(wrapper, 100, 300, 1)
-    # strat = Triangle(wrapper, 100, 300, 1)
-
-    # strat = EviterObstacle(wrapper, 300, 1000, 90, 50)
+    #Exo 2 Q.2)
+    #strat = Polygone(robot, 80 ,200,1,8)
 
     controleur.add_startegie(strat)
     controleur.select_startegie(0)
@@ -82,21 +55,3 @@ if (mode):  # Mode Simu
     thread_controleur.start()
     thread_modele.start()
     thread_affichage.start()
-
-else:  # mode REEL
-    print("simu off")
-
-    try:
-        from robot2I013 import Robot2I013
-        robot = Robot2I013()
-    except ImportError:
-        from irl.mockup import Robot2I013Mockup
-        robot = Robot2I013Mockup()
-
-    strat = Carre(robot, 50, 300, 0)
-    controleur.add_startegie(strat)
-    controleur.select_startegie(0)
-
-    thread_controleur = Thread(target=controleur.boucle, args=(FPS,))
-
-    thread_controleur.start()
