@@ -12,3 +12,8 @@ Pour se faire, j'ai utilisé la stratégie Triangle en lui donnat comme angle a 
 
 Q2)
 Pour effectuer un polygone, j'ai voulu reprendre la stratégie Carré en modifiant le nb de coté (passant de 4 a un nombre n)
+
+Exercice 1:
+
+Q1)
+Pour l'exercice 1 q1, j'ai voulu créer une fonction booléenne qui se met à True dans robot.py lorsqu'il va baisser le crayon.

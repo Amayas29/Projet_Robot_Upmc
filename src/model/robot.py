@@ -26,6 +26,7 @@ class Robot:
         self.vision = Vision(arene)
         self.posr = 0
         self.posl = 0
+        self.line = False
 
     def offset_motor_encoder(self, port, offset):
 
@@ -96,3 +97,6 @@ class Robot:
 
         self.cbd = Point(center.x + (self.WHEEL_BASE_WIDTH//2) * self.vec_deplacement.vect[0] + (self.WHEEL_BASE_WIDTH//2) * vec_norm.vect[0],
                          center.y + (self.WHEEL_BASE_WIDTH//2) * self.vec_deplacement.vect[1] + (self.WHEEL_BASE_WIDTH//2) * vec_norm.vect[1])
+
+def line(self):
+    self.line = True

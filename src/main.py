@@ -45,6 +45,10 @@ if (mode):  # Mode Simu
     #Exo 2 Q.2)
     #strat = Polygone(robot, 80 ,200,1,8)
 
+    #Exo 1 Q.1)
+    if robot.line:
+        robot.up()
+        
     controleur.add_startegie(strat)
     controleur.select_startegie(0)
 
