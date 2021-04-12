@@ -3,7 +3,7 @@ from datetime import datetime
 from utils.tools import Vecteur, Point
 from math import pi
 
-
+from model.gemme import Gemme 
 class Arene:
 
     def __init__(self):
@@ -11,6 +11,8 @@ class Arene:
         self.robot = None
         self.temps_precedent = None
         self.angle_parcouru = 0
+        self.generer = False
+        # self.temps_generat = datetime.now().total_seconds()
 
     def boucle(self, fps):
         if self.robot is None:
@@ -21,6 +23,14 @@ class Arene:
             sleep(1./fps)
 
     def update(self):
+        self.forward()
+        if self.temps_precedent // 20 == 1:
+            self.generer() 
+
+    def generer(self):
+        self.elements.append(Gemme())
+
+    def forward(self):
 
         if self.robot.lspeed == 0 and self.robot.rspeed == 0:
             return
@@ -84,16 +94,6 @@ class Arene:
 
             self.robot.center.rotate(roue, angle)
             self.robot.refresh()
-
-            return
-
-        # # TODO
-        # elif self.robot.lspeed > self.robot.rspeed:
-        #     pass
-        # elif self.robot.lspeed < self.robot.rspeed:
-        #     pass
-        # else:
-        #     pass
 
     def set_robot(self, robot):
         if robot != None:
