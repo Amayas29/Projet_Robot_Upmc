@@ -1,3 +1,70 @@
+
+def dessine(FPS, robot):
+    while True:
+        if robot.crayon:
+            robot.down()
+        else:
+            robot.up()
+        sleep(1./FPS)
+
+
+def q12(): 
+    from threading import Thread
+    from controller.strategies import Tourner
+    from utils.config import Config
+    from controller.controleur import Controleur
+    from controller.strategies import Avancer
+
+    controleur = Controleur()
+
+    # protection du config
+    config = Config()
+
+    mode = config.get_mode()
+
+    FPS = config.get_fps()
+
+    if (mode):  # Mode Simu
+        print("Simu on")
+
+        from view.affichage import Affichage
+        from model.robot import Robot
+        from model.arene import Arene
+        from utils.tools import Point
+        from model.obstacles import Obstacle
+        import sys
+
+        controleur = Controleur()
+
+        arene = Arene()
+        robot = Robot(Point( random.randint(200, 800) ,  random.randint(100, 700) ), arene)
+
+        angle = random.randint(0, 360)
+        robot.vec_deplacement = Vecteur.get_vect_from_angle(angle)
+
+        arene.add_obstacle(Obstacle(Point(0, 0), Point(1090, 0)))
+        arene.add_obstacle(Obstacle(Point(0, 0), Point(0, 920)))
+        arene.add_obstacle(Obstacle(Point(1090, 920), Point(1090, 0)))
+        arene.add_obstacle(Obstacle(Point(0, 920), Point(1090, 920)))
+
+        arene.set_robot(robot)
+        strat = EviterObstacle(robot, 150, float("inf"), 0, 50)
+
+        affichage = Affichage(arene)
+
+        controleur.add_startegie(strat)
+        controleur.select_startegie(0)
+
+        thread_controleur = Thread(target=controleur.boucle, args=(FPS,))
+        thread_modele = Thread(target=arene.boucle, args=(FPS,))
+        thread_affichage = Thread(target=affichage.boucle, args=(FPS,))
+
+        thread_controleur.start()
+        thread_modele.start()
+        thread_affichage.start()
+
+
+
 def q21() :
     from threading import Thread
     from controller.strategies import Tourner
@@ -113,11 +180,14 @@ def q22() :
 
 
 def q23() :
+
     from threading import Thread
     from controller.strategies import Tourner
     from utils.config import Config
     from controller.controleur import Controleur
     from controller.strategies import Avancer , EviterObstacle
+    import random
+    from utils.tools import Point, Vecteur
 
     controleur = Controleur()
 
@@ -149,7 +219,13 @@ def q23() :
 
         arene = Arene()
 
-        robot = Robot(Point(230, 300), arene)
+        robot = Robot(Point( random.randint(100, 900) , random.randint(50, 850) ), arene)
+
+        angle = random.randint(0, 360)
+        robot.vec_deplacement = Vecteur.get_vect_from_angle(angle)
+        robot.refresh()
+
+
         arene.set_robot(robot)
 
         #murs
@@ -162,7 +238,7 @@ def q23() :
         
         affichage = Affichage(arene)
 
-        strat = EviterObstacle( robot, 200, 1000, 0, 5)
+        strat = EviterObstacle(robot, 300, float("inf"), 90, 50)
 
 
         controleur.add_startegie(strat)
@@ -193,7 +269,7 @@ def q23() :
 
 
     
-
+#q12()
 #q21()
 #q22()
 q23()

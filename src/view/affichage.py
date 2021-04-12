@@ -1,6 +1,7 @@
 from time import sleep
 import pygame
 from utils.tools import Point, Vecteur, Droite
+from copy import deepcopy
 
 # colors
 BLACK = (0, 0, 0, 255)
@@ -23,6 +24,7 @@ class Affichage:
         self.epaisseur = 5
         self.debug = True
         self.old = None
+        self.pointille = 0
 
     def boucle(self, fps):
         while True:
@@ -49,13 +51,17 @@ class Affichage:
                          (self.robot.cbd.x, self.robot.cbd.y), self.epaisseur)
 
         if self.old is None:
-            self.old  = Point(self.robot.x, self.robot.y)
+            self.old = Point(self.robot.center.x, self.robot.center.y)
 
-        if self.robot.dessin:
-            pygame.draw.line(self.p, GREEN, (self.old.x, self.old.y),
-                             (self..robot.center.x, self.robot.center.y), self.epaisseur)
+        if self.robot.crayon:
+            if self.old != None:
+                 pygame.draw.line(self.p, GREEN, (self.old.x, self.old.y),
+                             (self.robot.center.x, self.robot.center.y), self.epaisseur)
+            if self.pointille % 20 == 0:    
+                self.old = None
+        
+        self.pointille +=1
 
-        #self.display_debug()
 
         pygame.display.flip()
 

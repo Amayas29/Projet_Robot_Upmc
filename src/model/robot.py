@@ -27,6 +27,13 @@ class Robot:
         self.posr = 0
         self.posl = 0
         self.crayon = False
+    
+    #q1.1
+    def up(self):
+        self.crayon = True
+    #q1.1
+    def down(self):
+        self.crayon = False
 
     def offset_motor_encoder(self, port, offset):
 
