@@ -1,11 +1,11 @@
 
-def dessine(FPS, robot):
+def dessine( robot):
     while True:
         if robot.crayon:
             robot.down()
         else:
             robot.up()
-        sleep(1./FPS)
+        sleep(1)
 
 
 def q12(): 
@@ -19,6 +19,15 @@ def q12():
 
     # protection du config
     config = Config()
+
+    if (config.get_vers() != 0.4):
+        print("Config version non conforme")
+        print(config.get_vers())
+        exit(1)
+
+    if (config.get_dist_secu() < 13.0):
+        print("Erreur critique: la distance de sécurité est trop faible! (minimum 13.0)")
+        exit(1)
 
     mode = config.get_mode()
 
@@ -34,23 +43,13 @@ def q12():
         from model.obstacles import Obstacle
         import sys
 
-        controleur = Controleur()
-
         arene = Arene()
-        robot = Robot(Point( random.randint(200, 800) ,  random.randint(100, 700) ), arene)
-
-        angle = random.randint(0, 360)
-        robot.vec_deplacement = Vecteur.get_vect_from_angle(angle)
-
-        arene.add_obstacle(Obstacle(Point(0, 0), Point(1090, 0)))
-        arene.add_obstacle(Obstacle(Point(0, 0), Point(0, 920)))
-        arene.add_obstacle(Obstacle(Point(1090, 920), Point(1090, 0)))
-        arene.add_obstacle(Obstacle(Point(0, 920), Point(1090, 920)))
-
+        robot = Robot(Point(230, 300), arene)
         arene.set_robot(robot)
-        strat = EviterObstacle(robot, 150, float("inf"), 0, 50)
 
         affichage = Affichage(arene)
+
+        strat = Avancer( robot , 500 , 150 )
 
         controleur.add_startegie(strat)
         controleur.select_startegie(0)
@@ -58,10 +57,12 @@ def q12():
         thread_controleur = Thread(target=controleur.boucle, args=(FPS,))
         thread_modele = Thread(target=arene.boucle, args=(FPS,))
         thread_affichage = Thread(target=affichage.boucle, args=(FPS,))
+        thread_dessin = Thread(target=dessine, args=(arene.robot, ))
 
         thread_controleur.start()
         thread_modele.start()
         thread_affichage.start()
+        thread_dessin.start()
 
 
 
@@ -269,7 +270,7 @@ def q23() :
 
 
     
-#q12()
+q12()
 #q21()
 #q22()
-q23()
+#q23()
