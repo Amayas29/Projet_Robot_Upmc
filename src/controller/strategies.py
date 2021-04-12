@@ -1,5 +1,5 @@
 from abc import abstractmethod
-
+from math import pi
 
 class Strategie(object):
 
@@ -298,3 +298,54 @@ class EviterObstacle(Strategie):
             self.avancer.start()
 
         self.avancer.run()
+
+class polygone(Strategie):
+    def __init__(self, robot, distance, vitesse,nombre_cote):
+        super().__init__(robot)
+        self.avancer = Avancer(robot, distance, vitesse)
+        self.tourner = Tourner(robot, 180 - (180 * (((nombre_cote - 2) * pi) / nombre_cote)) / pi , 1, vitesse)
+        self.cur = -1
+        self.nb = 0
+        self.NB_MAX = nombre_cote* 2
+
+    def start(self):
+        super().start()
+        self.cur = 0
+        self.nb = 0
+        self.avancer.start()
+
+    def stop(self):
+        super().stop()
+        self.cur = -1
+        self.avancer.stop()
+        self.tourner.stop()
+
+    def run(self):
+
+        if self.is_stop:
+            return
+
+        if not self.is_start:
+            self.start()
+
+        if self.nb == self.NB_MAX:
+            self.stop()
+            return
+
+        if self.cur == 0:
+
+            if not self.avancer.is_stop:
+                self.avancer.run()
+            else:
+                self.cur = 1
+                self.nb += 1
+                self.tourner.start()
+
+            return
+
+        if not self.tourner.is_stop:
+            self.tourner.run()
+        else:
+            self.cur = 0
+            self.nb += 1
+            self.avancer.start()

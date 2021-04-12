@@ -2,7 +2,7 @@ from threading import Thread
 from controller.strategies import Tourner
 from utils.config import Config
 from controller.controleur import Controleur
-from controller.strategies import Carre, Triangle, EviterObstacle
+from controller.strategies import Carre, Triangle, EviterObstacle,polygone
 
 controleur = Controleur()
 
@@ -62,7 +62,8 @@ if (mode):  # Mode Simu
 
     # strat = Tourner(robot, 90, 1, 300)
     # strat = Carre(robot, 100, 300, 1)
-    strat = Triangle(robot, 100, 300, 1)
+    # strat = Triangle(robot, 100, 300, 1)
+    strat = polygone(robot,100,200,8)
 
     # strat = EviterObstacle(robot, 300, 1000, 90, 100)
 
