@@ -410,9 +410,10 @@ class Droit(Strategie):
 
     def __init__(self, robot, cote, vitesse, orientation):
         super().__init__(robot)
-        self.avancer = Avancer(robot, cote/10, vitesse)
+        self.avancer = Avancer(robot, cote, vitesse)
         self.cur = -1
         self.nb = 0
+        self.robot=robot
 
     def start(self):
         super().start()
@@ -433,7 +434,7 @@ class Droit(Strategie):
         if not self.is_start:
             self.start()
 
-        if self.nb == 10:
+        if self.nb == 1:
             self.stop()
             return
 
@@ -444,6 +445,5 @@ class Droit(Strategie):
             else:
                 self.cur = 1
                 self.nb += 1
-                self.robot.dessin(nb%2==0)
 
             return

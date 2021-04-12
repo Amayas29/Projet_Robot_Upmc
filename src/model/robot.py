@@ -1,5 +1,6 @@
 
 from utils.tools import Point, Vecteur
+from time import sleep
 from .vision import Vision
 import math
 
@@ -27,6 +28,7 @@ class Robot:
         self.posr = 0
         self.posl = 0
         self.trait = False
+
 
     def offset_motor_encoder(self, port, offset):
 
@@ -97,6 +99,15 @@ class Robot:
 
         self.cbd = Point(center.x + (self.WHEEL_BASE_WIDTH//2) * self.vec_deplacement.vect[0] + (self.WHEEL_BASE_WIDTH//2) * vec_norm.vect[0],
                          center.y + (self.WHEEL_BASE_WIDTH//2) * self.vec_deplacement.vect[1] + (self.WHEEL_BASE_WIDTH//2) * vec_norm.vect[1])
+    def boucle(self, fps):
+        while True:
+            self.up()
+            sleep(10./fps)
+            self.down()
+            sleep(10./fps)
 
-def dessin(self, boole):
-  self.trait=boole
+    def up(self):
+      self.trait=False
+
+    def down(self):
+      self.trait=True

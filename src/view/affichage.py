@@ -22,6 +22,7 @@ class Affichage:
         self.CLOCK = pygame.time.Clock()
         self.epaisseur = 5
         self.debug = True
+        self.old = None
 
     def boucle(self, fps):
         while True:
@@ -37,6 +38,12 @@ class Affichage:
             dest = obs.segment.dest
             pygame.draw.line(self.p, WHITE, (src.x, src.y),
                              (dest.x, dest.y), self.epaisseur)
+        if self.old is None:
+            self.old  = Point(self.robot.center.x, self.robot.center.y)
+
+        if self.robot.trait:
+            pygame.draw.line(self.p, BLUE, (self.old.x, self.old.y),
+                             (self.robot.center.x, self.robot.center.y), self.epaisseur)
 
         pygame.draw.line(self.p, BLUE, (self.robot.chg.x, self.robot.chg.y),
                          (self.robot.chd.x, self.robot.chd.y), self.epaisseur)
@@ -46,12 +53,7 @@ class Affichage:
                          (self.robot.cbd.x, self.robot.cbd.y), self.epaisseur)
         pygame.draw.line(self.p, BLUE, (self.robot.cbg.x, self.robot.cbg.y),
                          (self.robot.cbd.x, self.robot.cbd.y), self.epaisseur)
-        if self.old is None:
-            self.old  = Point(self.robot.x, self.robot.y)
-
-        if self.robot.trait==0:
-            pygame.draw.line(self.p, BLUE, (self.old.x, self.old.y),
-                             (self.robot.center.x, self.robot.center.y), self.epaisseur)
+        
 
         self.display_debug()
 

@@ -64,8 +64,8 @@ if (mode):  # Mode Simu
     # strat = Tourner(robot, 90, 1, 300)
     # strat = Carre(robot, 100, 300, 1)
     #strat = Triangle(robot, 100, 300, 1) #equilateral
-    #strat = Polygone(robot, 50, 300, 1, 8)
-    strat = Droit(robot, 50, 300, 1)
+    strat = Polygone(robot, 50, 300, 1, 8)
+    #strat = Droit(robot, 50, 300, 1)
 
     # strat = EviterObstacle(robot, 300, 1000, 90, 100)
 
@@ -75,10 +75,12 @@ if (mode):  # Mode Simu
     thread_controleur = Thread(target=controleur.boucle, args=(FPS,))
     thread_modele = Thread(target=arene.boucle, args=(FPS,))
     thread_affichage = Thread(target=affichage.boucle, args=(FPS,))
+    thread_crayon = Thread(target=robot.boucle, args=(FPS,))
 
     thread_controleur.start()
     thread_modele.start()
     thread_affichage.start()
+    thread_crayon.start()
 
 else:  # mode REEL
     print("simu off")
