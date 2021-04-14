@@ -34,9 +34,9 @@ if (mode):  # Mode Simu
 
     arene = Arene()
 
-    # obstacles = config.get_obstacles()
-    # for obstacle in obstacles:
-    #     arene.add_obstacle(obstacle)
+    obstacles = config.get_obstacles()
+    for obstacle in obstacles:
+      arene.add_obstacle(obstacle)
 
     # try:
     #     test = int(sys.argv[1])
@@ -57,20 +57,20 @@ if (mode):  # Mode Simu
     robot = Robot(Point(230, 300), arene)
     arene.set_robot(robot)
 
-    arene.add_obstacle(Obstacle(Point(500, 500), Point(700, 100)))
+    #arene.add_obstacle(Obstacle(Point(500, 500), Point(700, 100)))
     # arene.add_obstacle(Obstacle(Point(500, 450), Point(900, 450)))
 
     affichage = Affichage(arene)
 
     wrapper = Wrapper(robot)
     def f(): return wrapper.get_distance() <= 30
-    strat = Unitaire(Avancer(wrapper, 100000, 300), f)
+    # strat = Unitaire(Avancer(wrapper, 100000, 300), f)
 
-    # strat = Tourner(wrapper, 90, 1, 300)
-    # strat = Carre(wrapper, 100, 300, 1)
-    # strat = Triangle(wrapper, 100, 300, 1)
+    # strat = Tourner(wrapper, 90, 1, 300 )
+    # strat = Carre(wrapper, 100, 300, 1 , 50)
+    # strat = Triangle(wrapper, 100, 300, 1 , 50)
 
-    # strat = EviterObstacle(wrapper, 300, 1000, 90, 50)
+    strat = EviterObstacle(wrapper, 300, 1000, 90, 50)
 
     controleur.add_startegie(strat)
     controleur.select_startegie(0)

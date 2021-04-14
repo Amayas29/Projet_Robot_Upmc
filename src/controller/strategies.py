@@ -321,3 +321,5 @@ class EviterObstacle(Strategie):
 
         self.switcher.run()
         self.switcher.strat.strat_2.orientation = Tourner.DROITE
+
+
