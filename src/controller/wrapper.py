@@ -43,3 +43,6 @@ class Wrapper(object):
         else:
             self.robot.set_motor_dps(self.robot.MOTOR_LEFT, vitesse)
             self.robot.set_motor_dps(self.robot.MOTOR_RIGHT, 0)
+
+    def get_image(self):
+        return self.robot.get_image()
