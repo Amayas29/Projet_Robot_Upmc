@@ -137,3 +137,57 @@
 ### Conclusion
 
   - Fin semaine 7 : La refactorisation de tout le code est finit, presque terminé la simuation, l'affichage est pret
+
+### Semaine 8
+
+### Organisation
+
+  - Faire les strategie `Avancer, tourner, carre`
+  - Utiliser les threads au lieu de boucle 
+  - Essai sur le robot
+
+### Done
+
+  - Toutes les strategie 
+  - L'utilisation de thread
+  - L'eesai sur le robot  
+  
+### Conclusion
+
+  - Fin semaine 8 : Le systeme de strategie et de thread implementé, l'essai sur le robot ne s'est pas passé
+
+### Semaine 9
+
+### Organisation
+
+  - Faire les strategie `Eviter obstacle, Triangle, Les strategie des testes unitaire et les switch`
+  - Utiliser un wrapper
+  - Essai sur le robot
+
+### Done
+
+  - Toutes les strategie 
+  - L'eesai sur le robot  
+  
+### Conclusion
+
+  - Fin semaine 9 : Les strategies fonctionnent , l'essai sur le robot s'est bien passé
+
+### Semaine 10
+
+### Organisation
+
+  - Le traitement d'image pour la balise en IRL et en simulation (2D)
+  - Passer a la 3D en simulation
+  - Strategie `suivre la balise`
+
+### Done
+
+  - Toutes les strategie
+  - Le traitement d'image  
+  
+### Conclusion
+
+  - Fin semaine 9 : Le traitement d'image fait, Strategie suivre balise faite, il nous reste la strategie et la 3D
+
+
