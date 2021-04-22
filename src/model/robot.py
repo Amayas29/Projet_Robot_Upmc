@@ -70,12 +70,13 @@ class Robot:
         vec_robot = Vecteur(self.chd, self.cbd)
         angle = Vecteur.get_vect_from_angle(0).angle_sign(vec_robot)
         self.vec_servo = Vecteur.get_vect_from_angle(position + angle)
+        self.vision.sync_vision(self)
 
     def stop(self):
         self.set_motor_dps(self.MOTOR_LEFT + self.MOTOR_RIGHT, 0)
 
-    def get_image(self):
-        return "Mon image est : 🤖"
+    def get_angle_orientation_balise(self):
+        return self.vision.get_angle_orientation_balise(self)
 
     def __str__(self):
         return " ".join([str(self.chg), str(self.chd), str(self.cbd), str(self.cbg)])

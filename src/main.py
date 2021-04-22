@@ -1,26 +1,29 @@
 from threading import Thread
 from utils.config import Config
 from controller.controleur import Controleur
-from controller.strategies import Carre, Triangle, EviterObstacle, Unitaire, Avancer, Tourner
+from controller.strategies import Carre, Triangle, EviterObstacle, Unitaire, Avancer, Tourner, SuivreBalise
 from controller.wrapper import Wrapper
 
 controleur = Controleur()
 
 # protection du config
-config = Config()
+# config = Config()
 
-if (config.get_vers() != 0.4):
-    print("Config version non conforme")
-    print(config.get_vers())
-    exit(1)
+# if (config.get_vers() != 0.4):
+#     print("Config version non conforme")
+#     print(config.get_vers())
+#     exit(1)
 
-if (config.get_dist_secu() < 13.0):
-    print("Erreur critique: la distance de sécurité est trop faible! (minimum 13.0)")
-    exit(1)
+# if (config.get_dist_secu() < 13.0):
+#     print("Erreur critique: la distance de sécurité est trop faible! (minimum 13.0)")
+#     exit(1)
 
-mode = config.get_mode()
+# mode = config.get_mode()
 
-FPS = config.get_fps()
+# FPS = config.get_fps()
+
+mode = True
+FPS = 60
 
 if (mode):  # Mode Simu
     print("Simu on")
@@ -29,14 +32,16 @@ if (mode):  # Mode Simu
     from model.robot import Robot
     from model.arene import Arene
     from utils.tools import Point
-    from model.obstacles import Obstacle
+    from model.obstacles import Obstacle, Balise
     import sys
 
     arene = Arene()
+    balise = Balise(Point(550, 500), Point(500, 550))
+    arene.set_balise(balise)
 
-    obstacles = config.get_obstacles()
-    for obstacle in obstacles:
-      arene.add_obstacle(obstacle)
+    # obstacles = config.get_obstacles()
+    # for obstacle in obstacles:
+    #     arene.add_obstacle(obstacle)
 
     # try:
     #     test = int(sys.argv[1])
@@ -63,14 +68,16 @@ if (mode):  # Mode Simu
     affichage = Affichage(arene)
 
     wrapper = Wrapper(robot)
-    def f(): return wrapper.get_distance() <= 30
+
+    # def f(): return wrapper.get_distance() <= 30
     # strat = Unitaire(Avancer(wrapper, 100000, 300), f)
 
     # strat = Tourner(wrapper, 90, 1, 300 )
     # strat = Carre(wrapper, 100, 300, 1 , 50)
     # strat = Triangle(wrapper, 100, 300, 1 , 50)
 
-    strat = EviterObstacle(wrapper, 300, 1000, 90, 50)
+    # strat = EviterObstacle(wrapper, 300, 1000, 90, 50)
+    strat = SuivreBalise(wrapper, 300)
 
     controleur.add_startegie(strat)
     controleur.select_startegie(0)

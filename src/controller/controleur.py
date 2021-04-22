@@ -18,16 +18,20 @@ class Controleur(object):
         self.current_strat = index
 
     def boucle(self, fps):
-        while True:
-            self.update()
-            sleep(1./fps)
-
-    def update(self):
 
         if self.current_strat < 0 or self.current_strat == len(self.strategies):
             return
 
-        if self.strategies[self.current_strat].is_stop:
+        while not self.strategies[self.current_strat].is_stop:
+            self.update()
+            sleep(1./fps)
+
+    def update(self):
+        self.strategies[self.current_strat].run()
+
+    def stop(self):
+
+        if self.current_strat < 0 or self.current_strat == len(self.strategies):
             return
 
-        self.strategies[self.current_strat].run()
+        self.strategies[self.current_strat].stop()

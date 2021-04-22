@@ -323,3 +323,44 @@ class EviterObstacle(Strategie):
         self.switcher.strat.strat_2.orientation = Tourner.DROITE
 
 
+class SuivreBalise(Strategie):
+
+    def __init__(self, wrapper, vitesse):
+        super().__init__(wrapper)
+        self.tourner = Tourner(wrapper, 0, 0, vitesse)
+        self.avancer = Avancer(wrapper, float("inf"), vitesse)
+        switcher = Switcher(self.avancer, self.tourner, self.fct_switcher)
+        self.switcher = Unitaire(switcher, self.fct_arret)
+
+    def fct_arret(self):
+        return self.wrapper.get_distance() <= 50
+
+    def fct_switcher(self, current, avancer, tourner):
+
+        self.wrapper.tourner_servo(90)
+        angle, orientation = self.wrapper.get_angle_orientation_balise()
+
+        if angle == -1:
+            angle = 360
+            orientation = self.wrapper.DROITE
+
+        elif angle <= 5:
+            return avancer
+
+        self.tourner.orientation = orientation
+
+        self.tourner.distance = (
+            self.wrapper.WHEEL_BASE_CIRCUMFERENCE * angle) / 180
+
+        self.tourner.start()
+
+        return tourner
+
+    def run(self):
+        if self.is_stop:
+            return
+
+        if not self.is_start:
+            self.start()
+
+        self.switcher.run()
