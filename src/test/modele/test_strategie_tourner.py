@@ -1,12 +1,6 @@
-from pathlib import Path
-import sys
 from threading import Thread
 
-root_dir = Path(__file__).parent.parent.parent.absolute()
-sys.path.insert(0, str(root_dir))
-
-if str(root_dir) in sys.path:
-
+try:
     from controller.wrapper import Wrapper
     from view.affichage import Affichage
     from utils.tools import Point
@@ -15,6 +9,20 @@ if str(root_dir) in sys.path:
     from controller.controleur import Controleur
     from controller.strategies import Tourner
 
+except ImportError:
+    from pathlib import Path
+    import sys
+
+    root_dir = Path(__file__).parent.parent.parent.absolute()
+    sys.path.insert(0, str(root_dir))
+
+    from controller.wrapper import Wrapper
+    from view.affichage import Affichage
+    from utils.tools import Point
+    from model.arene import Arene
+    from model.robot import Robot
+    from controller.controleur import Controleur
+    from controller.strategies import Tourner
 
 arene = Arene()
 centre = Point(500, 500)

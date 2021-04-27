@@ -1,18 +1,28 @@
-from pathlib import Path
-import sys
 from threading import Thread
 
-root_dir = Path(__file__).parent.parent.parent.absolute()
-sys.path.insert(0, str(root_dir))
-
-if str(root_dir) in sys.path:
-
+try:
     from controller.wrapper import Wrapper
-    from model.obstacles import Obstacle
     from view.affichage import Affichage
     from utils.tools import Point, Vecteur
     from model.arene import Arene
     from model.robot import Robot
+    from model.obstacles import Obstacle
+    from controller.controleur import Controleur
+    from controller.strategies import Avancer
+
+except ImportError:
+    from pathlib import Path
+    import sys
+
+    root_dir = Path(__file__).parent.parent.parent.absolute()
+    sys.path.insert(0, str(root_dir))
+
+    from controller.wrapper import Wrapper
+    from view.affichage import Affichage
+    from utils.tools import Point, Vecteur
+    from model.arene import Arene
+    from model.robot import Robot
+    from model.obstacles import Obstacle
     from controller.controleur import Controleur
     from controller.strategies import Avancer
 
