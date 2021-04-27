@@ -33,10 +33,15 @@ if (mode):  # Mode Simu
     from model.arene import Arene
     from utils.tools import Point
     from model.obstacles import Obstacle, Balise
-    import sys
+    import random
+    from datetime import datetime
+    random.seed(datetime.now())
 
     arene = Arene()
-    balise = Balise(Point(650, 100), Point(600, 150))
+    x = random.randint(0, 1090)
+    y = random.randint(0, 920)
+
+    balise = Balise(Point(x, y), Point(x+10, y+10))
     arene.set_balise(balise)
 
     # obstacles = config.get_obstacles()
