@@ -63,7 +63,7 @@ class Tourner(Strategie):
     GAUCHE = 1
     DROITE = 0
 
-    def __init__(self, wrapper, angle, orientation, vitesse):
+    def __init__(self, wrapper, angle, orientation, vitesse, servo_fix=False):
         super().__init__(wrapper)
 
         if orientation != self.DROITE and orientation != self.GAUCHE:
@@ -73,6 +73,7 @@ class Tourner(Strategie):
         self.vitesse = vitesse
         self.distance = (wrapper.WHEEL_BASE_CIRCUMFERENCE * angle) / 180
         self.distance_parcouru = 0
+        self.servo_fix = servo_fix
 
     def start(self):
         super().start()
@@ -87,10 +88,12 @@ class Tourner(Strategie):
         if not self.is_start:
             self.start()
 
-        if self.orientation == self.GAUCHE:
-            self.wrapper.tourner_servo(110)
-        else:
-            self.wrapper.tourner_servo(60)
+        if not self.servo_fix:
+
+            if self.orientation == self.GAUCHE:
+                self.wrapper.tourner_servo(110)
+            else:
+                self.wrapper.tourner_servo(60)
 
         self.distance_parcouru += self.wrapper.get_distance_parcouru(
             self, self.orientation)
@@ -327,7 +330,7 @@ class SuivreBalise(Strategie):
 
     def __init__(self, wrapper, vitesse):
         super().__init__(wrapper)
-        self.tourner = Tourner(wrapper, 0, 0, vitesse)
+        self.tourner = Tourner(wrapper, 0, 0, vitesse, True)
         self.avancer = Avancer(wrapper, float("inf"), vitesse)
         switcher = Switcher(self.avancer, self.tourner, self.fct_switcher)
         self.switcher = Unitaire(switcher, self.fct_arret)

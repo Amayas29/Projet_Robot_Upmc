@@ -36,7 +36,7 @@ if (mode):  # Mode Simu
     import sys
 
     arene = Arene()
-    balise = Balise(Point(550, 500), Point(500, 550))
+    balise = Balise(Point(650, 100), Point(600, 150))
     arene.set_balise(balise)
 
     # obstacles = config.get_obstacles()
