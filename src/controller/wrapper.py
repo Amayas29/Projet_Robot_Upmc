@@ -3,6 +3,76 @@ from math import atan2, degrees
 from model.robot import Robot
 
 
+def color_profiles(n):
+    if n == 0:
+        name = "Bleu"
+        hsv_lower = (95, 100, 20)
+        hsv_upper = (115, 255, 255)
+        return (name, hsv_lower, hsv_upper)
+
+    if n == 1:
+        name = "Rouge"
+        hsv_lower = (0, 100, 50)
+        hsv_upper = (10, 255, 255)
+        return (name, hsv_lower, hsv_upper)
+
+    if n == 2:
+        name = "Vert"
+        hsv_lower = (50, 100, 20)
+        hsv_upper = (100, 255, 255)
+        return (name, hsv_lower, hsv_upper)
+
+    if n == 3:
+        name = "Jaune"
+        hsv_lower = (10, 100, 50)
+        hsv_upper = (50, 255, 255)
+        return (name, hsv_lower, hsv_upper)
+
+
+def get_masks_color(frame):
+    masks = []
+
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+
+    number = 0
+    for i in range(4):
+        _, hsv_lower, hsv_upper = color_profiles(i)
+        mask = cv2.inRange(hsv, hsv_lower, hsv_upper)
+        mask = cv2.erode(mask, None, iterations=4)
+        mask = cv2.dilate(mask, None, iterations=4)
+
+        elements, _ = cv2.findContours(
+            mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+        if len(elements) > 0:
+            number += 1
+
+        masks.append(mask)
+
+    return masks, number
+
+
+def get_position_balise(frame):
+    masks, number = get_masks_color(frame)
+
+    if number < 3:
+        return -1, -1
+
+    mask = (masks[0] | masks[1]) | (masks[2] | masks[3])
+
+    mask = cv2.erode(mask, None, iterations=4)
+    mask = cv2.dilate(mask, None, iterations=4)
+
+    elements, _ = cv2.findContours(
+        mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+    c = max(elements, key=cv2.contourArea)
+
+    ((x, y), _) = cv2.minEnclosingCircle(c)
+
+    return x, y
+
+
 class Wrapper(object):
 
     GAUCHE = 1
@@ -48,73 +118,6 @@ class Wrapper(object):
             self.robot.set_motor_dps(self.robot.MOTOR_LEFT, vitesse)
             self.robot.set_motor_dps(self.robot.MOTOR_RIGHT, 0)
 
-    def color_profiles(self, n):
-        if n == 0:
-            name = "Bleu"
-            hsv_lower = (95, 100, 20)
-            hsv_upper = (115, 255, 255)
-            return (name, hsv_lower, hsv_upper)
-
-        if n == 1:
-            name = "Rouge"
-            hsv_lower = (0, 100, 50)
-            hsv_upper = (10, 255, 255)
-            return (name, hsv_lower, hsv_upper)
-
-        if n == 2:
-            name = "Vert"
-            hsv_lower = (50, 100, 20)
-            hsv_upper = (100, 255, 255)
-            return (name, hsv_lower, hsv_upper)
-
-        if n == 3:
-            name = "Jaune"
-            hsv_lower = (10, 100, 50)
-            hsv_upper = (50, 255, 255)
-            return (name, hsv_lower, hsv_upper)
-
-    def get_masks_color(self, frame):
-        masks = []
-
-        hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-
-        number = 0
-        for i in range(4):
-            _, hsv_lower, hsv_upper = self.color_profiles(i)
-            mask = cv2.inRange(hsv, hsv_lower, hsv_upper)
-            mask = cv2.erode(mask, None, iterations=4)
-            mask = cv2.dilate(mask, None, iterations=4)
-
-            elements, _ = cv2.findContours(
-                mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-            if len(elements) > 0:
-                number += 1
-
-            masks.append(mask)
-
-        return masks, number
-
-    def get_position_balise(self, frame):
-        masks, number = self.get_masks_color(frame)
-
-        if number < 3:
-            return -1, -1
-
-        mask = (masks[0] | masks[1]) | (masks[2] | masks[3])
-
-        mask = cv2.erode(mask, None, iterations=4)
-        mask = cv2.dilate(mask, None, iterations=4)
-
-        elements, _ = cv2.findContours(
-            mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-        c = max(elements, key=cv2.contourArea)
-
-        ((x, y), _) = cv2.minEnclosingCircle(c)
-
-        return x, y
-
     def get_angle_orientation_balise(self):
 
         if isinstance(self.robot, Robot):
@@ -122,7 +125,7 @@ class Wrapper(object):
 
         frame = self.robot.get_image()
 
-        (x, y) = self.get_position_balise(frame)
+        (x, y) = get_position_balise(frame)
 
         if x == -1:
             return -1, -1

@@ -350,12 +350,12 @@ class SuivreBalise(Strategie):
         elif angle <= 5:
             return avancer
 
-        self.tourner.orientation = orientation
+        tourner.orientation = orientation
 
-        self.tourner.distance = (
+        tourner.distance = (
             self.wrapper.WHEEL_BASE_CIRCUMFERENCE * angle) / 180
 
-        self.tourner.start()
+        tourner.start()
 
         return tourner
 

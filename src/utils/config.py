@@ -14,27 +14,11 @@ class Config:
     def get_vers(self):
         return float(self.conf['Version']['config_version'])
 
-    def get_dist_secu(self):
-        return float(self.conf['Robot']['distance_securite'])
-
     def get_fps(self):
         return float(self.conf['Robot']['fps'])
 
     def get_mode(self):
         return self.conf['Robot'].getboolean('mode_simu')
-
-    # def get_strat_list(self):
-    #     res = []
-    #     for x in self.conf['Strat']:
-    #         res.append(x)
-    #     return res
-
-    # def get_strat(self, strat):
-    #     try:
-    #         txt = self.conf['Strat'][strat]
-    #         return txt.split(",")
-    #     except Exception as e:
-    #         print("Erreur : Strategie ", e, ' inexistante')
 
     def get_obstacles(self):
         obstacles = []
