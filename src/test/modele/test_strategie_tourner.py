@@ -7,7 +7,7 @@ try:
     from model.arene import Arene
     from model.robot import Robot
     from controller.controleur import Controleur
-    from controller.strategies import Tourner
+    from controller.strategies import Tourner, Unitaire
 
 except ImportError:
     from pathlib import Path
@@ -22,7 +22,7 @@ except ImportError:
     from model.arene import Arene
     from model.robot import Robot
     from controller.controleur import Controleur
-    from controller.strategies import Tourner
+    from controller.strategies import Tourner, Unitaire
 
 arene = Arene()
 centre = Point(500, 500)
@@ -33,7 +33,12 @@ arene.set_robot(robot)
 controleur = Controleur()
 
 robot = Wrapper(robot)
-tourner = Tourner(robot, 90, 0, 300)
+
+
+def f(): return robot.get_distance() < 50
+
+
+tourner = Unitaire(Tourner(robot, 90, 0, 300), f)
 
 controleur.add_startegie(tourner)
 controleur.select_startegie(0)

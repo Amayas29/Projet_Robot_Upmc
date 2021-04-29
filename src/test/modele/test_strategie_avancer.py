@@ -8,7 +8,7 @@ try:
     from model.robot import Robot
     from model.obstacles import Obstacle
     from controller.controleur import Controleur
-    from controller.strategies import Avancer
+    from controller.strategies import Avancer, Unitaire
 
 except ImportError:
     from pathlib import Path
@@ -24,7 +24,7 @@ except ImportError:
     from model.robot import Robot
     from model.obstacles import Obstacle
     from controller.controleur import Controleur
-    from controller.strategies import Avancer
+    from controller.strategies import Avancer, Unitaire
 
 
 arene = Arene()
@@ -42,7 +42,12 @@ affichage = Affichage(arene)
 controleur = Controleur()
 
 robot = Wrapper(robot)
-avancer = Avancer(robot, 175, 600)
+
+
+def f(): return robot.get_distance() < 50
+
+
+avancer = Unitaire(Avancer(robot, 175, 600), f)
 
 controleur.add_startegie(avancer)
 controleur.select_startegie(0)

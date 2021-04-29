@@ -7,7 +7,7 @@ try:
     from model.arene import Arene
     from model.robot import Robot
     from controller.controleur import Controleur
-    from controller.strategies import Carre
+    from controller.strategies import Carre, Unitaire
 
 except ImportError:
     from pathlib import Path
@@ -22,7 +22,7 @@ except ImportError:
     from model.arene import Arene
     from model.robot import Robot
     from controller.controleur import Controleur
-    from controller.strategies import Carre
+    from controller.strategies import Carre, Unitaire
 
 
 arene = Arene()
@@ -37,7 +37,12 @@ affichage = Affichage(arene)
 controleur = Controleur()
 
 robot = Wrapper(robot)
-carre = Carre(robot, 100, 300, 0, 50)
+
+
+def f(): return robot.get_distance() < 50
+
+
+carre = Unitaire(Carre(robot, 100, 300, 0, 50), f)
 
 controleur.add_startegie(carre)
 controleur.select_startegie(0)
