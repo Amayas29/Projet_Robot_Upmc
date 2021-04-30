@@ -1,6 +1,7 @@
 from time import sleep
 import pygame
 from utils.tools import Point, Vecteur, Droite
+from model.obstacles import Balise
 
 # colors
 BLACK = (0, 0, 0, 255)
@@ -9,13 +10,13 @@ BLUE = (0, 0, 255)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 AUTRE = (235, 152, 135)
+YELLOW = (255, 255, 0)
 
 
 class Affichage:
 
     def __init__(self, arene):
         self.arene = arene
-        self.robot = arene.robot
         pygame.init()
         pygame.display.set_caption("Affichage")
         self.p = pygame.display.set_mode((1090, 920))
@@ -35,17 +36,22 @@ class Affichage:
         for obs in self.arene.elements:
             src = obs.segment.src
             dest = obs.segment.dest
-            pygame.draw.line(self.p, WHITE, (src.x, src.y),
+            color = WHITE
+
+            if isinstance(obs, Balise):
+                color = YELLOW
+
+            pygame.draw.line(self.p, color, (src.x, src.y),
                              (dest.x, dest.y), self.epaisseur)
 
-        pygame.draw.line(self.p, BLUE, (self.robot.chg.x, self.robot.chg.y),
-                         (self.robot.chd.x, self.robot.chd.y), self.epaisseur)
-        pygame.draw.line(self.p, BLUE, (self.robot.chg.x, self.robot.chg.y),
-                         (self.robot.cbg.x, self.robot.cbg.y), self.epaisseur)
-        pygame.draw.line(self.p, RED, (self.robot.chd.x, self.robot.chd.y),
-                         (self.robot.cbd.x, self.robot.cbd.y), self.epaisseur)
-        pygame.draw.line(self.p, BLUE, (self.robot.cbg.x, self.robot.cbg.y),
-                         (self.robot.cbd.x, self.robot.cbd.y), self.epaisseur)
+        pygame.draw.line(self.p, BLUE, (self.arene.robot.chg.x, self.arene.robot.chg.y),
+                         (self.arene.robot.chd.x, self.arene.robot.chd.y), self.epaisseur)
+        pygame.draw.line(self.p, BLUE, (self.arene.robot.chg.x, self.arene.robot.chg.y),
+                         (self.arene.robot.cbg.x, self.arene.robot.cbg.y), self.epaisseur)
+        pygame.draw.line(self.p, RED, (self.arene.robot.chd.x, self.arene.robot.chd.y),
+                         (self.arene.robot.cbd.x, self.arene.robot.cbd.y), self.epaisseur)
+        pygame.draw.line(self.p, BLUE, (self.arene.robot.cbg.x, self.arene.robot.cbg.y),
+                         (self.arene.robot.cbd.x, self.arene.robot.cbd.y), self.epaisseur)
 
         self.display_debug()
 
@@ -60,35 +66,37 @@ class Affichage:
     def display_debug(self):
 
         if self.debug:
-            a = Point.milieu(self.robot.chd, self.robot.cbd)
+            a = Point.milieu(self.arene.robot.chd, self.arene.robot.cbd)
             b = Point(
-                a.x + self.robot.vec_deplacement.vect[0]*100, a.y + self.robot.vec_deplacement.vect[1]*100)
+                a.x + self.arene.robot.vec_deplacement.vect[0]*100, a.y + self.arene.robot.vec_deplacement.vect[1]*100)
             pygame.draw.line(self.p, RED, (a.x, a.y),
                              (b.x, b.y), self.epaisseur)
-            m1 = Point((self.robot.cbg.x + self.robot.cbd.x)/2,
-                       (self.robot.cbg.y + self.robot.cbd.y)/2)
-            m2 = Point((self.robot.chg.x + self.robot.chd.x)/2,
-                       (self.robot.chg.y + self.robot.chd.y)/2)
+            m1 = Point((self.arene.robot.cbg.x + self.arene.robot.cbd.x)/2,
+                       (self.arene.robot.cbg.y + self.arene.robot.cbd.y)/2)
+            m2 = Point((self.arene.robot.chg.x + self.arene.robot.chd.x)/2,
+                       (self.arene.robot.chg.y + self.arene.robot.chd.y)/2)
 
             pygame.draw.line(self.p, RED, (m2.x, m2.y),
                              (m1.x, m1.y), self.epaisseur)
 
-            largeur = self.robot.chd - self.robot.cbd
+            largeur = self.arene.robot.chd - self.arene.robot.cbd
 
-            vec_norme = Vecteur(self.robot.chd, self.robot.cbd)
-            vec_src = self.robot.vec_servo
+            vec_norme = Vecteur(self.arene.robot.chd, self.arene.robot.cbd)
+            vec_src = self.arene.robot.vec_servo
 
             angle = vec_src.angle(vec_norme)
-            milieu = self.robot.cbd
+            milieu = self.arene.robot.cbd
 
             if angle == 90:
-                milieu = Point.milieu(self.robot.chd, self.robot.cbd)
+                milieu = Point.milieu(
+                    self.arene.robot.chd, self.arene.robot.cbd)
             elif angle > 90:
-                milieu = self.robot.chd
+                milieu = self.arene.robot.chd
 
             a, b = Point.get_points_distance(milieu, vec_src, largeur//2)
 
-            point_servo = Point.milieu(self.robot.chd, self.robot.cbd)
+            point_servo = Point.milieu(
+                self.arene.robot.chd, self.arene.robot.cbd)
 
             new_milieu = Droite.intersection(
                 vec_src, point_servo, Vecteur(a, b), a)

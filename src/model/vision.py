@@ -1,17 +1,25 @@
+from math import e
 from utils.tools import Point, Droite, Vecteur
+from model.obstacles import Balise
+from copy import deepcopy
 
 
 class Vision:
 
-    DISTANCE = 400
+    GAUCHE = 1
+    DROITE = 0
+
+    DISTANCE = float("inf")
 
     def __init__(self, arene):
         self.elements = []
         self.arene = arene
+        self.balise = None
 
     def sync_vision(self, robot):
 
         self.elements = []
+        self.balise = None
 
         largeur = robot.WHEEL_BASE_WIDTH
 
@@ -45,14 +53,17 @@ class Vision:
             new_vec_src = Vecteur(new_milieu, seg.src)
             new_vec_dest = Vecteur(new_milieu, seg.dest)
 
-            if vec_norme.angle(new_vec_src) > 180 and vec_norme.angle(new_vec_dest) > 180:
+            if vec_src.angle(new_vec_src) > 90 and vec_src.angle(new_vec_dest) > 90:
                 continue
 
             if seg.intersection(a, vec_src) is not None or seg.intersection(b, vec_src) is not None:
-                seg_droite = seg.to_droite()
 
+                seg_droite = seg.to_droite()
                 if min(a.distance_to_droite(seg_droite), b.distance_to_droite(seg_droite)) > self.DISTANCE:
                     continue
+
+                if isinstance(elem, Balise):
+                    self.balise = elem
 
                 self.elements.append(elem)
                 continue
@@ -60,6 +71,9 @@ class Vision:
             if max(seg.src.distance_to_droite(left_droite), seg.src.distance_to_droite(right_droite)) > largeur \
                     or max(seg.dest.distance_to_droite(left_droite), seg.dest.distance_to_droite(right_droite)) > largeur:
                 continue
+
+            if isinstance(elem, Balise):
+                self.balise = elem
 
             self.elements.append(elem)
 
@@ -87,39 +101,17 @@ class Vision:
         else:
             a, b = Point.get_points_distance(new_milieu, vec_src, largeur//2)
 
-        front_droite = Droite.get_droite(vec_src, new_milieu)
-
         mini = float("inf")
         for elem in self.elements:
             seg = elem.segment
-            seg_droite = seg.to_droite()
 
-            p1 = seg.intersection(a, vec_src)
-            p2 = seg.intersection(b, vec_src)
+            p1 = seg.intersection(new_milieu, vec_src)
 
-            dist_inter_1 = float("inf")
-            dist_inter_2 = float("inf")
+            dist = float("inf")
+            if p1 is not None:
+                dist = p1 - new_milieu
 
-            if p1 is not None or p2 is not None:
-
-                if p1 is not None:
-                    dist_inter_1 = p1.distance_to_droite(front_droite)
-
-                if p2 is not None:
-                    dist_inter_2 = p2.distance_to_droite(front_droite)
-
-            dist_b = float("inf")
-            dist_a = float("inf")
-
-            if dist_inter_1 != float("inf") and dist_inter_2 != float("inf"):
-                dist_a = a.distance_to_droite(seg_droite)
-                dist_b = b.distance_to_droite(seg_droite)
-
-            # Debug
-            # print(">>>", "disp1", dist_inter_1, "distp2", dist_inter_2, "src", seg.src.distance_to_droite(front_droite), "dest", seg.dest.distance_to_droite(front_droite), "***", str(robot), "|||", seg_droite, "££", a, b, "--->", vec_src.vect, "dist a_b", dist_a, dist_b)
-
-            mini = min(mini, dist_inter_1, dist_inter_2, seg.src.distance_to_droite(
-                front_droite), seg.dest.distance_to_droite(front_droite), dist_a, dist_b)
+            mini = min(mini, dist)
 
         return mini
 
@@ -128,3 +120,43 @@ class Vision:
         for elem in self.elements:
             s += str(elem) + ", "
         return s
+
+    def get_angle_orientation_balise(self, robot):
+
+        if self.balise is None:
+            return -1, -1
+
+        largeur = robot.WHEEL_BASE_WIDTH
+
+        vec_norme = Vecteur(robot.chd, robot.cbd)
+        vec_src = robot.vec_servo
+
+        angle = vec_src.angle(vec_norme)
+        milieu = robot.cbd
+
+        if angle == 90:
+            milieu = Point.milieu(robot.chd, robot.cbd)
+        elif angle > 90:
+            milieu = robot.chd
+
+        a, b = Point.get_points_distance(milieu, vec_src, largeur//2)
+
+        new_milieu = Droite.intersection(vec_src, Point.milieu(
+            robot.chd, robot.cbd), Vecteur(a, b), a)
+
+        if new_milieu == None:
+            new_milieu = milieu
+        else:
+            a, b = Point.get_points_distance(new_milieu, vec_src, largeur//2)
+
+        milieu_balise = Point.milieu(
+            self.balise.segment.src, self.balise.segment.dest)
+
+        vec_balise = Vecteur(new_milieu, milieu_balise)
+
+        angle = vec_src.angle_sign(vec_balise)
+
+        if angle >= 0:
+            return angle, self.DROITE
+
+        return -angle, self.GAUCHE
