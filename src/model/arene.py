@@ -24,15 +24,15 @@ class Arene:
 
     def update(self):
 
-        if self.robot.lspeed == 0 and self.robot.rspeed == 0:
-            return
-
         if self.temps_precedent is None:
             self.temps_precedent = datetime.now()
 
         now = datetime.now()
         diff_temps = (now - self.temps_precedent).total_seconds()
         self.temps_precedent = now
+
+        if self.robot.lspeed == 0 and self.robot.rspeed == 0:
+            return
 
         if self.robot.lspeed == self.robot.rspeed:
 

@@ -3,6 +3,8 @@ import pygame
 from utils.tools import Point, Vecteur, Droite
 from model.obstacles import Balise
 
+from copy import deepcopy
+
 # colors
 BLACK = (0, 0, 0, 255)
 WHITE = (255, 255, 255, 255)
@@ -12,11 +14,13 @@ GREEN = (0, 255, 0)
 AUTRE = (235, 152, 135)
 YELLOW = (255, 255, 0)
 
+
 class PygameBalise(pygame.sprite.Sprite):
 
     def __init__(self, arene):
         super().__init__()
         self.image = pygame.image.load('test.png')
+        self.image = pygame.transform.scale(self.image, (20, 20))
         self.rect = self.image.get_rect()
         self.velocity = 5
         self.arene = arene
@@ -43,7 +47,8 @@ class PygameBalise(pygame.sprite.Sprite):
         self.rect.y -= self.velocity
         self.arene.balise.segment.src.y -= self.velocity
         self.arene.balise.segment.dest.y -= self.velocity
-        
+
+
 class Affichage:
 
     def __init__(self, arene):
@@ -56,7 +61,7 @@ class Affichage:
         self.debug = True
         self.balise = PygameBalise(arene)
         self.pressed = {}
-
+        self.old_position = []
 
     def boucle(self, fps):
         while True:
@@ -67,7 +72,7 @@ class Affichage:
         self.p.fill(BLACK)
 
         self.p.blit(self.balise.image, self.balise.rect)
-        
+
         if self.pressed.get(pygame.K_RIGHT):
             self.balise.move_right()
 
@@ -79,7 +84,6 @@ class Affichage:
 
         elif self.pressed.get(pygame.K_DOWN):
             self.balise.move_down()
-
 
         self.events()
         self.CLOCK.tick(fps)
@@ -103,6 +107,25 @@ class Affichage:
         pygame.draw.line(self.p, BLUE, (self.arene.robot.cbg.x, self.arene.robot.cbg.y),
                          (self.arene.robot.cbd.x, self.arene.robot.cbd.y), self.epaisseur)
 
+        if self.old_position == []:
+            self.old_position.append(deepcopy(self.arene.robot.center))
+
+        if self.arene.robot.crayon:
+            for i in range(1, len(self.old_position)):
+
+                old_i = self.old_position[i]
+                old_i_1 = self.old_position[i-1]
+
+                if old_i is None or old_i_1 is None:
+                    continue
+
+                pygame.draw.line(self.p, AUTRE, (old_i_1.x, old_i_1.y),
+                                 (old_i.x, old_i.y), self.epaisseur)
+
+            self.old_position.append(deepcopy(self.arene.robot.center))
+        else:
+            self.old_position.append(None)
+
         self.display_debug()
 
         pygame.display.flip()
@@ -118,7 +141,6 @@ class Affichage:
 
             elif event.type == pygame.KEYUP:
                 self.pressed[event.key] = False
-
 
     def display_debug(self):
 

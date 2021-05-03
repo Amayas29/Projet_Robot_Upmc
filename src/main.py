@@ -41,13 +41,12 @@ if (mode):  # Mode Simu
     random.seed(datetime.now())
 
     arene = Arene()
-    x = random.randint(0, 1090)
-    y = random.randint(0, 920)
 
-    balise = Balise(Point(x, y), Point(x+10, y+10))
+    balise = Balise(Point(280, 300), Point(380, 400))
     arene.set_balise(balise)
 
     robot = Robot(Point(230, 300), arene)
+    robot.down()
     arene.set_robot(robot)
 
     affichage = Affichage(arene)

@@ -288,7 +288,7 @@ class EviterObstacle(Strategie):
         self.securite = securite
 
     def fct_arret(self):
-        return self.wrapper.get_distance() <= 10
+        return self.wrapper.get_distance() <= self.securite
 
     def start(self):
         super().start()
