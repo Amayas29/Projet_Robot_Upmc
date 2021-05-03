@@ -12,7 +12,38 @@ GREEN = (0, 255, 0)
 AUTRE = (235, 152, 135)
 YELLOW = (255, 255, 0)
 
+class PygameBalise(pygame.sprite.Sprite):
 
+    def __init__(self, arene):
+        super().__init__()
+        self.image = pygame.image.load('test.png')
+        self.rect = self.image.get_rect()
+        self.velocity = 5
+        self.arene = arene
+        mil = Point.milieu(arene.balise.segment.src, arene.balise.segment.dest)
+        self.rect.x = mil.x
+        self.rect.y = mil.y
+
+    def move_right(self):
+        self.rect.x += self.velocity
+        self.arene.balise.segment.src.x += self.velocity
+        self.arene.balise.segment.dest.x += self.velocity
+
+    def move_left(self):
+        self.rect.x -= self.velocity
+        self.arene.balise.segment.src.x -= self.velocity
+        self.arene.balise.segment.dest.x -= self.velocity
+
+    def move_down(self):
+        self.rect.y += self.velocity
+        self.arene.balise.segment.src.y += self.velocity
+        self.arene.balise.segment.dest.y += self.velocity
+
+    def move_up(self):
+        self.rect.y -= self.velocity
+        self.arene.balise.segment.src.y -= self.velocity
+        self.arene.balise.segment.dest.y -= self.velocity
+        
 class Affichage:
 
     def __init__(self, arene):
@@ -23,6 +54,9 @@ class Affichage:
         self.CLOCK = pygame.time.Clock()
         self.epaisseur = 5
         self.debug = True
+        self.balise = PygameBalise(arene)
+        self.pressed = {}
+
 
     def boucle(self, fps):
         while True:
@@ -31,6 +65,22 @@ class Affichage:
 
     def update(self, fps):
         self.p.fill(BLACK)
+
+        self.p.blit(self.balise.image, self.balise.rect)
+        
+        if self.pressed.get(pygame.K_RIGHT):
+            self.balise.move_right()
+
+        elif self.pressed.get(pygame.K_LEFT):
+            self.balise.move_left()
+
+        elif self.pressed.get(pygame.K_UP):
+            self.balise.move_up()
+
+        elif self.pressed.get(pygame.K_DOWN):
+            self.balise.move_down()
+
+
         self.events()
         self.CLOCK.tick(fps)
         for obs in self.arene.elements:
@@ -62,6 +112,13 @@ class Affichage:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit(0)
+
+            elif event.type == pygame.KEYDOWN:
+                self.pressed[event.key] = True
+
+            elif event.type == pygame.KEYUP:
+                self.pressed[event.key] = False
+
 
     def display_debug(self):
 

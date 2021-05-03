@@ -12,6 +12,7 @@ class Arene:
         self.robot = None
         self.temps_precedent = None
         self.angle_parcouru = 0
+        self.balise = None
 
     def boucle(self, fps):
         if self.robot is None:
@@ -94,3 +95,4 @@ class Arene:
     def set_balise(self, balise):
         if balise != None and isinstance(balise, Balise):
             self.elements.append(balise)
+            self.balise = balise

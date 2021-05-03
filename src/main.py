@@ -1,3 +1,10 @@
+import os
+
+try:
+    import cv2
+except:
+    os.system("pip3 install opencv-python")
+
 from threading import Thread
 from utils.config import Config
 from controller.controleur import Controleur
