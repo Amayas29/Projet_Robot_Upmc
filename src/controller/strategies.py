@@ -203,7 +203,7 @@ class Unitaire(Strategie):
     def run(self):
 
         if self.fct_arret():
-            self.strat.stop()
+            self.wrapper.stop()
             return
 
         self.strat.run()

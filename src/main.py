@@ -3,7 +3,7 @@ import os
 try:
     import cv2
 except:
-    os.system("pip3 install opencv-python")
+    os.system("bash ./install.sh")
 
 from threading import Thread
 from utils.config import Config
@@ -11,6 +11,8 @@ from controller.controleur import Controleur
 from controller.strategies import SuivreBalise
 from controller.wrapper import Wrapper
 
+
+print("Ici")
 controleur = Controleur()
 
 # protection du config
