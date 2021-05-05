@@ -344,10 +344,16 @@ class SuivreBalise(Strategie):
         angle, orientation = self.wrapper.get_angle_orientation_balise()
 
         if angle == -1:
-            angle = 360
-            orientation = self.wrapper.DROITE
+            self.wrapper.tourner_servo(110)
+            angle, orientation = self.wrapper.get_angle_orientation_balise()
 
-        elif angle <= 5:
+            self.wrapper.tourner_servo(90)
+
+            if angle == -1:
+                angle = 360
+                orientation = self.wrapper.DROITE
+
+        if angle <= 5:
             return avancer
 
         tourner.orientation = orientation
