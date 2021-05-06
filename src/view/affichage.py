@@ -2,6 +2,7 @@ from time import sleep
 import pygame
 from utils.tools import Point, Vecteur, Droite
 from model.obstacles import Balise
+from pathlib import Path
 
 from copy import deepcopy
 
@@ -19,7 +20,8 @@ class PygameBalise(pygame.sprite.Sprite):
 
     def __init__(self, arene):
         super().__init__()
-        self.image = pygame.image.load('test.png')
+        root_dir = Path(__file__).parent.parent
+        self.image = pygame.image.load('{}/test.png'.format(root_dir))
         self.image = pygame.transform.scale(self.image, (20, 20))
         self.rect = self.image.get_rect()
         self.velocity = 5
@@ -62,9 +64,10 @@ class Affichage:
         self.balise = PygameBalise(arene)
         self.pressed = {}
         self.old_position = []
+        self.run = True
 
     def boucle(self, fps):
-        while True:
+        while self.run:
             self.update(fps)
             sleep(1./fps)
 
@@ -193,3 +196,7 @@ class Affichage:
 
             pygame.draw.line(self.p, AUTRE, (src_.x, src_.y),
                              (point_servo.x, point_servo.y), self.epaisseur)
+
+    def stop(self):
+        self.run = False
+        pygame.quit()

@@ -11,17 +11,10 @@ from controller.controleur import Controleur
 from controller.strategies import SuivreBalise
 from controller.wrapper import Wrapper
 
-
-print("Ici")
 controleur = Controleur()
 
 # protection du config
 config = Config()
-
-if (config.get_vers() != 0.4):
-    print("Config version non conforme")
-    print(config.get_vers())
-    exit(1)
 
 mode = config.get_mode()
 
@@ -65,6 +58,16 @@ if (mode):  # Mode Simu
     thread_modele.start()
     thread_affichage.start()
 
+    try:
+        while True:
+            continue
+    except:
+        print("Fin de l'execution")
+        controleur.stop()
+        arene.stop()
+        affichage.stop()
+
+
 else:  # mode REEL
     print("simu off")
 
@@ -84,3 +87,10 @@ else:  # mode REEL
     thread_controleur = Thread(target=controleur.boucle, args=(FPS,))
 
     thread_controleur.start()
+
+    try:
+        while True:
+            continue
+    except:
+        print("Fin de l'execution")
+        controleur.stop()

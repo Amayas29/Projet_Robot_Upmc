@@ -13,12 +13,13 @@ class Arene:
         self.temps_precedent = None
         self.angle_parcouru = 0
         self.balise = None
+        self.run = True
 
     def boucle(self, fps):
         if self.robot is None:
             return
 
-        while True:
+        while self.run:
             self.update()
             sleep(1./fps)
 
@@ -96,3 +97,6 @@ class Arene:
         if balise != None and isinstance(balise, Balise):
             self.elements.append(balise)
             self.balise = balise
+
+    def stop(self):
+        self.run = False
