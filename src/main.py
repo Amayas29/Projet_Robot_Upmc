@@ -29,10 +29,6 @@ if (mode):  # Mode Simu
     from utils.tools import Point
     from model.obstacles import Balise
 
-    import random
-    from datetime import datetime
-    random.seed(datetime.now())
-
     arene = Arene()
 
     balise = Balise(Point(280, 300), Point(380, 400))
