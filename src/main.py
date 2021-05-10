@@ -68,7 +68,7 @@ else:  # mode REEL
         robot = Robot2I013Mockup()
 
     wrapper = Wrapper(robot)
-    strat = SuivreBalise(wrapper, 300)
+    strat = SuivreBalise(wrapper, 150)
 
     controleur.add_startegie(strat)
     controleur.select_startegie(0)
@@ -82,6 +82,5 @@ else:  # mode REEL
             continue
     except:
         print("Fin de l'execution")
-        wrapper.stop()
         controleur.stop()
-
+        wrapper.stop()

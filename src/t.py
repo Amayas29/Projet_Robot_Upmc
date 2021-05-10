@@ -6,8 +6,8 @@ import sys
 def color_profiles(n):
     if n == 0:
         name = "Bleu"
-        hsv_lower = (95, 100, 50)
-        hsv_upper = (115, 255, 200)
+        hsv_lower = (95, 100, 20)
+        hsv_upper = (115, 255, 255)
         return (name, hsv_lower, hsv_upper)
 
     if n == 1:
@@ -18,7 +18,7 @@ def color_profiles(n):
 
     if n == 2:
         name = "Vert"
-        hsv_lower = (50, 100, 20)
+        hsv_lower = (50, 50, 20)
         hsv_upper = (100, 255, 255)
         return (name, hsv_lower, hsv_upper)
 
@@ -48,7 +48,6 @@ def get_masks_color(frame):
             number += 1
 
         masks.append(mask)
-        cv2.imshow(f"{i}", masks)
 
     return masks, number
 
@@ -65,7 +64,7 @@ def get_position_balise(frame):
     mask = cv2.dilate(mask, None, iterations=4)
 
     elements, _ = cv2.findContours(
-        mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)100
+        mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     c = max(elements, key=cv2.contourArea)
 
@@ -99,7 +98,7 @@ def get_angle_orientation_balise(frame):
 
 n = int(sys.argv[1])
 
-frame = cv2.imread(f"{n}.jpeg")
+frame = cv2.imread("images/{}.png".format(n))
 print(get_angle_orientation_balise(frame))
 
 
