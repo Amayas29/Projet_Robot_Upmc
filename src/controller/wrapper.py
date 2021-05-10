@@ -18,7 +18,7 @@ def color_profiles(n):
 
     if n == 2:
         name = "Vert"
-        hsv_lower = (50, 100, 20)
+        hsv_lower = (50, 50, 20)
         hsv_upper = (100, 255, 255)
         return (name, hsv_lower, hsv_upper)
 
