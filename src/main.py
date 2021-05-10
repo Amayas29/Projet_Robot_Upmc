@@ -1,10 +1,3 @@
-import os
-
-try:
-    import cv2
-except:
-    os.system("bash ./install.sh")
-
 from threading import Thread
 from utils.config import Config
 from controller.controleur import Controleur
@@ -89,4 +82,6 @@ else:  # mode REEL
             continue
     except:
         print("Fin de l'execution")
+        wrapper.stop()
         controleur.stop()
+
