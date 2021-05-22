@@ -3,6 +3,7 @@ from utils.config import Config
 from controller.controleur import Controleur
 from controller.strategies import SuivreBalise
 from controller.wrapper import Wrapper
+from time import sleep
 
 controleur = Controleur()
 
@@ -63,11 +64,14 @@ else:  # mode REEL
     try:
         from robot2I013 import Robot2I013
         robot = Robot2I013()
+        print("jj")
     except ImportError:
         from irl.mockup import Robot2I013Mockup
         robot = Robot2I013Mockup()
+        print("hh")
 
     wrapper = Wrapper(robot)
+    sleep(1)
     strat = SuivreBalise(wrapper, 150)
 
     controleur.add_startegie(strat)

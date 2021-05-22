@@ -334,6 +334,7 @@ class SuivreBalise(Strategie):
         self.avancer = Avancer(wrapper, float("inf"), vitesse)
         switcher = Switcher(self.avancer, self.tourner, self.fct_switcher)
         self.switcher = Unitaire(switcher, self.fct_arret)
+        self.i = 0
 
     def fct_arret(self):
         return self.wrapper.get_distance() <= 50
@@ -341,19 +342,23 @@ class SuivreBalise(Strategie):
     def fct_switcher(self, current, avancer, tourner):
 
         self.wrapper.tourner_servo(90)
-        angle, orientation = self.wrapper.get_angle_orientation_balise()
+        angle, orientation ,frame= self.wrapper.get_angle_orientation_balise()
 
         if angle == -1:
-            self.wrapper.tourner_servo(110)
-            angle, orientation = self.wrapper.get_angle_orientation_balise()
-
+            print("pas trouver")
+            angle = 360
+            orientation = self.wrapper.DROITE
             self.wrapper.tourner_servo(90)
-
-            if angle == -1:
-                angle = 360
-                orientation = self.wrapper.DROITE
-
-        if angle <= 5:
+               
+        else:
+            print("trouver",angle,orientation)
+            
+            screen(frame,"{}.png".format(self.i))
+            self.i +=1
+            
+        # if(self.i == 5):
+        #     exit(0)
+        if angle <= 30:
             return avancer
 
         tourner.orientation = orientation
