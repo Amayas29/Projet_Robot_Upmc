@@ -61,25 +61,29 @@ if (mode):  # Mode Simu
 else:  # mode REEL
     print("simu off")
 
+    from irl.imageloader import ImageLoader
+
     try:
         from robot2I013 import Robot2I013
         robot = Robot2I013()
-        print("jj")
+
     except ImportError:
         from irl.mockup import Robot2I013Mockup
         robot = Robot2I013Mockup()
-        print("hh")
 
+    image_loader = ImageLoader(robot)
     wrapper = Wrapper(robot)
-    sleep(1)
-    strat = SuivreBalise(wrapper, 150)
+
+    strat = SuivreBalise(wrapper, 150, image_loader)
 
     controleur.add_startegie(strat)
     controleur.select_startegie(0)
 
     thread_controleur = Thread(target=controleur.boucle, args=(FPS,))
+    thread_image_loader = Thread(target=image_loader.boucle, args=(FPS,))
 
     thread_controleur.start()
+    thread_image_loader.start()
 
     try:
         while True:
@@ -87,4 +91,5 @@ else:  # mode REEL
     except:
         print("Fin de l'execution")
         controleur.stop()
+        image_loader.stop()
         wrapper.stop()

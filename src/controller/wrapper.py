@@ -118,12 +118,15 @@ class Wrapper(object):
             self.robot.set_motor_dps(self.robot.MOTOR_LEFT, vitesse)
             self.robot.set_motor_dps(self.robot.MOTOR_RIGHT, 0)
 
-    def get_angle_orientation_balise(self):
+    def get_angle_orientation_balise(self, image_loader=None):
 
         if isinstance(self.robot, Robot):
             return self.robot.get_angle_orientation_balise()
 
-        frame = self.robot.get_image()
+        if image_loader is None:
+            frame = self.robot.get_image()
+        else:
+            frame = image_loader.get_image()
 
         if frame is None:
             return -1, -1

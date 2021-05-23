@@ -328,13 +328,13 @@ class EviterObstacle(Strategie):
 
 class SuivreBalise(Strategie):
 
-    def __init__(self, wrapper, vitesse):
+    def __init__(self, wrapper, vitesse, image_loader=None):
         super().__init__(wrapper)
         self.tourner = Tourner(wrapper, 0, 0, vitesse, True)
         self.avancer = Avancer(wrapper, float("inf"), vitesse)
         switcher = Switcher(self.avancer, self.tourner, self.fct_switcher)
         self.switcher = Unitaire(switcher, self.fct_arret)
-        self.i = 0
+        self.image_loader = image_loader
 
     def fct_arret(self):
         return self.wrapper.get_distance() <= 50
@@ -342,7 +342,8 @@ class SuivreBalise(Strategie):
     def fct_switcher(self, current, avancer, tourner):
 
         self.wrapper.tourner_servo(90)
-        angle, orientation = self.wrapper.get_angle_orientation_balise()
+        angle, orientation = self.wrapper.get_angle_orientation_balise(
+            self.image_loader)
 
         if angle == -1:
             angle = 360
