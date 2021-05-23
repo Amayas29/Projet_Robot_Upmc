@@ -21,7 +21,7 @@ class Strategie(object):
 
     def start(self):
         """
-        voir -> void
+        voir -> None
         Lance la startegie en changeant ses booleans
         """
         self.is_stop = False
@@ -29,7 +29,7 @@ class Strategie(object):
 
     def stop(self):
         """
-        void -> void
+        None -> None
         Arrete la startegie
         """
         self.wrapper.stop()
@@ -345,7 +345,7 @@ class AvancerAuMur(Strategie):
 
     def fct_arret(self):
         """
-        void -> void
+        None -> None
         Condition d'arret : get_distance <= securite
         """
         return self.wrapper.get_distance() <= self.securite
@@ -404,7 +404,7 @@ class Carre(Strategie):
 
     def fct_arret(self):
         """
-        void -> void
+        None -> None
         Condition d'arret : get_distance <= securite
         """
         return self.wrapper.get_distance() <= self.securite
@@ -463,7 +463,7 @@ class Triangle(Strategie):
 
     def fct_arret(self):
         """
-        void -> void
+        None -> None
         Condition d'arret : get_distance <= securite
         """
         return self.wrapper.get_distance() <= self.securite
@@ -520,7 +520,7 @@ class EviterObstacle(Strategie):
 
     def fct_arret(self):
         """
-        void -> void
+        None -> None
         Condition d'arret : get_distance <= securite
         """
         return self.wrapper.get_distance() <= self.securite
@@ -602,7 +602,7 @@ class SuivreBalise(Strategie):
 
     def fct_arret(self):
         """
-        void -> void
+        None -> None
         Condition d'arret : get_distance <= securite
         """
         return self.wrapper.get_distance() <= 50
@@ -682,7 +682,7 @@ class PolygoneRegulier(Strategie):
 
     def fct_arret(self):
         """
-        void -> void
+        None -> None
         Condition d'arret : get_distance <= securite
         """
         return self.wrapper.get_distance() <= self.securite

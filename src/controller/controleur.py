@@ -22,14 +22,14 @@ class Controleur(object):
 
     def add_startegie(self, strategie):
         """
-        Startegie -> void
+        Startegie -> None
         Permer d'ajouter une startegie à la liste
         """
         self.strategies.append(strategie)
 
     def select_startegie(self, index):
         """
-        int -> void
+        int -> None
         Pemer de sélectionner une startegie à executer parmis toutes les startegies sauvegardées
         """
         if index < 0 or index > len(self.strategies):
@@ -40,7 +40,7 @@ class Controleur(object):
 
     def boucle(self, fps):
         """
-        float -> void
+        float -> None
         Une boucle d'execution dans un thread pour des appels asynchrone pour la mise à jour du controleur
         """
 
@@ -53,14 +53,14 @@ class Controleur(object):
 
     def update(self):
         """
-        void -> void
+        None -> None
         Mets à jour le controleur en lançant la startegie courrante 
         """
         self.strategies[self.current_strat].run()
 
     def stop(self):
         """
-        void -> void
+        None -> None
         Permet d'arreter le controleur (la boucle du thread)
         """
 
