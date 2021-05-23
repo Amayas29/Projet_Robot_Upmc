@@ -2,6 +2,9 @@ import math
 
 
 class Robot2I013Mockup(object):
+    """
+        Une image de l'api robot pour tester si on a une parfaite utilisation des fonctions (syntaxiquement)
+    """
 
     WHEEL_BASE_WIDTH = 117
     WHEEL_DIAMETER = 66.5

@@ -3,16 +3,12 @@ from utils.config import Config
 from controller.controleur import Controleur
 from controller.strategies import SuivreBalise
 from controller.wrapper import Wrapper
+from time import sleep
 
 controleur = Controleur()
 
 # protection du config
 config = Config()
-
-if (config.get_vers() != 0.4):
-    print("Config version non conforme")
-    print(config.get_vers())
-    exit(1)
 
 mode = config.get_mode()
 
@@ -27,18 +23,13 @@ if (mode):  # Mode Simu
     from utils.tools import Point
     from model.obstacles import Balise
 
-    import random
-    from datetime import datetime
-    random.seed(datetime.now())
-
     arene = Arene()
-    x = random.randint(0, 1090)
-    y = random.randint(0, 920)
 
-    balise = Balise(Point(x, y), Point(x+10, y+10))
+    balise = Balise(Point(280, 300), Point(380, 400))
     arene.set_balise(balise)
 
     robot = Robot(Point(230, 300), arene)
+    robot.down()
     arene.set_robot(robot)
 
     affichage = Affichage(arene)
@@ -57,22 +48,48 @@ if (mode):  # Mode Simu
     thread_modele.start()
     thread_affichage.start()
 
+    try:
+        while True:
+            continue
+    except:
+        print("Fin de l'execution")
+        controleur.stop()
+        arene.stop()
+        affichage.stop()
+
+
 else:  # mode REEL
     print("simu off")
+
+    from irl.imageloader import ImageLoader
 
     try:
         from robot2I013 import Robot2I013
         robot = Robot2I013()
+
     except ImportError:
         from irl.mockup import Robot2I013Mockup
         robot = Robot2I013Mockup()
 
+    image_loader = ImageLoader(robot)
     wrapper = Wrapper(robot)
-    strat = SuivreBalise(wrapper, 300)
+
+    strat = SuivreBalise(wrapper, 150, image_loader)
 
     controleur.add_startegie(strat)
     controleur.select_startegie(0)
 
     thread_controleur = Thread(target=controleur.boucle, args=(FPS,))
+    thread_image_loader = Thread(target=image_loader.boucle, args=(FPS,))
 
     thread_controleur.start()
+    thread_image_loader.start()
+
+    try:
+        while True:
+            continue
+    except:
+        print("Fin de l'execution")
+        controleur.stop()
+        image_loader.stop()
+        wrapper.stop()

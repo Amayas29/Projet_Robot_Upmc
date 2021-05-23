@@ -11,9 +11,6 @@ class Config:
         src_path = Path(__file__).parent.parent
         self.conf.read("{}/config.cfg".format(src_path))
 
-    def get_vers(self):
-        return float(self.conf['Version']['config_version'])
-
     def get_fps(self):
         return float(self.conf['Robot']['fps'])
 
