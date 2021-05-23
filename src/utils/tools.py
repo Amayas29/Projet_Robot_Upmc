@@ -9,6 +9,8 @@ class Point:
 
     def __add__(self, other):
         """
+        Point -> float
+
         Ajout un point au point courrant
         """
         self.x += other.x
@@ -16,23 +18,42 @@ class Point:
 
     def __sub__(self, other):
         """
+        Point -> float
+
         Retourne la distance entre 2 points
         """
         return sqrt((self.x - other.x)**2 + (self.y - other.y)**2)
 
     def distance_to_droite(self, droite):
         """
+        Droite -> float
+
         Retourne la distance entre le point courrant et une doite
         """
         return abs(droite.a * self.x + droite.b * self.y + droite.c) / (sqrt(droite.a ** 2 + droite.b ** 2))
 
     def __eq__(self, point) -> bool:
+        """
+        Point * Point -> bool
+
+        Verifie si deux points sont egaux
+        """
         return point != None and self.x == point.x and self.y == point.y
 
     def __ne__(self, point) -> bool:
+        """
+        Point * Point -> bool
+
+        Verifie si deux points sont differents
+        """
         return not self.__eq__(point)
 
     def rotate(self, center, angle):
+        """
+        Point * float -> None
+
+        Permet d'effectuer une rotation sur le point courrant par apport à un centre avec un angle donné
+        """
         distance = self - center
         vect_src = Vecteur(center, self)
         angle_vect_dest = Vecteur.get_vect_from_angle(
@@ -43,10 +64,21 @@ class Point:
 
     @staticmethod
     def milieu(point1, point2):
+        """
+        Point * Point -> Point
+
+        Retourne le point milieu du segment formé des deux points
+        """
         return Point((point1.x + point2.x)/2, (point1.y + point2.y)/2)
 
     @staticmethod
     def get_points_distance(point, vec_norme, distance):
+        """
+        Point * Vecteur * float -> Point * Point
+
+        Calcule et retourne les deux point du segment de longeur x et de vecteur normal n
+        """
+
         vect = vec_norme.vect
 
         if vect[0] == 0 and vect[1] == 0:
@@ -65,6 +97,11 @@ class Point:
         return Point(point.x + a, point.y + b), Point(point.x - a, point.y - b)
 
     def __str__(self) -> str:
+        """
+        None -> str
+
+        Retourne la representation textuelle d'un point
+        """
         return "({}, {})".format(self.x, self.y)
 
 
@@ -76,6 +113,8 @@ class Vecteur:
     @staticmethod
     def get_vect_from_angle(ang):
         """
+        float -> Vecteur
+
         Construit un vecteur direction depuis un angle donné
         """
         ang = radians(ang)
@@ -83,18 +122,24 @@ class Vecteur:
 
     def __mul__(self, other):
         """
+        Vecteur -> float
+
         Calcule le produit scalaire de deux vecteur
         """
         return self.vect[0] * other.vect[0] + self.vect[1] * other.vect[1]
 
     def norme(self):
         """
+        None -> float
+
         Calcule la norme d'un vecteur
         """
         return sqrt(self.vect[0]**2 + self.vect[1] ** 2)
 
     def angle(self, other):
         """
+        Vecteur -> float
+
         Calcule l'angle entre deux vecteur (sans prendre en consideration l'orientation)
         """
         norme_ = self.norme() * other.norme()
@@ -104,12 +149,16 @@ class Vecteur:
 
     def sign(self, other):
         """
+        Vecteur -> float
+
         Permet de savoir le signe de l'angle entre les vecteurs
         """
         return self.vect[0] * other.vect[1] - self.vect[1] * other.vect[0]
 
     def angle_sign(self, other):
         """
+        Vecteur -> float
+
         Retourne l'angle signe entre les deux vecteurs
         """
         ang = self.angle(other)
@@ -123,6 +172,11 @@ class Segment:
         self.dest = dest
 
     def intersection(self, point, vec_unit):
+        """
+        Point * Vecteur -> Point
+
+        Retourne le point d'intersection du segment avec le segment (ou demi segment) qui a comme extremite un point p et un vecteur unitaire vec_unit
+        """
 
         I = Vecteur(self.src, self.dest)
         J = vec_unit
@@ -142,12 +196,22 @@ class Segment:
         return None
 
     def to_droite(self):
+        """
+        None -> Droite
+
+        Retourne la droite associé au segment
+        """
         vec_unit = Vecteur(self.src, self.dest)
         vec_norm = Vecteur(
             Point(0, 0), Point(- vec_unit.vect[1], vec_unit.vect[0]))
         return Droite.get_droite(vec_norm, self.src)
 
     def distance_to_segment(self, other):
+        """
+        Segment -> float
+
+        retourne la distance du segment à un autre
+        """
         droite = self.to_droite()
         return other.src.distance_to_droite(droite)
 
@@ -161,6 +225,11 @@ class Droite:
 
     @staticmethod
     def get_droite(vec_norm, point):
+        """
+        Vecteur * Point -> Droite
+
+        Construit une droite à partir d'un point et d'un vecteur normale
+        """
         a = vec_norm.vect[0]
         b = vec_norm.vect[1]
         c = - a * point.x - b * point.y
@@ -168,6 +237,11 @@ class Droite:
 
     @staticmethod
     def intersection(vec1, p1, vec2, p2):
+        """
+        Vecteur * Point * Vecteur * Point -> Point
+
+        calcule le point d'intersection de deux droite donné par un point et un vecteur normale chacune
+        """
 
         I = vec1
         J = vec2
@@ -182,4 +256,9 @@ class Droite:
         return Point(p1.x + k * I.vect[0], p1.y + k * I.vect[1])
 
     def __str__(self):
+        """
+        None -> str
+
+        Donne la representation textuelle d'une droite
+        """
         return "{} x + {} y + {}".format(self.a, self.b, self.c)
