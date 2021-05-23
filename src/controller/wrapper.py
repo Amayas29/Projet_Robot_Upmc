@@ -125,6 +125,9 @@ class Wrapper(object):
 
         frame = self.robot.get_image()
 
+        if frame is None:
+            return -1, -1
+
         (x, y) = get_position_balise(frame)
 
         if x == -1:

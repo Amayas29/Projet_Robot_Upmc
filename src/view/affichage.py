@@ -21,7 +21,7 @@ class PygameBalise(pygame.sprite.Sprite):
     def __init__(self, arene):
         super().__init__()
         root_dir = Path(__file__).parent.parent
-        self.image = pygame.image.load('{}/test.png'.format(root_dir))
+        self.image = pygame.image.load('{}/balise_simu.png'.format(root_dir))
         self.image = pygame.transform.scale(self.image, (20, 20))
         self.rect = self.image.get_rect()
         self.velocity = 5

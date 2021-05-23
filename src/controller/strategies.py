@@ -112,7 +112,7 @@ class Tourner(Strategie):
         elif self.distance_parcouru < self.distance * 3/4:
             vitesse /= 3
 
-        # vitesse = 10 if vitesse < 10 else vitesse
+        vitesse = 10 if vitesse < 10 else vitesse
 
         self.wrapper.tourner(self.orientation, vitesse)
 
@@ -342,22 +342,13 @@ class SuivreBalise(Strategie):
     def fct_switcher(self, current, avancer, tourner):
 
         self.wrapper.tourner_servo(90)
-        angle, orientation ,frame= self.wrapper.get_angle_orientation_balise()
+        angle, orientation = self.wrapper.get_angle_orientation_balise()
 
         if angle == -1:
-            print("pas trouver")
             angle = 360
             orientation = self.wrapper.DROITE
             self.wrapper.tourner_servo(90)
-               
-        else:
-            print("trouver",angle,orientation)
-            
-            screen(frame,"{}.png".format(self.i))
-            self.i +=1
-            
-        # if(self.i == 5):
-        #     exit(0)
+
         if angle <= 30:
             return avancer
 
