@@ -6,6 +6,14 @@ from copy import deepcopy
 
 class Vision:
 
+    """
+        La vision du robot en mode simulation
+
+        Elle contient une liste des elements selectionne suivant le vecteur servo du robot
+
+        Elle permet de calculer le get_distance et detecter la balise
+    """
+
     GAUCHE = 1
     DROITE = 0
 
@@ -17,6 +25,10 @@ class Vision:
         self.balise = None
 
     def sync_vision(self, robot):
+        """
+        robot -> None
+        Elle permet d'actualiser les elements de la vision
+        """
 
         self.elements = []
         self.balise = None
@@ -78,6 +90,11 @@ class Vision:
             self.elements.append(elem)
 
     def get_distance(self, robot):
+        """
+        robot -> None
+
+        Permet de calculer la distance à l'obstacle le plus proche du robot
+        """
 
         largeur = robot.WHEEL_BASE_WIDTH
 
@@ -116,12 +133,21 @@ class Vision:
         return mini
 
     def __str__(self):
+        """
+        None -> str
+        Affiche la liste des elements selectionnes
+        """
         s = ""
         for elem in self.elements:
             s += str(elem) + ", "
         return s
 
     def get_angle_orientation_balise(self, robot):
+        """
+        robot -> float * float
+
+        Calcule l'angle et l'orientation de la balise par apport au robot
+        """
 
         if self.balise is None:
             return -1, -1
