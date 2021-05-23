@@ -13,7 +13,7 @@ class ImageLoader:
 
     def boucle(self, fps):
         """
-        float -> void
+        float -> None
         La boucle de capture des images dans le thread
         """
         while self.run:
@@ -22,14 +22,14 @@ class ImageLoader:
 
     def stop(self):
         """
-        void -> void
+        None -> None
         Permet d'arreter la boucle du thread
         """
         self.run = False
 
     def get_image(self):
         """
-        void -> Image
+        None -> Image
         Retourne l'image capturée
         """
         return self.image
