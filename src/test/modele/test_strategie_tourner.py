@@ -40,8 +40,8 @@ def f(): return robot.get_distance() < 50
 
 tourner = Unitaire(Tourner(robot, 90, 0), f)
 
-controleur.add_startegie(tourner)
-controleur.select_startegie(0)
+controleur.add_strategie(tourner)
+controleur.select_strategie(0)
 
 affichage = Affichage(arene)
 

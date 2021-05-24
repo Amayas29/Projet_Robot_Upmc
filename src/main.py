@@ -49,8 +49,8 @@ if (mode):  # Mode Simu
 
     strat = Carre(wrapper, 100, 300, 1, 50)
 
-    controleur.add_startegie(strat)
-    controleur.select_startegie(0)
+    controleur.add_strategie(strat)
+    controleur.select_strategie(0)
 
     thread_controleur = Thread(target=controleur.boucle, args=(FPS,))
     thread_modele = Thread(target=arene.boucle, args=(FPS,))
@@ -85,8 +85,8 @@ else:  # mode REEL
 
     strat = Carre(wrapper, 100, 300, 1, 50)
 
-    controleur.add_startegie(strat)
-    controleur.select_startegie(0)
+    controleur.add_strategie(strat)
+    controleur.select_strategie(0)
 
     thread_controleur = Thread(target=controleur.boucle, args=(FPS,))
 

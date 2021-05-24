@@ -20,14 +20,14 @@ class Controleur(object):
         # La startegie courrante
         self.current_strat = -1
 
-    def add_startegie(self, strategie):
+    def add_strategie(self, strategie):
         """
         Startegie -> None
         Permer d'ajouter une startegie à la liste
         """
         self.strategies.append(strategie)
 
-    def select_startegie(self, index):
+    def select_strategie(self, index):
         """
         int -> None
         Pemer de sélectionner une startegie à executer parmis toutes les startegies sauvegardées

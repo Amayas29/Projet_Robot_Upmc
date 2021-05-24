@@ -49,8 +49,8 @@ def f(): return robot.get_distance() < 50
 
 avancer = Unitaire(Avancer(robot, 175, 600), f)
 
-controleur.add_startegie(avancer)
-controleur.select_startegie(0)
+controleur.add_strategie(avancer)
+controleur.select_strategie(0)
 
 FPS = 60.
 

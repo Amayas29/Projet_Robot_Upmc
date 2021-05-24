@@ -44,8 +44,8 @@ def f(): return robot.get_distance() < 50
 
 carre = Unitaire(Carre(robot, 100, 300, 0, 50), f)
 
-controleur.add_startegie(carre)
-controleur.select_startegie(0)
+controleur.add_strategie(carre)
+controleur.select_strategie(0)
 
 FPS = 60.
 
