@@ -70,7 +70,7 @@ class Arene:
             self.robot.posr += angle_roue
             self.robot.posl += angle_roue
 
-            # On calcule la nouvelle position du robot
+            # On calcule le point de translation du mouvement
             x = self.robot.vec_deplacement.vect[0] * distance
             y = self.robot.vec_deplacement.vect[1] * distance
 

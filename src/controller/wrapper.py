@@ -192,7 +192,7 @@ class Wrapper(object):
 
     def get_angle_orientation_balise(self, image_loader=None):
         """
-            [ImageLoader] -> None
+            [ImageLoader] -> float * int
 
             Retourne l'angle et l'orientation de la balise par apport au robot
         """
