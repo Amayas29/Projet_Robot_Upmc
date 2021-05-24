@@ -87,7 +87,7 @@ class Robot2I013(object):
         :dps: la vitesse cible en nombre de degres par seconde
         """
         self._gpg.set_motor_dps(port, dps)
-        self.set_motor_limits(port, dps)
+        self._gpg.set_motor_limits(port, dps)
 
     def get_motor_position(self):
         """

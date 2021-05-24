@@ -40,14 +40,14 @@ if (mode):  # Mode Simu
 
     affichage = Affichage(arene)
 
-    n = 5
+    n = 4
     image = Image.open("{}/formes/{}.png".format(root_dir, n))
     image = np.array(image)
 
     robot.set_image(image)
     wrapper = Wrapper(robot)
 
-    strat = DessineMoi(wrapper)
+    strat = Carre(wrapper, 100, 300, 1, 50)
 
     controleur.add_startegie(strat)
     controleur.select_startegie(0)
@@ -82,7 +82,7 @@ else:  # mode REEL
         robot = Robot2I013Mockup()
 
     wrapper = Wrapper(robot)
-    
+
     # strat = DessineMoi(wrapper)
     # strat = PolygoneRegulier(wrapper, 4, 100, 300, 1, 100)
     strat = Carre(wrapper, 100, 200, 1, 100)

@@ -3,6 +3,7 @@ from math import pi
 import cv2
 from PIL import Image
 
+
 class Strategie(object):
     """
         Une classe abstraite qui represent toute startegie du robot
@@ -170,19 +171,13 @@ class Tourner(Strategie):
 
         # On réduit la vitesse si il nous reste que quelques degrees pour ne pas dépasser
         vitesse = self.vitesse
-        print(self.distance-self.distance_parcouru)
-        #if self.distance_parcouru > self.distance / 2:
-         #   vitesse /= 2
 
-        #if self.distance_parcouru > self.distance * 3/4:
-         #   vitesse /= 3
-        
-        if self.distance - self.distance_parcouru <=50 :
-            self.distance_parcouru = self.distance+1
-            print("return",self.distance-self.distance_parcouru )
-            self.stop()
-            return
-        
+        if self.distance_parcouru > self.distance / 2:
+            vitesse /= 2
+
+        if self.distance_parcouru > self.distance * 3/4:
+            vitesse /= 3
+
         # On lance la méthode tourner du robot
         self.wrapper.tourner(self.orientation, vitesse)
 
@@ -770,10 +765,10 @@ def get_forme(frame):
 
     hsv_lower = (95, 100, 20)
     hsv_upper = (115, 255, 255)
-      
+
     mask = cv2.inRange(hsv, hsv_lower, hsv_upper)
 
-        # On netoie un peu le mask
+    # On netoie un peu le mask
     mask = cv2.erode(mask, None, iterations=4)
     mask = cv2.dilate(mask, None, iterations=4)
 
@@ -785,9 +780,8 @@ def get_forme(frame):
     for cnt in elements:
         approx = cv2.approxPolyDP(cnt, 0.01*cv2.arcLength(cnt, True), True)
         n = max(n, len(approx))
-        
-    return n
 
+    return n
 
 
 class DessineMoi(Strategie):
@@ -838,22 +832,23 @@ class DessineMoi(Strategie):
             self.wrapper.allumer(self.wrapper.ORANGE)
 
             frame = self.wrapper.robot.get_image()
-            
+
             if frame is None:
                 self.wrapper.allumer(self.wrapper.RED)
                 return
-            
+
             img = Image.fromarray(frame)
             img.save("image.png")
-            
+
             img = cv2.imread("image.png")
-            
+
             nombre = get_forme(img)
             print(nombre)
 
             if nombre == -1:
                 self.wrapper.allumer(self.wrapper.RED)
                 return
-            
-            self.strat = PolygoneRegulier(self.wrapper, nombre, 100, 200, 1, 100)
+
+            self.strat = PolygoneRegulier(
+                self.wrapper, nombre, 100, 200, 1, 100)
             self.wrapper.allumer(self.wrapper.GREEN)
