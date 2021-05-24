@@ -926,3 +926,76 @@ class DetecterBalise(Strategie):
             return
 
         self.switcher.run()
+
+
+class AvancerBasique(Strategie):
+    """
+        La premiere startegie elementaire pour le mouvement : Avancer le robot de x mm à une vitesse de y
+    """
+
+    def __init__(self, wrapper, distance, vitesse,securite):
+
+        super().__init__(wrapper)
+
+        # Initialse les attributs
+        self.distance = distance
+        self.distance_parcouru = 0  # Pour garder la distance parcourue
+        self.vitesse = vitesse
+        self.securite = securite
+
+    def start(self):
+        """
+        Overide
+        """
+        super().start()
+        self.wrapper.stop()
+        # Remet droit le servo du robot
+        self.wrapper.servo_rotate(90)
+        self.distance_parcouru = 0
+        self.position = self.wrapper.get_motor_position()[1]
+
+    def run(self):
+        """
+        Overide
+        """
+
+        # Si la startegie est arretee on fait rien
+        if self.is_stop:
+            return
+
+        # Si il n'est pas encore lancee on la lance
+        if not self.is_start:
+            self.start()
+        
+       
+
+        # On calculer la difference entre les donnée actual et les derniers données sauvegarder
+        diff = self.wrapper.get_motor_position()[1] - self.position
+
+        # On actualise les donnes sauvegardee
+        self.position = self.wrapper.get_motor_position()[1]
+
+        # On calcule la distance parcoure
+        k = diff // 360
+        r = diff % 360
+
+        print(self.wrapper.get_distance())
+
+        # On ajoute la distance parcourue
+        self.distance_parcouru +=  k * self.wrapper.WHEEL_CIRCUMFERENCE + \
+            (r * self.wrapper.WHEEL_CIRCUMFERENCE) / 360
+
+        # On test si on a atteint la distance voulue : si c'est le cas on arrete la startegie
+        if self.distance_parcouru >= self.distance:
+            self.stop()
+            print("Arret de avancer __dist__ :", self.distance_parcouru,
+                  self.wrapper.get_distance())
+            return
+
+        if self.wrapper.get_distance() < self.securite:
+            self.wrapper.stop()
+            return
+
+        # Sinon on fait avancer le robot
+        self.wrapper.set_motor_dps(
+            self.wrapper.MOTOR_LEFT + self.wrapper.MOTOR_RIGHT, self.vitesse)
