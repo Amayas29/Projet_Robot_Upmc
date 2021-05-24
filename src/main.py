@@ -1,7 +1,8 @@
 from threading import Thread
 from utils.config import Config
 from controller.controleur import Controleur
-from controller.strategies import SuivreBalise
+from controller.strategies import SuivreBalise, DessineMoi
+from irl.imageloader import ImageLoader
 from controller.wrapper import Wrapper
 from time import sleep
 
@@ -22,6 +23,11 @@ if (mode):  # Mode Simu
     from model.arene import Arene
     from utils.tools import Point
     from model.obstacles import Balise
+    from PIL import Image
+    import numpy as np
+    from pathlib import Path
+
+    root_dir = Path(__file__).parent
 
     arene = Arene()
 
@@ -34,8 +40,17 @@ if (mode):  # Mode Simu
 
     affichage = Affichage(arene)
 
+    n = 5
+    image = Image.open("{}/formes/{}.png".format(root_dir, n))
+    image = np.array(image)
+
+    robot.set_image(image)
     wrapper = Wrapper(robot)
-    strat = SuivreBalise(wrapper, 300)
+
+    image_loader = ImageLoader(robot)
+    image_loader.update()
+
+    strat = DessineMoi(wrapper, image_loader)
 
     controleur.add_startegie(strat)
     controleur.select_startegie(0)
@@ -60,8 +75,6 @@ if (mode):  # Mode Simu
 
 else:  # mode REEL
     print("simu off")
-
-    from irl.imageloader import ImageLoader
 
     try:
         from robot2I013 import Robot2I013

@@ -26,11 +26,18 @@ class Robot:
         self.rspeed = 0
         self.MOTOR_LEFT = 1
         self.MOTOR_RIGHT = 2
+
+        self.LED_LEFT_EYE = 1
+        self.LED_RIGHT_EYE = 2
+
         self.vec_servo = Vecteur.get_vect_from_angle(0)
         self.vision = Vision(arene)
         self.posr = 0
         self.posl = 0
         self.crayon = False
+        self.image = None
+
+        self.led_color = (0, 0, 0, 255)
 
     def offset_motor_encoder(self, port, offset):
         """
@@ -79,7 +86,7 @@ class Robot:
 
             Affiche un message de changement de couleur pour la led
         """
-        print("Changement de la led {} à ({},{},{})".format(led, red, green, blue))
+        self.led_color = (red, green, blue)
 
     def get_distance(self):
         """
@@ -157,3 +164,9 @@ class Robot:
         Baisse le crayon de dessin
         """
         self.crayon = True
+
+    def set_image(self, frame):
+        self.image = frame
+
+    def get_image(self):
+        return self.image

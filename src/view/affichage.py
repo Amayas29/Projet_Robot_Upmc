@@ -88,7 +88,7 @@ class Affichage:
         self.p = pygame.display.set_mode((1090, 920))
         self.CLOCK = pygame.time.Clock()
         self.epaisseur = 5
-        self.debug = True
+        self.debug = False
         self.balise = PygameBalise(arene)
         self.pressed = {}
         self.old_position = []
@@ -155,6 +155,14 @@ class Affichage:
         pygame.draw.line(self.p, BLUE, (self.arene.robot.cbg.x, self.arene.robot.cbg.y),
                          (self.arene.robot.cbd.x, self.arene.robot.cbd.y), self.epaisseur)
 
+        m1 = Point((self.arene.robot.cbg.x + self.arene.robot.cbd.x)/2,
+                   (self.arene.robot.cbg.y + self.arene.robot.cbd.y)/2)
+        m2 = Point((self.arene.robot.chg.x + self.arene.robot.chd.x)/2,
+                   (self.arene.robot.chg.y + self.arene.robot.chd.y)/2)
+
+        pygame.draw.line(self.p, self.arene.robot.led_color, (m2.x, m2.y),
+                         (m1.x, m1.y), self.epaisseur)
+
         # Si on a pas de points déja sauvegarder on ajoute le centre du robot
         if self.old_position == []:
             self.old_position.append(deepcopy(self.arene.robot.center))
@@ -216,18 +224,15 @@ class Affichage:
         """
 
         if self.debug:
-            a = Point.milieu(self.arene.robot.chd, self.arene.robot.cbd)
+
+            a = Point.milieu(
+                self.arene.robot.chd, self.arene.robot.cbd)
+
             b = Point(
                 a.x + self.arene.robot.vec_deplacement.vect[0]*100, a.y + self.arene.robot.vec_deplacement.vect[1]*100)
+
             pygame.draw.line(self.p, RED, (a.x, a.y),
                              (b.x, b.y), self.epaisseur)
-            m1 = Point((self.arene.robot.cbg.x + self.arene.robot.cbd.x)/2,
-                       (self.arene.robot.cbg.y + self.arene.robot.cbd.y)/2)
-            m2 = Point((self.arene.robot.chg.x + self.arene.robot.chd.x)/2,
-                       (self.arene.robot.chg.y + self.arene.robot.chd.y)/2)
-
-            pygame.draw.line(self.p, RED, (m2.x, m2.y),
-                             (m1.x, m1.y), self.epaisseur)
 
             largeur = self.arene.robot.chd - self.arene.robot.cbd
 

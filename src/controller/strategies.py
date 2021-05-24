@@ -1,5 +1,6 @@
 from abc import abstractmethod
 from math import pi
+import cv2
 
 
 class Strategie(object):
@@ -222,6 +223,10 @@ class Switcher(Strategie):
         if not self.is_start:
             self.start()
 
+        if self.strat_1.is_stop and self.strat_2.is_stop:
+            self.stop()
+            return
+
         # On determine la startegie courrante
         self.current = self.fct_switcher(
             self.current, self.strat_1, self.strat_2)
@@ -323,6 +328,10 @@ class Unitaire(Strategie):
             self.wrapper.stop()
             return
 
+        if self.strat.is_stop:
+            self.stop()
+            return
+
         # Sinon on lance la startegie
         self.strat.run()
 
@@ -374,6 +383,10 @@ class AvancerAuMur(Strategie):
 
         if not self.is_start:
             self.start()
+
+        if self.strat.is_stop:
+            self.stop()
+            return
 
         self.strat.run()
 
@@ -434,6 +447,10 @@ class Carre(Strategie):
         if not self.is_start:
             self.start()
 
+        if self.switcher.is_stop:
+            self.stop()
+            return
+
         self.switcher.run()
 
 
@@ -492,6 +509,10 @@ class Triangle(Strategie):
 
         if not self.is_start:
             self.start()
+
+        if self.switcher.is_stop:
+            self.stop()
+            return
 
         self.switcher.run()
 
@@ -570,6 +591,10 @@ class EviterObstacle(Strategie):
 
         if not self.is_start:
             self.start()
+
+        if self.switcher.is_stop:
+            self.stop()
+            return
 
         self.switcher.run()
 
@@ -652,6 +677,10 @@ class SuivreBalise(Strategie):
         if not self.is_start:
             self.start()
 
+        if self.switcher.is_stop:
+            self.stop()
+            return
+
         self.switcher.run()
 
 
@@ -661,6 +690,11 @@ class PolygoneRegulier(Strategie):
     """
 
     def __init__(self, wrapper, nombre, cote, vitesse, orientation, securite):
+
+        if nombre <= 0:
+            print("Le nombre doit etre > 0")
+            return
+
         super().__init__(wrapper)
 
         self.securite = securite
@@ -712,4 +746,85 @@ class PolygoneRegulier(Strategie):
         if not self.is_start:
             self.start()
 
+        if self.switcher.is_stop:
+            self.stop()
+            return
+
         self.switcher.run()
+
+
+def get_forme(frame):
+
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+    _, thresh = cv2.threshold(gray, 127, 255, 1)
+
+    contours, _ = cv2.findContours(thresh, 1, 2)
+
+    if contours == []:
+        return -1
+
+    cnt = max(contours)
+
+    approx = cv2.approxPolyDP(cnt, 0.01*cv2.arcLength(cnt, True), True)
+
+    return len(approx)
+
+
+class DessineMoi(Strategie):
+
+    def __init__(self, wrapper, image_loader):
+        super().__init__(wrapper)
+        self.image_loader = image_loader
+        self.strat = None
+
+    def start(self):
+        """
+        Overide
+        """
+        super().start()
+
+        if self.strat is not None:
+            self.strat.start()
+
+    def stop(self):
+        """
+        Overide
+        """
+        super().stop()
+
+        if self.strat is not None:
+            self.strat.stop()
+            self.strat = None
+
+    def run(self):
+
+        if self.is_stop:
+            return
+
+        if not self.strat:
+            self.start()
+
+        if self.strat is not None:
+
+            if self.strat.is_stop:
+                self.strat = None
+
+            else:
+                self.wrapper.allumer(self.wrapper.GREEN)
+                self.strat.run()
+
+        if self.strat is None:
+
+            self.wrapper.allumer(self.wrapper.ORANGE)
+            print("Fin")
+
+            frame = self.image_loader.get_image()
+            nombre = get_forme(frame)
+
+            if nombre == -1:
+                self.wrapper.allumer(self.wrapper.RED)
+                return
+
+            self.strat = PolygoneRegulier(self.wrapper, nombre, 50, 200, 1, 50)
+            self.wrapper.allumer(self.wrapper.GREEN)

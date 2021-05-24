@@ -17,8 +17,11 @@ class ImageLoader:
         La boucle de capture des images dans le thread
         """
         while self.run:
-            self.image = self.robot.get_image()
+            self.update()
             sleep(1./fps)
+
+    def update(self):
+        self.image = self.robot.get_image()
 
     def stop(self):
         """
