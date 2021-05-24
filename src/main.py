@@ -82,14 +82,14 @@ else:  # mode REEL
         robot = Robot2I013Mockup()
 
     wrapper = Wrapper(robot)
-    
+
     strat = Carre(wrapper, 100, 300, 1, 50)
-    
+
     controleur.add_startegie(strat)
     controleur.select_startegie(0)
 
     thread_controleur = Thread(target=controleur.boucle, args=(FPS,))
-  
+
     thread_controleur.start()
 
     try:
