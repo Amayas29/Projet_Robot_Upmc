@@ -34,9 +34,9 @@ class Vision:
         self.balise = None
 
         largeur = robot.WHEEL_BASE_WIDTH
-        # On recupere le vecteur de la droite  faciale du robot 
+        # On recupere le vecteur de la droite  faciale du robot
         vec_norme = Vecteur(robot.chd, robot.cbd)
-        
+
         # On recupere le vecteur servo du robot
         vec_src = robot.vec_servo
 
@@ -50,6 +50,7 @@ class Vision:
             milieu = robot.chd
 
         a, b = Point.get_points_distance(milieu, vec_src, largeur//2)
+
         # On recupere le point d'intersection entre la droite du servo et le nouveau segment
         new_milieu = Droite.intersection(vec_src, Point.milieu(
             robot.chd, robot.cbd), Vecteur(a, b), a)
@@ -77,16 +78,19 @@ class Vision:
             if vec_src.angle(new_vec_src) > 90 and vec_src.angle(new_vec_dest) > 90:
                 continue
 
-            # Si le on a une intersection entre l'obstacle et les droite des extremites de la vision 
+            # Si le on a une intersection entre l'obstacle et les droite des extremites de la vision
             if seg.intersection(a, vec_src) is not None or seg.intersection(b, vec_src) is not None:
 
                 seg_droite = seg.to_droite()
+
                 # Si l'obstacle est trop loin du robot on l'ajoute pas
                 if min(a.distance_to_droite(seg_droite), b.distance_to_droite(seg_droite)) > self.DISTANCE:
                     continue
+
                 # Si c'est la balise(objet a trouver) on la recupere
                 if isinstance(elem, Balise):
                     self.balise = elem
+
                 # On ajoute l'element dans la liste
                 self.elements.append(elem)
                 continue
@@ -95,11 +99,11 @@ class Vision:
             if max(seg.src.distance_to_droite(left_droite), seg.src.distance_to_droite(right_droite)) > largeur \
                     or max(seg.dest.distance_to_droite(left_droite), seg.dest.distance_to_droite(right_droite)) > largeur:
                 continue
-            
+
             # Si c'est la balise(objet a trouver) on la recupere
             if isinstance(elem, Balise):
                 self.balise = elem
-            
+
             # On ajoute l'element dans la liste
             self.elements.append(elem)
 
@@ -112,13 +116,13 @@ class Vision:
 
         largeur = robot.WHEEL_BASE_WIDTH
 
-        # On recupere le vecteur de la droite  faciale du robot  
+        # On recupere le vecteur de la droite  faciale du robot
         vec_norme = Vecteur(robot.chd, robot.cbd)
         vec_src = robot.vec_servo
 
         # On calcule l'angle de rotation du vecteur servo
         angle = vec_src.angle(vec_norme)
-        
+
         # On calcule la nouvelle droite faciale du robot selon la rotation du servo
         # Et on calcule la nouvelle tete du robot
         milieu = robot.cbd
@@ -174,13 +178,12 @@ class Vision:
         if self.balise is None:
             return -1, -1
 
-
         vec_src = robot.vec_servo
 
         # On calcule la tete du robot
-        milieu =  Point.milieu(robot.chd, robot.cbd)
-       
-        # On calcule le milieu de la balise 
+        milieu = Point.milieu(robot.chd, robot.cbd)
+
+        # On calcule le milieu de la balise
         milieu_balise = Point.milieu(
             self.balise.segment.src, self.balise.segment.dest)
 
