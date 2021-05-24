@@ -1,7 +1,7 @@
 from threading import Thread
 from utils.config import Config
 from controller.controleur import Controleur
-from controller.strategies import SuivreBalise, DessineMoi
+from controller.strategies import SuivreBalise, DessineMoi, PolygoneRegulier, Carre, Avancer
 from irl.imageloader import ImageLoader
 from controller.wrapper import Wrapper
 from time import sleep
@@ -47,10 +47,7 @@ if (mode):  # Mode Simu
     robot.set_image(image)
     wrapper = Wrapper(robot)
 
-    image_loader = ImageLoader(robot)
-    image_loader.update()
-
-    strat = DessineMoi(wrapper, image_loader)
+    strat = DessineMoi(wrapper)
 
     controleur.add_startegie(strat)
     controleur.select_startegie(0)
@@ -84,19 +81,19 @@ else:  # mode REEL
         from irl.mockup import Robot2I013Mockup
         robot = Robot2I013Mockup()
 
-    image_loader = ImageLoader(robot)
     wrapper = Wrapper(robot)
-
-    strat = SuivreBalise(wrapper, 150, image_loader)
+    
+    # strat = DessineMoi(wrapper)
+    # strat = PolygoneRegulier(wrapper, 4, 100, 300, 1, 100)
+    strat = Carre(wrapper, 100, 200, 1, 100)
+    # strat = Avancer(wrapper, 500, 300)
 
     controleur.add_startegie(strat)
     controleur.select_startegie(0)
 
     thread_controleur = Thread(target=controleur.boucle, args=(FPS,))
-    thread_image_loader = Thread(target=image_loader.boucle, args=(FPS,))
 
     thread_controleur.start()
-    thread_image_loader.start()
 
     try:
         while True:
@@ -104,5 +101,4 @@ else:  # mode REEL
     except:
         print("Fin de l'execution")
         controleur.stop()
-        image_loader.stop()
         wrapper.stop()

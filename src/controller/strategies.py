@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from math import pi
 import cv2
-
+from PIL import Image
 
 class Strategie(object):
     """
@@ -171,13 +171,11 @@ class Tourner(Strategie):
         # On réduit la vitesse si il nous reste que quelques degrees pour ne pas dépasser
         vitesse = self.vitesse
 
-        if self.distance_parcouru < self.distance / 2:
+        if self.distance_parcouru > self.distance / 2:
             vitesse /= 2
 
-        elif self.distance_parcouru < self.distance * 3/4:
+        elif self.distance_parcouru > self.distance * 3/4:
             vitesse /= 3
-
-        vitesse = 10 if vitesse < 10 else vitesse
 
         # On lance la méthode tourner du robot
         self.wrapper.tourner(self.orientation, vitesse)
@@ -754,28 +752,42 @@ class PolygoneRegulier(Strategie):
 
 
 def get_forme(frame):
+    """
+    Image -> List * int
+    Permet de reccuperer les masks de l'image apres applications de la selection des couleurs ainsi que le nombre de masks non vides
+    """
 
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    # On transforme l'image en hvs
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-    _, thresh = cv2.threshold(gray, 127, 255, 1)
+    # On boucle sur les quatre couleurs
 
-    contours, _ = cv2.findContours(thresh, 1, 2)
+    hsv_lower = (95, 100, 20)
+    hsv_upper = (115, 255, 255)
+      
+    mask = cv2.inRange(hsv, hsv_lower, hsv_upper)
 
-    if contours == []:
-        return -1
+        # On netoie un peu le mask
+    mask = cv2.erode(mask, None, iterations=4)
+    mask = cv2.dilate(mask, None, iterations=4)
 
-    cnt = max(contours)
+    # On chercher toutes les formes detecter
+    elements, _ = cv2.findContours(
+        mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-    approx = cv2.approxPolyDP(cnt, 0.01*cv2.arcLength(cnt, True), True)
+    n = -1
+    for cnt in elements:
+        approx = cv2.approxPolyDP(cnt, 0.01*cv2.arcLength(cnt, True), True)
+        n = max(n, len(approx))
+        
+    return n
 
-    return len(approx)
 
 
 class DessineMoi(Strategie):
 
-    def __init__(self, wrapper, image_loader):
+    def __init__(self, wrapper):
         super().__init__(wrapper)
-        self.image_loader = image_loader
         self.strat = None
 
     def start(self):
@@ -808,6 +820,7 @@ class DessineMoi(Strategie):
         if self.strat is not None:
 
             if self.strat.is_stop:
+                print("fin")
                 self.strat = None
 
             else:
@@ -817,14 +830,24 @@ class DessineMoi(Strategie):
         if self.strat is None:
 
             self.wrapper.allumer(self.wrapper.ORANGE)
-            print("Fin")
 
-            frame = self.image_loader.get_image()
-            nombre = get_forme(frame)
+            frame = self.wrapper.robot.get_image()
+            
+            if frame is None:
+                self.wrapper.allumer(self.wrapper.RED)
+                return
+            
+            img = Image.fromarray(frame)
+            img.save("image.png")
+            
+            img = cv2.imread("image.png")
+            
+            nombre = get_forme(img)
+            print(nombre)
 
             if nombre == -1:
                 self.wrapper.allumer(self.wrapper.RED)
                 return
-
-            self.strat = PolygoneRegulier(self.wrapper, nombre, 50, 200, 1, 50)
+            
+            self.strat = PolygoneRegulier(self.wrapper, nombre, 100, 200, 1, 100)
             self.wrapper.allumer(self.wrapper.GREEN)

@@ -6,6 +6,7 @@ from io import BytesIO
 from PIL import Image
 from di_sensors import distance_sensor as ds_sensor
 from di_sensors import  inertial_measurement_unit as imu
+import numpy as np
 
 class Robot2I013(object):
     """ 
@@ -87,7 +88,7 @@ class Robot2I013(object):
         :dps: la vitesse cible en nombre de degres par seconde
         """
         self._gpg.set_motor_dps(port,dps)
-        self._gpg.set_motor_limits(port,dps)
+        # self._gpg.set_motor_limits(port,dps)
 
 
     def get_motor_position(self):
@@ -135,6 +136,7 @@ class Robot2I013(object):
         stream.seek(0)
         img= Image.open(stream).copy()
         stream.close()
+        img = np.array(img)
         return img
     
 
