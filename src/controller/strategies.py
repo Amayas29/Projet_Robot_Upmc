@@ -629,7 +629,7 @@ class SuivreBalise(Strategie):
         None -> None
         Condition d'arret : get_distance <= securite
         """
-        return self.wrapper.get_distance() <= 50
+        return self.wrapper.get_distance() <= 100
 
     def fct_switcher(self, current, avancer, tourner):
         """

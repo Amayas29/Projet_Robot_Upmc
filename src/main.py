@@ -82,14 +82,17 @@ else:  # mode REEL
         robot = Robot2I013Mockup()
 
     wrapper = Wrapper(robot)
-
-    strat = DessineMoi(wrapper)
+    
+    image_loader = ImageLoader(robot)
+    strat = SuivreBalise(wrapper, 200, image_loader)
     
     controleur.add_startegie(strat)
     controleur.select_startegie(0)
 
     thread_controleur = Thread(target=controleur.boucle, args=(FPS,))
-
+    thread_image_loader = Thread(target=image_loader.boucle, args=(FPS,))
+    
+    thread_image_loader.start()
     thread_controleur.start()
 
     try:
@@ -98,4 +101,5 @@ else:  # mode REEL
     except:
         print("Fin de l'execution")
         controleur.stop()
+        image_loader.stop()
         wrapper.stop()
