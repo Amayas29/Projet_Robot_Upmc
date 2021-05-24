@@ -173,12 +173,12 @@ class Tourner(Strategie):
         vitesse = self.vitesse
 
         if self.distance_parcouru > self.distance / 2:
-            vitesse /= 2
+            vitesse /= (1 if self.wrapper.is_simu() else 2)
 
         if self.distance_parcouru > self.distance * 3/4:
-            vitesse /= 4
-            
-        if self.distance_parcouru > self.distance * 4/5:
+            vitesse /= (1 if self.wrapper.is_simu() else 4)
+
+        if not self.wrapper.is_simu() and self.distance_parcouru > self.distance * 4/5:
             self.stop()
             return
 

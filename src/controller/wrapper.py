@@ -244,3 +244,6 @@ class Wrapper(object):
         x, y, z = couleur
         self.robot.set_led(self.LED_LEFT_EYE, x, y, z)
         self.robot.set_led(self.LED_RIGHT_EYE, x, y, z)
+
+    def is_simu(self):
+        return isinstance(self.robot, Robot)
