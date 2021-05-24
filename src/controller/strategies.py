@@ -967,8 +967,6 @@ class AvancerBasique(Strategie):
         if not self.is_start:
             self.start()
         
-       
-
         # On calculer la difference entre les donnée actual et les derniers données sauvegarder
         diff = self.wrapper.get_motor_position()[1] - self.position
 

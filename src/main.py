@@ -1,7 +1,7 @@
 from threading import Thread
 from utils.config import Config
 from controller.controleur import Controleur
-from controller.strategies import SuivreBalise, DessineMoi, PolygoneRegulier, Carre, Triangle
+from controller.strategies import AvancerAuMur, DessineMoi, PolygoneRegulier, Carre, AvancerBasique
 from irl.imageloader import ImageLoader
 from controller.wrapper import Wrapper
 from time import sleep
@@ -83,16 +83,13 @@ else:  # mode REEL
 
     wrapper = Wrapper(robot)
     
-    image_loader = ImageLoader(robot)
-    strat = SuivreBalise(wrapper, 200, image_loader)
+    strat = Carre(wrapper, 100, 300, 1, 50)
     
     controleur.add_startegie(strat)
     controleur.select_startegie(0)
 
     thread_controleur = Thread(target=controleur.boucle, args=(FPS,))
-    thread_image_loader = Thread(target=image_loader.boucle, args=(FPS,))
-    
-    thread_image_loader.start()
+  
     thread_controleur.start()
 
     try:
@@ -101,5 +98,4 @@ else:  # mode REEL
     except:
         print("Fin de l'execution")
         controleur.stop()
-        image_loader.stop()
         wrapper.stop()
