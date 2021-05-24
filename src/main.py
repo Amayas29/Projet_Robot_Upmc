@@ -1,7 +1,7 @@
 from threading import Thread
 from utils.config import Config
 from controller.controleur import Controleur
-from controller.strategies import AvancerAuMur, DessineMoi, PolygoneRegulier, Carre, AvancerBasique
+from controller.strategies import AvancerAuMur, DessineMoi, PolygoneRegulier, Carre
 from irl.imageloader import ImageLoader
 from controller.wrapper import Wrapper
 from time import sleep
