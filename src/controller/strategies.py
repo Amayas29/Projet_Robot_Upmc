@@ -852,3 +852,77 @@ class DessineMoi(Strategie):
             self.strat = PolygoneRegulier(
                 self.wrapper, nombre, 100, 200, 1, 100)
             self.wrapper.allumer(self.wrapper.GREEN)
+
+
+class DetecterBalise(Strategie):
+    """
+        La startegie de detection d'une balise
+    """
+
+    def __init__(self, wrapper, vitesse, image_loader=None):
+        super().__init__(wrapper)
+
+        # La startegie de tourner, elle sera mise à jour à chaque fois dans le run
+        self.tourner = Tourner(wrapper, 360, 0, vitesse, True)
+
+        # La startegie avancer qui avancer d'une vitesse à une distance infinie
+        self.avancer = Avancer(wrapper, float("inf"), vitesse)
+
+        # On alterne entre les deux startegies en suivant une fonction de selection
+        switcher = Switcher(self.avancer, self.tourner, self.fct_switcher)
+
+        # La securite pour les collisions
+        self.switcher = Unitaire(switcher, self.fct_arret)
+
+        # Permet de reccuperer l'image du robot de façon asynchrone (si mode irl)
+        self.image_loader = image_loader
+
+        self.detect = False
+
+    def fct_arret(self):
+        """
+        None -> None
+        Condition d'arret : get_distance <= securite
+        """
+        return self.wrapper.get_distance() <= 100
+
+    def fct_switcher(self, current, avancer, tourner):
+        """
+        Startegie * Startegie * Startegie -> Startegie
+
+        Permet de selectionner la startegie à executer en cherchant la balise dans l'image capturé si mode irl sinon dans la vision du robot
+        """
+
+        # On remet droit le servo du robot
+        self.wrapper.tourner_servo(90)
+
+        if self.detect:
+            return avancer
+
+        # On calcule l'angle et l'orientation de la balise par apport au robot
+        angle, _ = self.wrapper.get_angle_orientation_balise(
+            self.image_loader)
+
+        # Si l'angle est <= 10 donc on a trouve la balise on avancer directement vers elle
+        if angle <= 10 and angle != -1:
+            self.detect = True
+            return avancer
+
+        return tourner
+
+    def run(self):
+        """
+        Overide
+        """
+
+        if self.is_stop:
+            return
+
+        if not self.is_start:
+            self.start()
+
+        if self.switcher.is_stop:
+            self.stop()
+            return
+
+        self.switcher.run()
