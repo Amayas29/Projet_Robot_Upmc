@@ -118,7 +118,7 @@ class Tourner(Strategie):
             orientation = self.GAUCHE
 
         self.orientation = orientation
-        self.vitesse = vitesse
+        self.vitesse = 120
 
         # On calcule la distance à parcourir pour tourner de x degrees
         self.distance = (wrapper.WHEEL_BASE_CIRCUMFERENCE * angle) / 180
@@ -176,7 +176,11 @@ class Tourner(Strategie):
             vitesse /= 2
 
         if self.distance_parcouru > self.distance * 3/4:
-            vitesse /= 3
+            vitesse /= 4
+            
+        if self.distance_parcouru > self.distance * 4/5:
+            self.stop()
+            return
 
         # On lance la méthode tourner du robot
         self.wrapper.tourner(self.orientation, vitesse)
