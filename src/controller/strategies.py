@@ -110,7 +110,7 @@ class Tourner(Strategie):
     GAUCHE = 1
     DROITE = 0
 
-    def __init__(self, wrapper, angle, orientation, vitesse, servo_fix=False):
+    def __init__(self, wrapper, angle, orientation, servo_fix=False):
         super().__init__(wrapper)
 
         # On initialise tout les champs
@@ -404,7 +404,7 @@ class Carre(Strategie):
         avancer = Avancer(wrapper, cote, vitesse)
 
         # La startegie de tourner de 90 degrees
-        tourner = Tourner(wrapper, 90, orientation, vitesse)
+        tourner = Tourner(wrapper, 90, orientation)
 
         # Ensuite on alterne entre les deux strategies 8 fois
         switcher = SwitcherSequentiel(avancer, tourner, self.NB_MAX)
@@ -468,7 +468,7 @@ class Triangle(Strategie):
         avancer = Avancer(wrapper, cote, vitesse)
 
         # Pour les angles
-        tourner = Tourner(wrapper, 120, orientation, vitesse)
+        tourner = Tourner(wrapper, 120, orientation)
 
         # On alterne entre les deux startegies 6 fois
         switcher = SwitcherSequentiel(avancer, tourner, self.NB_MAX)
@@ -529,7 +529,7 @@ class EviterObstacle(Strategie):
         avancer = Avancer(wrapper, distance, vitesse)
 
         # La startegie de tourner pour éviter les collisions
-        tourner = Tourner(wrapper, angle, Tourner.DROITE, vitesse)
+        tourner = Tourner(wrapper, angle, Tourner.DROITE)
 
         # Pour alterne entre les deux startegies avec une condtition
         switcher = Switcher(avancer, tourner, self.fct_switcher)
@@ -610,7 +610,7 @@ class SuivreBalise(Strategie):
         super().__init__(wrapper)
 
         # La startegie de tourner, elle sera mise à jour à chaque fois dans le run
-        self.tourner = Tourner(wrapper, 0, 0, vitesse, True)
+        self.tourner = Tourner(wrapper, 0, 0, True)
 
         # La startegie avancer qui avancer d'une vitesse à une distance infinie
         self.avancer = Avancer(wrapper, float("inf"), vitesse)
@@ -705,7 +705,7 @@ class PolygoneRegulier(Strategie):
         angle = 180 - (180 * (((nombre - 2) * pi) / nombre)) / pi
 
         # La startegie de tourner pour les angle
-        tourner = Tourner(wrapper, angle, orientation, vitesse)
+        tourner = Tourner(wrapper, angle, orientation)
 
         # Alterner les startegies 2 * nombre fois
         switcher = SwitcherSequentiel(avancer, tourner, 2 * nombre)
@@ -863,7 +863,7 @@ class DetecterBalise(Strategie):
         super().__init__(wrapper)
 
         # La startegie de tourner, elle sera mise à jour à chaque fois dans le run
-        self.tourner = Tourner(wrapper, 360, 0, vitesse, True)
+        self.tourner = Tourner(wrapper, 360, 0, True)
 
         # La startegie avancer qui avancer d'une vitesse à une distance infinie
         self.avancer = Avancer(wrapper, float("inf"), vitesse)

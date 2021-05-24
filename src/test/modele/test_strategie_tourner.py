@@ -38,7 +38,7 @@ robot = Wrapper(robot)
 def f(): return robot.get_distance() < 50
 
 
-tourner = Unitaire(Tourner(robot, 90, 0, 300), f)
+tourner = Unitaire(Tourner(robot, 90, 0), f)
 
 controleur.add_startegie(tourner)
 controleur.select_startegie(0)
