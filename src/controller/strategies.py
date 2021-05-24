@@ -170,13 +170,19 @@ class Tourner(Strategie):
 
         # On réduit la vitesse si il nous reste que quelques degrees pour ne pas dépasser
         vitesse = self.vitesse
+        print(self.distance-self.distance_parcouru)
+        #if self.distance_parcouru > self.distance / 2:
+         #   vitesse /= 2
 
-        if self.distance_parcouru > self.distance / 2:
-            vitesse /= 2
-
-        elif self.distance_parcouru > self.distance * 3/4:
-            vitesse /= 3
-
+        #if self.distance_parcouru > self.distance * 3/4:
+         #   vitesse /= 3
+        
+        if self.distance - self.distance_parcouru <=50 :
+            self.distance_parcouru = self.distance+1
+            print("return",self.distance-self.distance_parcouru )
+            self.stop()
+            return
+        
         # On lance la méthode tourner du robot
         self.wrapper.tourner(self.orientation, vitesse)
 
