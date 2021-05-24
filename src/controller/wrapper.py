@@ -238,12 +238,27 @@ class Wrapper(object):
         return degrees(angle), orientation
 
     def set_led(self, led, red=0, green=0, blue=0):
+        """
+        int * int * int * int -> None
+
+        Allume une led d'une couleur
+        """
         self.robot.set_led(led, red=red, green=green, blue=blue)
 
     def allumer(self, couleur):
+        """
+        int * int * int -> None
+
+        Permet d'allumer les led d'une couleur
+        """
         x, y, z = couleur
         self.robot.set_led(self.LED_LEFT_EYE, x, y, z)
         self.robot.set_led(self.LED_RIGHT_EYE, x, y, z)
 
     def is_simu(self):
+        """
+        None -> bool
+
+        Permet de savoir si le wrapper est dans le mode simu ou pas
+        """
         return isinstance(self.robot, Robot)
