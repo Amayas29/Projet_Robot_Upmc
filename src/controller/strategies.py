@@ -178,10 +178,6 @@ class Tourner(Strategie):
         if self.distance_parcouru > self.distance * 3/4:
             vitesse /= (1 if self.wrapper.is_simu() else 4)
 
-        if not self.wrapper.is_simu() and self.distance_parcouru > self.distance * 4/5:
-            self.stop()
-            return
-
         # On lance la méthode tourner du robot
         self.wrapper.tourner(self.orientation, vitesse)
 
