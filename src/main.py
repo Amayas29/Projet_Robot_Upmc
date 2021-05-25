@@ -83,7 +83,7 @@ else:  # mode REEL
 
     wrapper = Wrapper(robot)
 
-    strat = Carre(wrapper, 100, 300, 1, 50)
+    strat = DessineMoi(wrapper)
 
     controleur.add_strategie(strat)
     controleur.select_strategie(0)
